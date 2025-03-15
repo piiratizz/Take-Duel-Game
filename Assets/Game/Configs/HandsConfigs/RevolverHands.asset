@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76853a5239e645e4851efd6caa919029, type: 3}
+  m_Name: RevolverHands
+  m_EditorClassIdentifier: 
+  LeftHandLocalPosition: {x: 0, y: 0, z: 0}
+  LeftHandLocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  RightHandLocalPosition: {x: 0.11, y: -0.05, z: -0.69}
+  RightHandLocalRotation: {x: -0.22573033, y: 0.062707946, z: -0.19964094, w: 0.95144993}
+  RightHandAimingLocalPosition: {x: 0.8, y: 0.1, z: -1.73}
+  RightHandAimingLocalRotation: {x: -0.093676604, y: 0.15256564, z: -0.24774331, w: 0.95214057}
+  LeftHandAimingLocalPosition: {x: 0, y: 0, z: 0}
+  LeftHandAimingLocalRotation: {x: 0, y: 0, z: 0, w: 0}
