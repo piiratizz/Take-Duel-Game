@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class CameraRoot : MonoBehaviour
+public class PlayerCameraRoot : MonoBehaviour
 {
     [SerializeField] private Transform _bodyAimTarget;
     
