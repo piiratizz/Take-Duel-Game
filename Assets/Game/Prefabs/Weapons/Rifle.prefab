@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd626fe1c6ce4047bd9e15074c7994fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _muzzle: {fileID: 0}
+  _config: {fileID: 0}
+  _handsIKConfig: {fileID: 11400000, guid: 518250edfa49b574daa4d0dcfe681ae5, type: 2}
 --- !u!1001 &2067456379774282714
 PrefabInstance:
   m_ObjectHideFlags: 0

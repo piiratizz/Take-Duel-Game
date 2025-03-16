@@ -10,7 +10,7 @@ public class PlayerMovement : NetworkBehaviour
     private InputSystem_Actions _playerInput;
     private CharacterController _characterController;
     
-    void Start()
+    private void Start()
     {
         _playerInput = new InputSystem_Actions();
         _playerInput.Player.Move.Enable();
