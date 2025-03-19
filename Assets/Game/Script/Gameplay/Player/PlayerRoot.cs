@@ -8,10 +8,12 @@ public class PlayerRoot : NetworkBehaviour
     [SerializeField] private CharacterIKController _characterIKController;
     [SerializeField] private Camera _cameraObject;
     [SerializeField] private PlayerCameraRoot _playerCameraRoot;
+    [SerializeField] private PlayerWeaponInteractor _playerWeaponInteractor;
     
     private void Start()
     {
         AttachCameraToLocalPlayer();
+        _playerWeaponInteractor.Initialize();
     }
 
     private void AttachCameraToLocalPlayer()

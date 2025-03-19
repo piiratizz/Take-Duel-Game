@@ -47,8 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed4e742dc7da4e32aa08697bfdfbe7e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _leftHandPosition: {fileID: 4381302341115323826}
-  _rightHandPosition: {fileID: 6845874370288681453}
+  _muzzle: {fileID: 0}
+  _config: {fileID: 0}
+  _handsIKConfig: {fileID: 11400000, guid: 47bec2c957e785a458f58d5d71b0564b, type: 2}
 --- !u!1 &3539719573432601816
 GameObject:
   m_ObjectHideFlags: 0

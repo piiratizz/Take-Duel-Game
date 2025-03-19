@@ -545,6 +545,7 @@ MonoBehaviour:
   _characterIKController: {fileID: 3183177975716142467}
   _cameraObject: {fileID: 960540764290398735}
   _playerCameraRoot: {fileID: 3109384663531164383}
+  _playerWeaponInteractor: {fileID: -2091899660779551775}
 --- !u!114 &8176652639700307497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,9 +595,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _revolver: {fileID: 3017827903279862239}
-  _rifle: {fileID: 844027565240765224}
-  _shotgun: {fileID: 739700599656389495}
+  _weaponList:
+  - {fileID: 3017827903279862239}
+  - {fileID: 739700599656389495}
+  - {fileID: 844027565240765224}
   _ikController: {fileID: 3183177975716142467}
 --- !u!114 &6110498922253490546
 MonoBehaviour:

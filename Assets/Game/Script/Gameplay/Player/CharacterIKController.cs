@@ -53,5 +53,8 @@ public class CharacterIKController : NetworkBehaviour
     public void AttachHandsToWeapon(WeaponViewBase weapon)
     {
         _weapon = weapon;
+        
+        // Time solution
+        SetDefaultHandsPosition();
     }
 }
