@@ -1,75 +1,85 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mirror;
 using NaughtyAttributes;
+using R3;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerWeaponInteractor : NetworkBehaviour
 {
-    [SerializeField] private RevolverView _revolver;
-    [SerializeField] private RifleView _rifle;
-    [SerializeField] private ShotgunView _shotgun;
-    
+    [SerializeField] private List<WeaponViewBase> _weaponList;
     [SerializeField] private CharacterIKController _ikController;
-
-    private WeaponViewBase _activeWeapon;
-    private InputSystem_Actions _inputSystem;
     
+    private int _activeWeaponIndex;
+    private InputSystem_Actions _inputSystem;
+    private List<InputAction> _weaponSlots;
 
-    private void Start()
+    public void Initialize()
     {
-        _revolver.gameObject.SetActive(false);
-        _rifle.gameObject.SetActive(false);
-        _shotgun.gameObject.SetActive(false);
-        
-        if(!isLocalPlayer) return;
-        
+        CmdAttachWeapon(0);
+        if (!isLocalPlayer) return;
+
         _inputSystem = new InputSystem_Actions();
         _inputSystem.Player.Attack.performed += Aim;
         _inputSystem.Player.Zoom.performed += DeAim;
-        _inputSystem.Player.Slot1.performed += SelectSlot1;
-        _inputSystem.Player.Slot2.performed += SelectSlot2;
-        _inputSystem.Player.Slot3.performed += SelectSlot3;
+
+        _weaponSlots = new List<InputAction>()
+        {
+            _inputSystem.Player.Slot1,
+            _inputSystem.Player.Slot2,
+            _inputSystem.Player.Slot3
+        };
+
+        foreach (var slot in _weaponSlots)
+        {
+            slot.performed += SelectSlot;
+        }
+
         _inputSystem.Enable();
-        
-        AttachWeapon(_revolver);
     }
 
 
-    private void SelectSlot1(InputAction.CallbackContext obj)
+    private void SelectSlot(InputAction.CallbackContext obj)
     {
-        AttachWeapon(_revolver);
+        if (obj.action == _weaponSlots[0])
+        {
+            CmdAttachWeapon(0);
+        }
+        else if (obj.action == _weaponSlots[1])
+        {
+            CmdAttachWeapon(1);
+        }
+        else if (obj.action == _weaponSlots[2])
+        {
+            CmdAttachWeapon(2);
+        }
     }
-
-    private void SelectSlot2(InputAction.CallbackContext obj)
-    {
-        AttachWeapon(_shotgun);
-    }
-
-    private void SelectSlot3(InputAction.CallbackContext obj)
-    {
-        AttachWeapon(_rifle);
-    }
-    
     
     private void Aim(InputAction.CallbackContext obj)
     {
         _ikController.SetAimingHandsPosition();
     }
-    
+
     private void DeAim(InputAction.CallbackContext obj)
     {
         _ikController.SetDefaultHandsPosition();
     }
-    
-    private void AttachWeapon(WeaponViewBase weapon)
+
+    [Command]
+    private void CmdAttachWeapon(int weaponIndex)
     {
-        if(_activeWeapon != null)
-            _activeWeapon.gameObject.SetActive(false);
-        
-        weapon.gameObject.SetActive(true);
-        
-        _activeWeapon = weapon;
-        _ikController.AttachHandsToWeapon(_activeWeapon);
+        RpcUpdateWeapon(weaponIndex);
+    }
+    
+    [ClientRpc]
+    private void RpcUpdateWeapon(int weaponIndex)
+    {
+        _ikController.AttachHandsToWeapon(_weaponList[weaponIndex]);
+        _activeWeaponIndex = weaponIndex;
+        for (int i = 0; i < _weaponList.Count; i++)
+        {
+            _weaponList[i].gameObject.SetActive(i == weaponIndex);
+        }
     }
 }
