@@ -1,8 +1,10 @@
 ﻿using UnityEngine.Events;
 
-public class RiflePresenter : WeaponPresenterBase
+public class RiflePresenter : WeaponPresenterBase, ISlideRequireable
 {
-    public UnityEvent PullSlideEvent = new UnityEvent();
+    public RiflePresenter(RifleModel model, RifleView view) : base(model, view)
+    {
+    }
     
     public override void Shoot()
     {
@@ -14,8 +16,8 @@ public class RiflePresenter : WeaponPresenterBase
         
     }
 
-    public void PullSlide()
+    public void Slide()
     {
-        
+        throw new System.NotImplementedException();
     }
 }

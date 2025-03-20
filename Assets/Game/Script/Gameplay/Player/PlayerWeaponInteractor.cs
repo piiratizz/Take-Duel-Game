@@ -14,15 +14,25 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     private int _activeWeaponIndex;
     private InputSystem_Actions _inputSystem;
     private List<InputAction> _weaponSlots;
-
+    private bool _aimingState = false;
+    private List<WeaponController> _weaponControllers;
+    
     public void Initialize()
     {
         CmdAttachWeapon(0);
+        
+        _weaponControllers = new List<WeaponController>();
+        foreach (var weapon in _weaponList)
+        {
+            _weaponControllers.Add(weapon.GetComponent<WeaponController>());
+        }
+        
         if (!isLocalPlayer) return;
 
         _inputSystem = new InputSystem_Actions();
-        _inputSystem.Player.Attack.performed += Aim;
-        _inputSystem.Player.Zoom.performed += DeAim;
+        _inputSystem.Player.Attack.performed += CmdShoot;
+        _inputSystem.Player.Zoom.performed += ChangeAimingState;
+        _inputSystem.Player.PullSlide.performed += PullSlide;
 
         _weaponSlots = new List<InputAction>()
         {
@@ -55,15 +65,31 @@ public class PlayerWeaponInteractor : NetworkBehaviour
             CmdAttachWeapon(2);
         }
     }
-    
-    private void Aim(InputAction.CallbackContext obj)
-    {
-        _ikController.SetAimingHandsPosition();
-    }
 
-    private void DeAim(InputAction.CallbackContext obj)
+    private void PullSlide(InputAction.CallbackContext obj)
     {
-        _ikController.SetDefaultHandsPosition();
+        
+    }
+    
+    [Command]
+    private void CmdShoot(InputAction.CallbackContext obj)
+    {
+        Debug.Log("Server shoot");
+        _weaponControllers[_activeWeaponIndex].Shoot();
+    }
+    
+    private void ChangeAimingState(InputAction.CallbackContext obj)
+    {
+        if (_aimingState)
+        {
+            _ikController.SetAimingHandsPosition();
+        }
+        else
+        {
+            _ikController.SetDefaultHandsPosition();
+        }
+
+        _aimingState = !_aimingState;
     }
 
     [Command]
@@ -81,5 +107,11 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         {
             _weaponList[i].gameObject.SetActive(i == weaponIndex);
         }
+    }
+
+    public override void OnStopClient()
+    {
+        Debug.Log($"Player disconnected");
+        _inputSystem.Disable();
     }
 }

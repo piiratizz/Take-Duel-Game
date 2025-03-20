@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6601253649375087146}
   - component: {fileID: 4635661907479625353}
+  - component: {fileID: 6261302153468997963}
+  - component: {fileID: -3275393924093193678}
   m_Layer: 0
   m_Name: Revolver
   m_TagString: Untagged
@@ -33,6 +35,7 @@ Transform:
   - {fileID: 7201662871460177991}
   - {fileID: 4381302341115323826}
   - {fileID: 6845874370288681453}
+  - {fileID: 7000509253342161228}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4635661907479625353
@@ -47,9 +50,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed4e742dc7da4e32aa08697bfdfbe7e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _muzzle: {fileID: 0}
-  _config: {fileID: 0}
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  _muzzle: {fileID: 7000509253342161228}
+--- !u!114 &6261302153468997963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926301823631346083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fab3ed5de054ab2a6a7f45e153844c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _config: {fileID: 11400000, guid: 6c3abdf42523ca14980b3988062e5f20, type: 2}
   _handsIKConfig: {fileID: 11400000, guid: 47bec2c957e785a458f58d5d71b0564b, type: 2}
+  _weaponType: 0
+  _isSlideRequired: 0
+--- !u!114 &-3275393924093193678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926301823631346083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 175313703
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &3539719573432601816
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,6 +144,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.002, y: -0.114, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6601253649375087146}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7787202921235349182
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7000509253342161228}
+  m_Layer: 0
+  m_Name: Muzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7000509253342161228
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7787202921235349182}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0636, z: 0.342}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

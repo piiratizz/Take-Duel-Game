@@ -10,11 +10,8 @@ public abstract class WeaponModelBase
 
     protected WeaponModelBase(WeaponConfigBase config)
     {
-        ClipAmmo = new ReactiveProperty<int>();
-        TotalAmmo = new ReactiveProperty<int>();
-        
-        ClipAmmo.Value = config.ClipAmmo;
-        TotalAmmo.Value = config.TotalAmmo;
+        ClipAmmo = new ReactiveProperty<int>(config.ClipAmmo);
+        TotalAmmo = new ReactiveProperty<int>(config.TotalAmmo);
         FireRate = config.FireRate;
         PlayerDamage = config.PlayerDamage;
         EnvironmentDamage = config.EnvironmentDamage;

@@ -1249,6 +1249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bodyAimTarget: {fileID: 3553425211094033403}
+  _camera: {fileID: 960540764290398735}
 --- !u!114 &9040464354088738295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3974,6 +3975,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6062704590544650731}
     m_Modifications:
+    - target: {fileID: -95733554280198804, guid: 2a144f36baf691b4192b45ad33d0559b, type: 3}
+      propertyPath: _assetId
+      value: 1697454099
+      objectReference: {fileID: 0}
     - target: {fileID: 1342726309374163009, guid: 2a144f36baf691b4192b45ad33d0559b, type: 3}
       propertyPath: m_Name
       value: Rifle
@@ -4018,7 +4023,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 9039865440769954985, guid: 2a144f36baf691b4192b45ad33d0559b, type: 3}
+      propertyPath: _assetId
+      value: 1697454099
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 9039865440769954985, guid: 2a144f36baf691b4192b45ad33d0559b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4047,6 +4057,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6062704590544650731}
     m_Modifications:
+    - target: {fileID: -5082170370719664661, guid: cb8a19b61ae0f7f4dbaee8e3aabee5d5, type: 3}
+      propertyPath: _assetId
+      value: 1697454099
+      objectReference: {fileID: 0}
+    - target: {fileID: -3275393924093193678, guid: cb8a19b61ae0f7f4dbaee8e3aabee5d5, type: 3}
+      propertyPath: _assetId
+      value: 1697454099
+      objectReference: {fileID: 0}
     - target: {fileID: 926301823631346083, guid: cb8a19b61ae0f7f4dbaee8e3aabee5d5, type: 3}
       propertyPath: m_Name
       value: Revolver
@@ -4099,7 +4117,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3275393924093193678, guid: cb8a19b61ae0f7f4dbaee8e3aabee5d5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4128,6 +4147,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6062704590544650731}
     m_Modifications:
+    - target: {fileID: -4259729097885072789, guid: b654d778285257d4e86c18756f4994cd, type: 3}
+      propertyPath: _assetId
+      value: 1697454099
+      objectReference: {fileID: 0}
+    - target: {fileID: -2390214114460342535, guid: b654d778285257d4e86c18756f4994cd, type: 3}
+      propertyPath: _assetId
+      value: 1697454099
+      objectReference: {fileID: 0}
     - target: {fileID: 4703915770428643936, guid: b654d778285257d4e86c18756f4994cd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4172,7 +4199,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shotgun
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4259729097885072789, guid: b654d778285257d4e86c18756f4994cd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

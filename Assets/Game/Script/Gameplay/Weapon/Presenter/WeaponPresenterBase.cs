@@ -1,13 +1,22 @@
-﻿using UnityEngine;
+﻿using System;
+using Mirror;
+using UnityEngine;
 using UnityEngine.Events;
 
 public abstract class WeaponPresenterBase
 {
-    public UnityEvent<RaycastHit> PlayerHitEvent = new UnityEvent<RaycastHit>();
-    public UnityEvent<RaycastHit> EnvironmentHitEvent = new UnityEvent<RaycastHit>();
-    public UnityEvent ShootEvent = new UnityEvent();
-    public UnityEvent ReloadEvent = new UnityEvent();
+    private WeaponViewBase _view;
+    private WeaponModelBase _model;
+
+    protected WeaponViewBase View => _view;
+    protected WeaponModelBase Model => Model;
+
+    protected WeaponPresenterBase(WeaponModelBase model, WeaponViewBase view)
+    {
+        _model = model;
+        _view = view;
+    }
     
-    public abstract void Shoot();
+    public virtual void Shoot() { }
     public abstract void Reload();
 }

@@ -1,16 +1,18 @@
-﻿public class ShotgunView : WeaponViewBase
+﻿using UnityEngine;
+
+public class ShotgunView : WeaponViewBase
 {
     public override void ShowMuzzleFlashEffect()
     {
         throw new System.NotImplementedException();
     }
 
-    public override void ShowEnvironmentImpactEffect()
+    public override void ShowEnvironmentImpactEffect(RaycastHit hit)
     {
         throw new System.NotImplementedException();
     }
 
-    public override void ShowPlayerImpactEffect()
+    public override void ShowPlayerImpactEffect(RaycastHit hit)
     {
         throw new System.NotImplementedException();
     }

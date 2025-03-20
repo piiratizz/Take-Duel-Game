@@ -1,16 +1,25 @@
-﻿public class RevolverView : WeaponViewBase
+﻿using Mirror;
+using UnityEngine;
+
+public class RevolverView : WeaponViewBase
 {
+    
     public override void ShowMuzzleFlashEffect()
     {
-        throw new System.NotImplementedException();
+        if (isServer) 
+        {
+            Debug.Log("Client view shoot");
+            var weapon = Instantiate(WeaponConfig.MuzzleFlash, Muzzle.position, transform.rotation);
+            NetworkServer.Spawn(weapon.gameObject);
+        }
     }
 
-    public override void ShowEnvironmentImpactEffect()
+    public override void ShowEnvironmentImpactEffect(RaycastHit hit)
     {
         throw new System.NotImplementedException();
     }
 
-    public override void ShowPlayerImpactEffect()
+    public override void ShowPlayerImpactEffect(RaycastHit hit)
     {
         throw new System.NotImplementedException();
     }

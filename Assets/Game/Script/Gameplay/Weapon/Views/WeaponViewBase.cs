@@ -1,18 +1,27 @@
 ﻿using Mirror;
 using UnityEngine;
 
-public abstract class WeaponViewBase : MonoBehaviour
+public abstract class WeaponViewBase : NetworkBehaviour
 {
     [SerializeField] private Transform _muzzle;
-    [SerializeField] private WeaponConfigBase _config;
-    [SerializeField] private HandsIKConfig _handsIKConfig;
+
+    private WeaponConfigBase _weaponConfigBase;
+    private HandsIKConfig _handsIKConfig;
     
     public HandsIKConfig HandsConfig => _handsIKConfig;
+    public WeaponConfigBase WeaponConfig => _weaponConfigBase;
+    public Transform Muzzle => _muzzle;
 
-    public abstract void ShowMuzzleFlashEffect();
+    public void Initialize(HandsIKConfig handConfig, WeaponConfigBase weaponConfigBase)
+    {
+        _handsIKConfig = handConfig;
+        _weaponConfigBase = weaponConfigBase;
+    }
+
+    public virtual void ShowMuzzleFlashEffect() {}
     
-    public abstract void ShowEnvironmentImpactEffect();
-    public abstract void ShowPlayerImpactEffect();
+    public abstract void ShowEnvironmentImpactEffect(RaycastHit hit);
+    public abstract void ShowPlayerImpactEffect(RaycastHit hit);
     
     public abstract void PlayShootAnimation();
     public abstract void PlayReloadAnimation();
