@@ -471,11 +471,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8022284760030582736}
+  - component: {fileID: -3082322065711017179}
   - component: {fileID: 3291573820341491473}
   - component: {fileID: 1414923868960213563}
   - component: {fileID: 8176652639700307497}
   - component: {fileID: 7562961550994826931}
   - component: {fileID: -2091899660779551775}
+  - component: {fileID: -1350270218269840049}
+  - component: {fileID: -8589917087548236913}
   - component: {fileID: 6110498922253490546}
   - component: {fileID: 2802320747698400428}
   m_Layer: 6
@@ -502,6 +505,29 @@ Transform:
   - {fileID: 4715676381635439295}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &-3082322065711017179
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062155258246752917}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!143 &3291573820341491473
 CharacterController:
   m_ObjectHideFlags: 0
@@ -542,10 +568,14 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _playerConfig: {fileID: 11400000, guid: aa7f1344a3d143e4dac591794fb3613c, type: 2}
   _characterIKController: {fileID: 3183177975716142467}
   _cameraObject: {fileID: 960540764290398735}
   _playerCameraRoot: {fileID: 3109384663531164383}
   _playerWeaponInteractor: {fileID: -2091899660779551775}
+  _playerHealth: {fileID: -8589917087548236913}
+  _playerMovement: {fileID: 8176652639700307497}
+  _damagePerformer: {fileID: -1350270218269840049}
 --- !u!114 &8176652639700307497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,7 +591,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _speed: 2
 --- !u!114 &7562961550994826931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -600,6 +629,42 @@ MonoBehaviour:
   - {fileID: 739700599656389495}
   - {fileID: 844027565240765224}
   _ikController: {fileID: 3183177975716142467}
+--- !u!114 &-1350270218269840049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062155258246752917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b924beed3d9c4632baf97dbaf231faa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  HitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-8589917087548236913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062155258246752917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8263c3bcbce347f986255ea956f33548, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  DieEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6110498922253490546
 MonoBehaviour:
   m_ObjectHideFlags: 0

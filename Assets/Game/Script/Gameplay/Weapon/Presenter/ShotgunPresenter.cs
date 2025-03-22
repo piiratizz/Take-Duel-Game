@@ -1,16 +1,23 @@
-﻿public class ShotgunPresenter : WeaponPresenterBase
+﻿using UnityEngine;
+
+public class ShotgunPresenter : WeaponPresenterBase
 {
+    private WeaponRaycaster _raycaster;
+    
+    public ShotgunPresenter(ShotgunModel model, ShotgunView view) : base(model, view)
+    {
+        _raycaster = new WeaponRaycaster(PlayerCameraRoot.Camera);
+    }
+    
     public override void Shoot()
     {
-        throw new System.NotImplementedException();
+        View.ShowMuzzleFlashEffect();
+        if(!_raycaster.TryHit(out IHitPerformer hit)) return;
+        
     }
 
     public override void Reload()
     {
         throw new System.NotImplementedException();
-    }
-
-    public ShotgunPresenter(ShotgunModel model, ShotgunView view) : base(model, view)
-    {
     }
 }

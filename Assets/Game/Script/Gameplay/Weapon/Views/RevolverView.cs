@@ -3,15 +3,11 @@ using UnityEngine;
 
 public class RevolverView : WeaponViewBase
 {
-    
+    private static readonly int Shoot = Animator.StringToHash("Shoot");
+
     public override void ShowMuzzleFlashEffect()
     {
-        if (isServer) 
-        {
-            Debug.Log("Client view shoot");
-            var weapon = Instantiate(WeaponConfig.MuzzleFlash, Muzzle.position, transform.rotation);
-            NetworkServer.Spawn(weapon.gameObject);
-        }
+        ServerSpawner.InstantiateObject(WeaponConfig.MuzzleFlash.gameObject, Muzzle.position, transform.rotation);
     }
 
     public override void ShowEnvironmentImpactEffect(RaycastHit hit)
@@ -26,7 +22,7 @@ public class RevolverView : WeaponViewBase
 
     public override void PlayShootAnimation()
     {
-        throw new System.NotImplementedException();
+        Animator.SetTrigger(Shoot);
     }
 
     public override void PlayReloadAnimation()

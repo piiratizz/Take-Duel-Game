@@ -4,7 +4,7 @@ public class RifleView : WeaponViewBase
 {
     public override void ShowMuzzleFlashEffect()
     {
-        throw new System.NotImplementedException();
+        ServerSpawner.InstantiateObject(WeaponConfig.MuzzleFlash.gameObject, Muzzle.position, transform.rotation);
     }
 
     public override void ShowEnvironmentImpactEffect(RaycastHit hit)

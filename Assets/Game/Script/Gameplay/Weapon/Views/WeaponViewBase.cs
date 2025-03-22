@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class WeaponViewBase : NetworkBehaviour
 {
+    [SerializeField] private Animator _animator;
     [SerializeField] private Transform _muzzle;
 
     private WeaponConfigBase _weaponConfigBase;
@@ -11,6 +12,7 @@ public abstract class WeaponViewBase : NetworkBehaviour
     public HandsIKConfig HandsConfig => _handsIKConfig;
     public WeaponConfigBase WeaponConfig => _weaponConfigBase;
     public Transform Muzzle => _muzzle;
+    protected Animator Animator => _animator;
 
     public void Initialize(HandsIKConfig handConfig, WeaponConfigBase weaponConfigBase)
     {

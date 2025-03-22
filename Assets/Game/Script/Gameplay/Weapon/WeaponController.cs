@@ -50,7 +50,6 @@ public class WeaponController : NetworkBehaviour
 
     public void Shoot()
     {
-        Debug.Log("Server controller shoot");
         _presenter.Shoot();
     }
 

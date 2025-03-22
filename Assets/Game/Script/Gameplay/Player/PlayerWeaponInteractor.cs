@@ -74,7 +74,6 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     [Command]
     private void CmdShoot(InputAction.CallbackContext obj)
     {
-        Debug.Log("Server shoot");
         _weaponControllers[_activeWeaponIndex].Shoot();
     }
     
@@ -107,11 +106,5 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         {
             _weaponList[i].gameObject.SetActive(i == weaponIndex);
         }
-    }
-
-    public override void OnStopClient()
-    {
-        Debug.Log($"Player disconnected");
-        _inputSystem.Disable();
     }
 }

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6601253649375087146}
+  - component: {fileID: 8711396648675327599}
   - component: {fileID: 4635661907479625353}
   - component: {fileID: 6261302153468997963}
   - component: {fileID: -3275393924093193678}
@@ -38,6 +39,28 @@ Transform:
   - {fileID: 7000509253342161228}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &8711396648675327599
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926301823631346083}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f4f73706cc842b1459794d939116b311, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &4635661907479625353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,6 +76,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _animator: {fileID: 8711396648675327599}
   _muzzle: {fileID: 7000509253342161228}
 --- !u!114 &6261302153468997963
 MonoBehaviour:
@@ -66,6 +90,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fab3ed5de054ab2a6a7f45e153844c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   _config: {fileID: 11400000, guid: 6c3abdf42523ca14980b3988062e5f20, type: 2}
   _handsIKConfig: {fileID: 11400000, guid: 47bec2c957e785a458f58d5d71b0564b, type: 2}
   _weaponType: 0
@@ -191,6 +218,18 @@ PrefabInstance:
     - target: {fileID: 1908759806999368, guid: 146c5256fc521374c91ca33fc98e9603, type: 3}
       propertyPath: m_Name
       value: SM_Wep_Revolver_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178711992477212, guid: 146c5256fc521374c91ca33fc98e9603, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8034446
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178711992477212, guid: 146c5256fc521374c91ca33fc98e9603, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5953795
+      objectReference: {fileID: 0}
+    - target: {fileID: 4178711992477212, guid: 146c5256fc521374c91ca33fc98e9603, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -73.079
       objectReference: {fileID: 0}
     - target: {fileID: 4879888146567566, guid: 146c5256fc521374c91ca33fc98e9603, type: 3}
       propertyPath: m_LocalPosition.x

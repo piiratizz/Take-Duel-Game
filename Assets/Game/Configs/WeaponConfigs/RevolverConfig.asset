@@ -15,7 +15,7 @@ MonoBehaviour:
   ClipAmmo: 0
   TotalAmmo: 0
   FireRate: 0
-  MuzzleFlash: {fileID: 19885060, guid: 2574ca206a571a342a7fab69fdfb87aa, type: 3}
+  MuzzleFlash: {fileID: 4914121807760042695, guid: c17c701ee531fd245b9f9c85700a3759, type: 3}
   PlayerHitEffect: {fileID: 0}
   EnvironmentHitEffect: {fileID: 0}
   PlayerDamage: 0
