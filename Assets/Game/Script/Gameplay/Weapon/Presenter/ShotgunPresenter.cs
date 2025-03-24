@@ -6,13 +6,13 @@ public class ShotgunPresenter : WeaponPresenterBase
     
     public ShotgunPresenter(ShotgunModel model, ShotgunView view) : base(model, view)
     {
-        _raycaster = new WeaponRaycaster(PlayerCameraRoot.Camera);
+        _raycaster = new WeaponRaycaster(PlayerCameraRoot.RaycastPosition);
     }
     
     public override void Shoot()
     {
         View.ShowMuzzleFlashEffect();
-        if(!_raycaster.TryHit(out IHitPerformer hit)) return;
+        //if(!_raycaster.TryHit(out IHitPerformer hit)) return;
         
     }
 

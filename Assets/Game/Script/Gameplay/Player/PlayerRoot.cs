@@ -11,16 +11,17 @@ public class PlayerRoot : NetworkBehaviour
     [SerializeField] private PlayerHealth _playerHealth;
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private PlayerDamagePerformer _damagePerformer;
+    [SerializeField] private PlayerCameraMovement _playerCameraMovement;
     
     private void Start()
     {
+        _playerCameraMovement.Initialize(_playerCameraRoot);
         _playerMovement.Initialize(_playerConfig);
         _playerHealth.Initialize(_playerConfig);
         
         AttachCameraToLocalPlayer();
         
-        //_damagePerformer.HitEvent.AddListener(ctx => _playerHealth.TakeDamage(ctx.BulletDamage));
-        _damagePerformer.HitEvent.AddListener(ctx => Debug.Log("DAMAGED"));
+        _damagePerformer.HitEvent.AddListener(ctx => _playerHealth.TakeDamage(ctx.BulletDamage));
 
         _playerWeaponInteractor.Initialize();
     }

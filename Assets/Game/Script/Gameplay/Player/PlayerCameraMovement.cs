@@ -8,31 +8,33 @@ public class PlayerCameraMovement : NetworkBehaviour
 {
     [SerializeField] private float _sensitivity = 5f;
     [SerializeField] private Transform _cameraPosition;
-    [FormerlySerializedAs("_camera")] [SerializeField] private PlayerCameraRoot playerCamera;
-    
-    private void Start()
+    private PlayerCameraRoot _playerCamera;
+    private bool _initialized;
+    public void Initialize(PlayerCameraRoot playerCamera)
     {
-        if (!isLocalPlayer) return;
+        _playerCamera = playerCamera;
         
+        if (!isLocalPlayer) return;
         Cursor.lockState = CursorLockMode.Locked;
-        playerCamera.transform.position = _cameraPosition.position;
+        
+        _initialized = true;
     }
-
+    
     
     private void Update()
     {
+        if (!isLocalPlayer || !_initialized) return;
+        
         UpdateCameraPosition();
     }
     
     private void UpdateCameraPosition()
     {
-        if (!isLocalPlayer) return;
-        
-        playerCamera.transform.position = _cameraPosition.position;
+        _playerCamera.transform.position = _cameraPosition.position;
         float mouseX = Input.GetAxis("Mouse X") * _sensitivity * Time.deltaTime; 
         float mouseY = Input.GetAxis("Mouse Y") * _sensitivity * Time.deltaTime;
         
-        playerCamera.transform.localRotation *= Quaternion.Euler(-mouseY, 0, 0);
+        _playerCamera.transform.localRotation *= Quaternion.Euler(-mouseY, 0, 0);
         transform.Rotate(0,mouseX,0);
     }
 }

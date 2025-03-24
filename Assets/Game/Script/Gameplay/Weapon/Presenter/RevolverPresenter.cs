@@ -7,7 +7,7 @@ public class RevolverPresenter : WeaponPresenterBase
     
     public RevolverPresenter(RevolverModel model, RevolverView view) : base(model, view)
     {
-        _raycaster = new WeaponRaycaster(PlayerCameraRoot.Camera);
+        _raycaster = new WeaponRaycaster(PlayerCameraRoot.RaycastPosition);
     }
 
     public override void Shoot()
@@ -15,12 +15,12 @@ public class RevolverPresenter : WeaponPresenterBase
         View.PlayShootAnimation();
         View.ShowMuzzleFlashEffect();
         
-        var raycastResult = _raycaster.TryHit(out IHitPerformer hit);
-        Debug.Log(raycastResult);
+        var raycastResult = _raycaster.TryHitForward(out RaycastHit hit);
+        
         if(!raycastResult) return;
         
-        Debug.Log($"SERVER HIT");
-        hit.PerformHit(new HitContext(Model.PlayerDamage));
+        hit.collider.TryGetComponent(out IHitPerformer performer);
+        performer?.PerformHit(new HitContext(10));
     }
     
     

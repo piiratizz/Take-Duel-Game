@@ -10,17 +10,16 @@ public class PlayerWeaponInteractor : NetworkBehaviour
 {
     [SerializeField] private List<WeaponViewBase> _weaponList;
     [SerializeField] private CharacterIKController _ikController;
+
+    [SyncVar] private int _activeWeaponIndex;
     
-    private int _activeWeaponIndex;
     private InputSystem_Actions _inputSystem;
     private List<InputAction> _weaponSlots;
     private bool _aimingState = false;
     private List<WeaponController> _weaponControllers;
-    
+
     public void Initialize()
     {
-        CmdAttachWeapon(0);
-        
         _weaponControllers = new List<WeaponController>();
         foreach (var weapon in _weaponList)
         {
@@ -29,8 +28,10 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         
         if (!isLocalPlayer) return;
 
+        CmdAttachWeapon(0);
+        
         _inputSystem = new InputSystem_Actions();
-        _inputSystem.Player.Attack.performed += CmdShoot;
+        _inputSystem.Player.Attack.performed += Shoot;
         _inputSystem.Player.Zoom.performed += ChangeAimingState;
         _inputSystem.Player.PullSlide.performed += PullSlide;
 
@@ -68,11 +69,16 @@ public class PlayerWeaponInteractor : NetworkBehaviour
 
     private void PullSlide(InputAction.CallbackContext obj)
     {
-        
+
     }
-    
+
+    private void Shoot(InputAction.CallbackContext obj)
+    {
+        CmdShoot();
+    }
+
     [Command]
-    private void CmdShoot(InputAction.CallbackContext obj)
+    private void CmdShoot()
     {
         _weaponControllers[_activeWeaponIndex].Shoot();
     }
@@ -94,17 +100,19 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     [Command]
     private void CmdAttachWeapon(int weaponIndex)
     {
+        _activeWeaponIndex = weaponIndex;
         RpcUpdateWeapon(weaponIndex);
     }
     
     [ClientRpc]
     private void RpcUpdateWeapon(int weaponIndex)
     {
-        _ikController.AttachHandsToWeapon(_weaponList[weaponIndex]);
-        _activeWeaponIndex = weaponIndex;
         for (int i = 0; i < _weaponList.Count; i++)
         {
             _weaponList[i].gameObject.SetActive(i == weaponIndex);
         }
+        
+        _ikController.AttachHandsToWeapon(_weaponList[weaponIndex]);
+        _activeWeaponIndex = weaponIndex;
     }
 }

@@ -2,21 +2,18 @@
 
 public class WeaponRaycaster
 {
-    private Camera _camera;
+    private Transform _raycastSource;
     
-    public WeaponRaycaster(Camera camera)
+    public WeaponRaycaster(Transform raycastSource)
     {
-        _camera = camera;
+        _raycastSource = raycastSource;
     }
     
-    public bool TryHit(out IHitPerformer hitPerformer)
+    public bool TryHitForward(out RaycastHit hit)
     {
-        hitPerformer = null;
-        var ray = _camera.ScreenPointToRay(Input.mousePosition);
-        var isHit = Physics.Raycast(ray, out var hit);
-        
-        if (!isHit) return false;
-
-        return hit.collider.TryGetComponent(out hitPerformer);
+        Ray ray = new Ray(_raycastSource.position, _raycastSource.forward);
+        if (!Physics.Raycast(ray: ray, out hit)) return false;
+        Debug.Log("Hitted object " + hit.collider.gameObject.name);
+        return true;
     }
 }

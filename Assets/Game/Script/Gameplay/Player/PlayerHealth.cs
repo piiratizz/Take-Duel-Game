@@ -15,13 +15,12 @@ public class PlayerHealth : NetworkBehaviour
         DieEvent = new UnityEvent();
     }
     
-    [Command]
-    public void CmdTakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
+        Debug.Log("Player hit");
         _currentHealth -= damage;
-        _currentHealth = Mathf.Clamp(_currentHealth, 0, _startHealth);
 
-        if (_currentHealth == 0)
+        if (_currentHealth <= 0)
         {
             DieEvent.Invoke();
         }
