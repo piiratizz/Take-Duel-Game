@@ -9,10 +9,13 @@ public class WeaponRaycaster
         _raycastSource = raycastSource;
     }
     
-    public bool TryHitForward(out RaycastHit hit)
+    public bool TryHitForward(out IHitPerformer hitPermormer)
     {
-        Ray ray = new Ray(_raycastSource.position, _raycastSource.forward);
-        if (!Physics.Raycast(ray: ray, out hit)) return false;
+        hitPermormer = null;
+        var ray = new Ray(_raycastSource.position, _raycastSource.forward);
+        if (!Physics.Raycast(ray: ray, out var hit)) return false;
+        if (!hit.collider.TryGetComponent(out hitPermormer)) return false;
+        
         Debug.Log("Hitted object " + hit.collider.gameObject.name);
         return true;
     }

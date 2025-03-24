@@ -7,13 +7,16 @@ public class RiflePresenter : WeaponPresenterBase, ISlideRequireable
     
     public RiflePresenter(RifleModel model, RifleView view) : base(model, view)
     {
-        _raycaster = new WeaponRaycaster(PlayerCameraRoot.RaycastPosition);
     }
     
     public override void Shoot()
     {
         View.ShowMuzzleFlashEffect();
-        //if(!_raycaster.TryHit(out IHitPerformer hit)) return;
+        
+        var raycastResult = _raycaster.TryHitForward(out IHitPerformer performer);
+        
+        if(!raycastResult) return;
+        performer?.PerformHit(new HitContext(10));
     }
 
     public override void Reload()

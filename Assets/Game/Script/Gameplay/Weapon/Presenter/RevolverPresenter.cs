@@ -15,11 +15,9 @@ public class RevolverPresenter : WeaponPresenterBase
         View.PlayShootAnimation();
         View.ShowMuzzleFlashEffect();
         
-        var raycastResult = _raycaster.TryHitForward(out RaycastHit hit);
+        var raycastResult = _raycaster.TryHitForward(out IHitPerformer performer);
         
         if(!raycastResult) return;
-        
-        hit.collider.TryGetComponent(out IHitPerformer performer);
         performer?.PerformHit(new HitContext(10));
     }
     

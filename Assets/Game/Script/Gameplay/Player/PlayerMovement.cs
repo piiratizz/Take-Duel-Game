@@ -5,7 +5,11 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : NetworkBehaviour
 {
-    private float _speed;
+    private float _maxSpeed;
+    private float _currentSpeedX;
+    private float _currentSpeedY;
+    private float _speedModifier;
+    
     private InputSystem_Actions _playerInput;
     private CharacterController _characterController;
     private PlayerAnimator _playerAnimator;
@@ -15,7 +19,11 @@ public class PlayerMovement : NetworkBehaviour
     public void Initialize(PlayerConfig config, PlayerAnimator animator)
     {
         if (!isLocalPlayer) return;
-        _speed = config.MovementSpeed;
+        
+        _maxSpeed = config.MovementSpeed;
+        _speedModifier = config.MovementSpeedChangingModifier;
+        _currentSpeedX = 0;
+        
         _playerInput = new InputSystem_Actions();
         _playerInput.Player.Move.Enable();
         
@@ -30,13 +38,18 @@ public class PlayerMovement : NetworkBehaviour
         if (!isLocalPlayer) return;
         var playerInputDirection = _playerInput.Player.Move.ReadValue<Vector2>();
         var direction = new Vector3(playerInputDirection.x, 0, playerInputDirection.y);
-        _playerAnimator.PlayWalkingAnimation(direction.x, direction.z);
+        
+
+        _currentSpeedX = Mathf.Lerp(_currentSpeedX, _maxSpeed * direction.x, _speedModifier);
+        _currentSpeedY = Mathf.Lerp(_currentSpeedY, _maxSpeed * direction.z, _speedModifier);
+       
+        _playerAnimator.PlayWalkingAnimation(_currentSpeedX, _currentSpeedY);
         MovePlayer(direction);
     }
 
     private void MovePlayer(Vector3 direction)
     {
-        _characterController.Move((direction.x * transform.right + direction.z * transform.forward) * _speed * Time.deltaTime);
+        _characterController.Move((transform.right * _currentSpeedX + transform.forward * _currentSpeedY) * Time.deltaTime);
         _characterController.Move(Vector3.down * Gravity * Time.deltaTime);
     }
 }
