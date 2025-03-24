@@ -8,16 +8,18 @@ public class PlayerMovement : NetworkBehaviour
     private float _speed;
     private InputSystem_Actions _playerInput;
     private CharacterController _characterController;
+    private PlayerAnimator _playerAnimator;
     private const float Gravity = 9.81f;
     private bool _initialized = false;
 
-    public void Initialize(PlayerConfig config)
+    public void Initialize(PlayerConfig config, PlayerAnimator animator)
     {
         if (!isLocalPlayer) return;
         _speed = config.MovementSpeed;
         _playerInput = new InputSystem_Actions();
         _playerInput.Player.Move.Enable();
-
+        
+        _playerAnimator = animator;
         _characterController = GetComponent<CharacterController>();
         _initialized = true;
     }
@@ -28,7 +30,7 @@ public class PlayerMovement : NetworkBehaviour
         if (!isLocalPlayer) return;
         var playerInputDirection = _playerInput.Player.Move.ReadValue<Vector2>();
         var direction = new Vector3(playerInputDirection.x, 0, playerInputDirection.y);
-        
+        _playerAnimator.PlayWalkingAnimation(direction.x, direction.z);
         MovePlayer(direction);
     }
 

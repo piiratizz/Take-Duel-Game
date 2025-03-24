@@ -12,11 +12,12 @@ public class PlayerRoot : NetworkBehaviour
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private PlayerDamagePerformer _damagePerformer;
     [SerializeField] private PlayerCameraMovement _playerCameraMovement;
+    [SerializeField] private PlayerAnimator _playerAnimator;
     
     private void Start()
     {
         _playerCameraMovement.Initialize(_playerCameraRoot);
-        _playerMovement.Initialize(_playerConfig);
+        _playerMovement.Initialize(_playerConfig, _playerAnimator);
         _playerHealth.Initialize(_playerConfig);
         
         AttachCameraToLocalPlayer();
