@@ -23,6 +23,7 @@ public class PlayerRoot : NetworkBehaviour
         AttachCameraToLocalPlayer();
         
         _damagePerformer.HitEvent.AddListener(ctx => _playerHealth.TakeDamage(ctx.BulletDamage));
+        _playerHealth.DieEvent.AddListener(() => Debug.Log("DEAD EVENT"));
 
         _playerWeaponInteractor.Initialize();
     }

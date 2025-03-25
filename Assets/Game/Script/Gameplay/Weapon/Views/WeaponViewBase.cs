@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using UnityEngine;
 
+[SelectionBase]
 public abstract class WeaponViewBase : NetworkBehaviour
 {
     [SerializeField] private Animator _animator;

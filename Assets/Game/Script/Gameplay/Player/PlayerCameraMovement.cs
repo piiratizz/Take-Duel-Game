@@ -8,8 +8,10 @@ public class PlayerCameraMovement : NetworkBehaviour
 {
     [SerializeField] private float _sensitivity = 5f;
     [SerializeField] private Transform _cameraPosition;
+    
     private PlayerCameraRoot _playerCamera;
     private bool _initialized;
+    
     public void Initialize(PlayerCameraRoot playerCamera)
     {
         _playerCamera = playerCamera;
@@ -19,7 +21,6 @@ public class PlayerCameraMovement : NetworkBehaviour
         
         _initialized = true;
     }
-    
     
     private void Update()
     {

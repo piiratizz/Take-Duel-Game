@@ -44,10 +44,10 @@ public class PlayerMovement : NetworkBehaviour
         _currentSpeedY = Mathf.Lerp(_currentSpeedY, _maxSpeed * direction.z, _speedModifier);
        
         _playerAnimator.PlayWalkingAnimation(_currentSpeedX, _currentSpeedY);
-        MovePlayer(direction);
+        MovePlayer();
     }
 
-    private void MovePlayer(Vector3 direction)
+    private void MovePlayer()
     {
         _characterController.Move((transform.right * _currentSpeedX + transform.forward * _currentSpeedY) * Time.deltaTime);
         _characterController.Move(Vector3.down * Gravity * Time.deltaTime);

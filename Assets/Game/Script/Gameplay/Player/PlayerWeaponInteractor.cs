@@ -17,18 +17,21 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     private List<InputAction> _weaponSlots;
     private bool _aimingState = false;
     private List<WeaponController> _weaponControllers;
-
+    
     public void Initialize()
     {
         _weaponControllers = new List<WeaponController>();
         foreach (var weapon in _weaponList)
         {
-            _weaponControllers.Add(weapon.GetComponent<WeaponController>());
+            var controller = weapon.GetComponent<WeaponController>();
+            controller.Initialize();
+            _weaponControllers.Add(controller);
         }
         
         if (!isLocalPlayer) return;
 
-        CmdAttachWeapon(0);
+        AttachWeapon(0);
+        
         
         _inputSystem = new InputSystem_Actions();
         _inputSystem.Player.Attack.performed += Shoot;
@@ -55,15 +58,15 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     {
         if (obj.action == _weaponSlots[0])
         {
-            CmdAttachWeapon(0);
+            AttachWeapon(0);
         }
         else if (obj.action == _weaponSlots[1])
         {
-            CmdAttachWeapon(1);
+            AttachWeapon(1);
         }
         else if (obj.action == _weaponSlots[2])
         {
-            CmdAttachWeapon(2);
+            AttachWeapon(2);
         }
     }
 
@@ -96,7 +99,14 @@ public class PlayerWeaponInteractor : NetworkBehaviour
 
         _aimingState = !_aimingState;
     }
-
+    
+    private void AttachWeapon(int weaponIndex)
+    {
+        _weaponControllers[_activeWeaponIndex].UnsubscribeUI();
+        _weaponControllers[weaponIndex].SubscribeUI();
+        CmdAttachWeapon(weaponIndex);
+    }
+    
     [Command]
     private void CmdAttachWeapon(int weaponIndex)
     {

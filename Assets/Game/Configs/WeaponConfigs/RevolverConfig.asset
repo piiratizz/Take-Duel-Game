@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1b4564735524abf9fbe7231ba6cb1b6, type: 3}
   m_Name: RevolverConfig
   m_EditorClassIdentifier: 
-  ClipAmmo: 0
-  TotalAmmo: 0
+  ClipAmmo: 6
+  TotalAmmo: 20
   FireRate: 0
   MuzzleFlash: {fileID: 4914121807760042695, guid: c17c701ee531fd245b9f9c85700a3759, type: 3}
   PlayerHitEffect: {fileID: 0}

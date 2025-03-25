@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using UnityEngine;
+using Zenject;
 
 public class RevolverPresenter : WeaponPresenterBase
 {
@@ -14,7 +15,6 @@ public class RevolverPresenter : WeaponPresenterBase
     {
         View.PlayShootAnimation();
         View.ShowMuzzleFlashEffect();
-        
         var raycastResult = _raycaster.TryHitForward(out IHitPerformer performer);
         
         if(!raycastResult) return;

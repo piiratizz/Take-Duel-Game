@@ -22,7 +22,13 @@ public class PlayerHealth : NetworkBehaviour
 
         if (_currentHealth <= 0)
         {
-            DieEvent.Invoke();
+            InvokeDieEvent();
         }
+    }
+
+    [ClientRpc]
+    private void InvokeDieEvent()
+    {
+        DieEvent.Invoke();
     }
 }

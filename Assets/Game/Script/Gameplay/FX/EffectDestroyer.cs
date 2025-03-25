@@ -3,19 +3,21 @@ using Cysharp.Threading.Tasks;
 using Mirror;
 using UnityEngine;
 
-public class EffectDestroyer : MonoBehaviour
+public class EffectDestroyer : NetworkBehaviour
 {
     [SerializeField] private float _timeToDestroy = 5f;
 
     private async void Start()
     {
-       await DestroyAfterDelay();
+        if (isServer)
+        {
+            await DestroyAfterDelay();
+        }
     }
 
     private async UniTask DestroyAfterDelay()
     {
         await UniTask.WaitForSeconds(_timeToDestroy);
         NetworkServer.Destroy(gameObject);
-        Destroy(gameObject);
     }
 }

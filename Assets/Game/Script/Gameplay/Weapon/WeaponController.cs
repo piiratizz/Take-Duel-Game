@@ -1,5 +1,6 @@
 ﻿using System;
 using Mirror;
+using R3;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -10,17 +11,24 @@ public class WeaponController : NetworkBehaviour
     [SerializeField] private HandsIKConfig _handsIKConfig;
     [SerializeField] private WeaponType _weaponType;
     [SerializeField] private bool _isSlideRequired;
-
+    
     private ISlideRequireable _slideRequireable;
     private WeaponViewBase _view;
     private WeaponPresenterBase _presenter;
     private WeaponModelBase _model;
+
+    private WeaponHudUI _weaponHud;
+    private IDisposable _clipAmmoFieldSubscription;
+    private IDisposable _totalAmmoFieldSubscription;
+
+    private bool _initialized;
     
-    private void Start()
+    public void Initialize()
     {
         _view = GetComponent<WeaponViewBase>();
         _view.Initialize(_handsIKConfig, _config);
-        
+
+
         switch (_weaponType)
         {
             case WeaponType.Revolver:
@@ -41,6 +49,10 @@ public class WeaponController : NetworkBehaviour
         {
             _slideRequireable = _presenter as ISlideRequireable;
         }
+
+        _initialized = true;
+        if (!isLocalPlayer) return;
+        _weaponHud = ContainerHolder.Resolve<GameplayUIRoot>().WeaponHud;
     }
 
     public void Reload()
@@ -59,5 +71,32 @@ public class WeaponController : NetworkBehaviour
         {
             _slideRequireable.Slide();
         }
+    }
+
+    public void SubscribeUI()
+    {
+        if (!isLocalPlayer || !_initialized) return;
+        
+        _clipAmmoFieldSubscription = _model.ClipAmmo.Subscribe(value =>
+        {
+            _weaponHud.ClipAmmo.text = value.ToString();
+            Debug.Log($"CLIP AMMO CHANGED {value}");
+        });
+        
+        _totalAmmoFieldSubscription = _model.TotalAmmo.Subscribe(value =>
+        {
+            _weaponHud.TotalAmmo.text = value.ToString();
+            Debug.Log($"TOTAL AMMO CHANGED {value}");
+        });
+        
+        Debug.Log("UI SUBSCRIBED");
+    }
+
+    public void UnsubscribeUI()
+    {
+        if (!isLocalPlayer || !_initialized) return;
+        
+        _clipAmmoFieldSubscription?.Dispose();
+        _totalAmmoFieldSubscription?.Dispose();
     }
 }
