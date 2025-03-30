@@ -7,5 +7,5 @@ public class WeaponHudUI : MonoBehaviour
     [SerializeField] private TMP_Text _totalAmmoText;
 
     public TMP_Text ClipAmmo => _clipAmmoText;
-    public TMP_Text TotalAmmo => _clipAmmoText;
+    public TMP_Text TotalAmmo => _totalAmmoText;
 }

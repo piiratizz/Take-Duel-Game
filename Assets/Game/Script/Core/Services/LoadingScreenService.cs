@@ -3,7 +3,6 @@ using Zenject;
 
 public class LoadingScreenService
 {
-    [Inject] private UIRoot _uiRoot;
     private GameObject _loadingScreen;
 
     public void Initialize()
@@ -11,7 +10,6 @@ public class LoadingScreenService
         var prefab = Resources.Load("LoadingScreen");
         _loadingScreen = Object.Instantiate(prefab) as GameObject;
         Object.DontDestroyOnLoad(_loadingScreen);
-        _uiRoot.AttachUI(_loadingScreen);
     }
     
     public void ShowLoadingScreen()

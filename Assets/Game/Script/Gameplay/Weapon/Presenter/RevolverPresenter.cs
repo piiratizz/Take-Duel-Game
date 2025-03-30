@@ -15,10 +15,10 @@ public class RevolverPresenter : WeaponPresenterBase
     {
         View.PlayShootAnimation();
         View.ShowMuzzleFlashEffect();
-        var raycastResult = _raycaster.TryHitForward(out IHitPerformer performer);
+        var raycastResult = _raycaster.TryHitForward(out IHitPerformer hitObject);
         
         if(!raycastResult) return;
-        performer?.PerformHit(new HitContext(10));
+        hitObject?.PerformHit(new HitContext(10));
     }
     
     

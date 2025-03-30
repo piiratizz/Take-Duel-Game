@@ -2,7 +2,6 @@
 using Mirror;
 using R3;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(WeaponViewBase))]
 public class WeaponController : NetworkBehaviour
