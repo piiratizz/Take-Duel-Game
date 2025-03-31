@@ -10,4 +10,9 @@ public class PlayerDamagePerformer : NetworkBehaviour, IDamageable
     {
         HitEvent.Invoke(ctx);
     }
+
+    public NetworkIdentity GetNetworkIdentity()
+    {
+        return netIdentity;
+    }
 }

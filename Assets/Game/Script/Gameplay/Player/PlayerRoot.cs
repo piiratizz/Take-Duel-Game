@@ -13,22 +13,36 @@ public class PlayerRoot : NetworkBehaviour
     [SerializeField] private PlayerDamagePerformer _damagePerformer;
     [SerializeField] private PlayerCameraMovement _playerCameraMovement;
     [SerializeField] private PlayerAnimator _playerAnimator;
+
+    private GameplayUIRoot _gameplayUI;
     
     private void Start()
     {
+        _gameplayUI = ContainerHolder.Resolve<GameplayUIRoot>();
+        
         _playerCameraMovement.Initialize(_playerCameraRoot);
         _playerMovement.Initialize(_playerConfig, _playerAnimator);
         _playerHealth.Initialize(_playerConfig);
         
         AttachCameraToLocalPlayer();
-        
-        _damagePerformer.HitEvent.AddListener(ctx => _playerHealth.TakeDamage(ctx.BulletDamage));
-        _playerHealth.DieEvent.AddListener(() => Debug.Log("DEAD EVENT"));
-
         _playerWeaponInteractor.Initialize();
+        
+        _damagePerformer.HitEvent.AddListener(ctx =>
+        {
+            Debug.Log("APPLYING DAMAGE");
+            ShowEffectOnTargetPlayer(ctx.Target.connectionToClient);
+            _playerHealth.TakeDamage(ctx.BulletDamage);
+        });
+        
+        _playerHealth.DieEvent.AddListener(() =>
+        {
+            Debug.Log("DIED");
+            transform.position = new Vector3(0,1,0);
+            _playerHealth.Reset();
+        });
+        
     }
     
-
     private void AttachCameraToLocalPlayer()
     {
         _cameraObject.gameObject.SetActive(false);
@@ -37,5 +51,12 @@ public class PlayerRoot : NetworkBehaviour
         if (!isLocalPlayer) return;
         
         _cameraObject.gameObject.SetActive(true);
+    }
+
+    //Time solution
+    [TargetRpc]
+    private void ShowEffectOnTargetPlayer(NetworkConnection target)
+    {
+        _gameplayUI.ScreenHitEffect.PlayEffectAnimation();
     }
 }

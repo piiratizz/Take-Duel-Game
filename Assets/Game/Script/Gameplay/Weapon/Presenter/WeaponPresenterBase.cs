@@ -9,7 +9,7 @@ public abstract class WeaponPresenterBase
     private WeaponModelBase _model;
 
     protected WeaponViewBase View => _view;
-    protected WeaponModelBase Model => Model;
+    protected WeaponModelBase Model => _model;
 
     protected WeaponPresenterBase(WeaponModelBase model, WeaponViewBase view)
     {

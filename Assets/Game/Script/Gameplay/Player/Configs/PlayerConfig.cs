@@ -5,5 +5,6 @@ public class PlayerConfig : ScriptableObject
 {
     public float MovementSpeed;
     public float MovementSpeedChangingModifier;
+    public float JumpHeight;
     public float Health;
 }

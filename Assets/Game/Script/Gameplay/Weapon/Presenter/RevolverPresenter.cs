@@ -18,7 +18,7 @@ public class RevolverPresenter : WeaponPresenterBase
         var raycastResult = _raycaster.TryHitForward(out IHitPerformer hitObject);
         
         if(!raycastResult) return;
-        hitObject?.PerformHit(new HitContext(10));
+        hitObject?.PerformHit(new HitContext(Model.PlayerDamage, hitObject.GetNetworkIdentity()));
     }
     
     

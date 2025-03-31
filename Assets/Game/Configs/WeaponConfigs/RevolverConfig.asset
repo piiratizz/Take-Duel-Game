@@ -18,5 +18,5 @@ MonoBehaviour:
   MuzzleFlash: {fileID: 4914121807760042695, guid: c17c701ee531fd245b9f9c85700a3759, type: 3}
   PlayerHitEffect: {fileID: 0}
   EnvironmentHitEffect: {fileID: 0}
-  PlayerDamage: 0
+  PlayerDamage: 20
   EnvironmentDamage: 0

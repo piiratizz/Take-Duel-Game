@@ -3,4 +3,5 @@
 public interface IHitPerformer
 {
     void PerformHit(HitContext ctx);
+    NetworkIdentity GetNetworkIdentity();
 }

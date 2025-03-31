@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementSpeed: 4
   MovementSpeedChangingModifier: 0.1
+  JumpHeight: 3
   Health: 100

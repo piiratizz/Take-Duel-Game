@@ -26,6 +26,11 @@ public class PlayerHealth : NetworkBehaviour
         }
     }
 
+    public void Reset()
+    {
+        _currentHealth = _startHealth;
+    }
+
     [ClientRpc]
     private void InvokeDieEvent()
     {
