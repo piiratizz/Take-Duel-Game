@@ -81,6 +81,7 @@ MonoBehaviour:
   _muzzle: {fileID: 7000509253342161228}
   _weaponRecoilConfig: {fileID: 11400000, guid: 90003a872b2ac2b438cb68f7fb77edc6, type: 2}
   _shotSound: {fileID: 8300000, guid: 19b13a5c71bc67445b42b08714cf2603, type: 3}
+  _playerImpactEffect: {fileID: 166404, guid: afbf34b8c15833f4381b789805df1ca6, type: 3}
 --- !u!114 &6261302153468997963
 MonoBehaviour:
   m_ObjectHideFlags: 0

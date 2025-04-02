@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76853a5239e645e4851efd6caa919029, type: 3}
   m_Name: ShotgunHands
   m_EditorClassIdentifier: 
-  LeftHandLocalPosition: {x: -1, y: -0.21, z: 0.57}
-  LeftHandLocalRotation: {x: -0.70123726, y: -0.010514617, z: 0.5130737, w: 0.4948849}
-  RightHandLocalPosition: {x: -0.14, y: -0.09, z: -0.3}
-  RightHandLocalRotation: {x: 0.3356831, y: 0.3348787, z: 0.21442206, w: -0.85392994}
-  RightHandAimingLocalPosition: {x: 0.12, y: -0.07, z: -0.44}
-  RightHandAimingLocalRotation: {x: 0.33935487, y: 0.34643596, z: 0.14063212, w: -0.86315864}
-  LeftHandAimingLocalPosition: {x: -1.71, y: 0.33, z: 0.14}
-  LeftHandAimingLocalRotation: {x: -0.7315966, y: -0.042476133, z: 0.4698314, w: 0.49215916}
+  LeftHandLocalPosition: {x: 0.861, y: 0.075, z: 0.497}
+  LeftHandLocalRotation: {x: -0.07250191, y: 0.0062122187, z: 0.9930908, w: 0.09206265}
+  RightHandLocalPosition: {x: -0.666, y: -0.095, z: -0.193}
+  RightHandLocalRotation: {x: 0.42334607, y: -0.34048223, z: -0.44683608, w: -0.7107654}
+  RightHandAimingLocalPosition: {x: -0.791, y: -0.156, z: -0.284}
+  RightHandAimingLocalRotation: {x: 0.40364417, y: -0.3938904, z: -0.44915462, w: -0.69295156}
+  LeftHandAimingLocalPosition: {x: 0.695, y: 0.146, z: 0.536}
+  LeftHandAimingLocalRotation: {x: -0.072501935, y: 0.006212455, z: 0.9930908, w: 0.092062674}

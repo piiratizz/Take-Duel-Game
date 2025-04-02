@@ -19,7 +19,7 @@ public class ShotgunView : WeaponViewBase
 
     public override void PlayShootAnimation()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void PlayReloadAnimation()

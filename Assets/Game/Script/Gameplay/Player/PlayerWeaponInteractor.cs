@@ -54,21 +54,12 @@ public class PlayerWeaponInteractor : NetworkBehaviour
 
         _inputSystem.Enable();
     }
-
-    [Command]
+    
     private void CmdReload(InputAction.CallbackContext obj)
     {
         _weaponControllers[_activeWeaponIndex].CmdReload();
-        RpcReload(obj);
     }
     
-    [ClientRpc]
-    private void RpcReload(InputAction.CallbackContext obj)
-    {
-        _weaponControllers[_activeWeaponIndex].RpcReload();
-    }
-
-
     private void SelectSlot(InputAction.CallbackContext obj)
     {
         if (obj.action == _weaponSlots[0])
@@ -92,22 +83,7 @@ public class PlayerWeaponInteractor : NetworkBehaviour
 
     private void Shoot(InputAction.CallbackContext obj)
     {
-        CmdShoot();
-    }
-    
-    
-
-    [Command]
-    private void CmdShoot()
-    {
         _weaponControllers[_activeWeaponIndex].CmdShoot();
-        RpcShoot();
-    }
-
-    [ClientRpc]
-    private void RpcShoot()
-    {
-        _weaponControllers[_activeWeaponIndex].RpcShoot();
     }
     
     private void ChangeAimingState(InputAction.CallbackContext obj)
@@ -115,10 +91,12 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         if (_aimingState)
         {
             _ikController.SetAimingHandsPosition();
+            PlayerCameraRoot.Camera.fieldOfView = 40;
         }
         else
         {
             _ikController.SetDefaultHandsPosition();
+            PlayerCameraRoot.Camera.fieldOfView = 68;
         }
 
         _aimingState = !_aimingState;

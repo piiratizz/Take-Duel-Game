@@ -14,12 +14,7 @@ public class RevolverView : WeaponViewBase
     {
         throw new System.NotImplementedException();
     }
-
-    public override void ShowPlayerImpactEffect(RaycastHit hit)
-    {
-        throw new System.NotImplementedException();
-    }
-
+    
     public override void PlayShootAnimation()
     {
         Animator.SetTrigger(Shoot);

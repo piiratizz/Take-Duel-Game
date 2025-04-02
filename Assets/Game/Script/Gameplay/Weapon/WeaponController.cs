@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Mirror;
 using R3;
 using UnityEngine;
@@ -11,9 +12,7 @@ public class WeaponController : NetworkBehaviour
     [SerializeField] private WeaponType _weaponType;
     [SerializeField] private bool _isSlideRequired;
     
-    private ISlideRequireable _slideRequireable;
     private WeaponViewBase _view;
-    private WeaponPresenterBase _presenter;
     private WeaponModelBase _model;
 
     private WeaponHudUI _weaponHud;
@@ -21,9 +20,15 @@ public class WeaponController : NetworkBehaviour
     private IDisposable _totalAmmoFieldSubscription;
 
     private bool _initialized;
+    private bool _slided;
+    
+    private WeaponRaycaster _raycaster;
+    private float _elapsedTimeAfterShot;
     
     public void Initialize(PlayerCameraRecoil cameraRecoil)
     {
+        _raycaster = new WeaponRaycaster(PlayerCameraRoot.RaycastPosition);
+        
         _view = GetComponent<WeaponViewBase>();
         _view.Initialize(_handsIKConfig, _config, cameraRecoil);
 
@@ -32,21 +37,17 @@ public class WeaponController : NetworkBehaviour
         {
             case WeaponType.Revolver:
                 _model = new RevolverModel(_config as RevolverConfig);
-                _presenter = new RevolverPresenter(_model as RevolverModel, _view as RevolverView);
                 break;
             case WeaponType.Shotgun:
                 _model = new ShotgunModel(_config as ShotgunConfig);
-                _presenter = new ShotgunPresenter(_model as ShotgunModel, _view as ShotgunView);
                 break;
             case WeaponType.Rifle:
                 _model = new RifleModel(_config as RifleConfig);
-                _presenter = new RiflePresenter(_model as RifleModel, _view as RifleView);
                 break;
         }
 
         if (_isSlideRequired)
         {
-            _slideRequireable = _presenter as ISlideRequireable;
         }
 
         _initialized = true;
@@ -54,32 +55,58 @@ public class WeaponController : NetworkBehaviour
         _weaponHud = ContainerHolder.Resolve<GameplayUIRoot>().WeaponHud;
     }
 
-    public void CmdReload()
+    private void Update()
     {
-        _presenter.CmdReload(netIdentity);
-    }
-    
-    public void RpcReload()
-    {
-        _presenter.RpcReload(netIdentity);
+        _elapsedTimeAfterShot += Time.deltaTime;
     }
 
-    public void CmdShoot()
+    [Command]
+    public void CmdReload()
     {
-        _presenter.CmdShoot(netIdentity);
+        _model.Reload();
+        RpcReload();
     }
     
-    public void RpcShoot()
+    [ClientRpc]
+    private void RpcReload()
     {
-        _presenter.RpcShoot(netIdentity);
+        if(isServer) return;
+        _model.Reload();
+    }
+
+    [Command]
+    public void CmdShoot()
+    {
+        if (_model.ClipAmmoCount <= 0 || _elapsedTimeAfterShot < 60f / _config.FireRate) return;
+
+        _elapsedTimeAfterShot = 0;
+        _view.PlayShootAnimation();
+        _view.ShowMuzzleFlashEffect();
+        _model.TakeShot();
+        RpcShoot();
+        
+        var raycastResult = _raycaster.TryHitForward(out IHitPerformer hitObject);
+        var hitInfo = _raycaster.HitInfo;
+        if(!raycastResult) return;
+        hitObject?.PerformHit(new HitContext(_model.PlayerDamage, hitObject.GetNetworkIdentity()));
+        _view.ShowPlayerImpactEffect(hitInfo);
+    }
+    
+    [ClientRpc]
+    private void RpcShoot()
+    {
+        _view.PerformRecoil();
+        _view.PlayShotSound();
+        
+        if(!netIdentity.isServer)
+            _model.TakeShot();
     }
 
     public void Slide()
     {
-        if (_isSlideRequired)
-        {
-            _slideRequireable.Slide();
-        }
+        if(!_isSlideRequired) return;
+
+        _slided = true;
     }
 
     public void SubscribeUI()

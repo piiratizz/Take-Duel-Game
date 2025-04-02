@@ -8,6 +8,7 @@ public abstract class WeaponViewBase : NetworkBehaviour
     [SerializeField] private Transform _muzzle;
     [SerializeField] private WeaponRecoilConfig _weaponRecoilConfig;
     [SerializeField] private AudioClip _shotSound;
+    [SerializeField] private GameObject _playerImpactEffect;
     
     private WeaponConfigBase _weaponConfigBase;
     private HandsIKConfig _handsIKConfig;
@@ -29,7 +30,11 @@ public abstract class WeaponViewBase : NetworkBehaviour
     public virtual void ShowMuzzleFlashEffect() {}
     
     public abstract void ShowEnvironmentImpactEffect(RaycastHit hit);
-    public abstract void ShowPlayerImpactEffect(RaycastHit hit);
+
+    public virtual void ShowPlayerImpactEffect(RaycastHit hit)
+    {
+        ServerSpawner.InstantiateObject(_playerImpactEffect, hit.point, Quaternion.identity);
+    }
     
     public abstract void PlayShootAnimation();
     public abstract void PlayReloadAnimation();
@@ -44,4 +49,6 @@ public abstract class WeaponViewBase : NetworkBehaviour
         _audioSource.clip = _shotSound;
         _audioSource.Play();
     }
+    
+    public virtual void SlideWeapon() { }
 }
