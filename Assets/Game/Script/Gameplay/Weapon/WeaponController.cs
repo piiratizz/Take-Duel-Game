@@ -22,10 +22,10 @@ public class WeaponController : NetworkBehaviour
 
     private bool _initialized;
     
-    public void Initialize()
+    public void Initialize(PlayerCameraRecoil cameraRecoil)
     {
         _view = GetComponent<WeaponViewBase>();
-        _view.Initialize(_handsIKConfig, _config);
+        _view.Initialize(_handsIKConfig, _config, cameraRecoil);
 
 
         switch (_weaponType)
@@ -54,14 +54,24 @@ public class WeaponController : NetworkBehaviour
         _weaponHud = ContainerHolder.Resolve<GameplayUIRoot>().WeaponHud;
     }
 
-    public void Reload()
+    public void CmdReload()
     {
-        _presenter.Reload();
+        _presenter.CmdReload(netIdentity);
+    }
+    
+    public void RpcReload()
+    {
+        _presenter.RpcReload(netIdentity);
     }
 
-    public void Shoot()
+    public void CmdShoot()
     {
-        _presenter.Shoot();
+        _presenter.CmdShoot(netIdentity);
+    }
+    
+    public void RpcShoot()
+    {
+        _presenter.RpcShoot(netIdentity);
     }
 
     public void Slide()

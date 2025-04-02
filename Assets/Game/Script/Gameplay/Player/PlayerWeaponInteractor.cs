@@ -18,13 +18,13 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     private bool _aimingState = false;
     private List<WeaponController> _weaponControllers;
     
-    public void Initialize()
+    public void Initialize(PlayerCameraRecoil cameraRecoil)
     {
         _weaponControllers = new List<WeaponController>();
         foreach (var weapon in _weaponList)
         {
             var controller = weapon.GetComponent<WeaponController>();
-            controller.Initialize();
+            controller.Initialize(cameraRecoil);
             _weaponControllers.Add(controller);
         }
         
@@ -37,7 +37,7 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         _inputSystem.Player.Attack.performed += Shoot;
         _inputSystem.Player.Zoom.performed += ChangeAimingState;
         _inputSystem.Player.PullSlide.performed += PullSlide;
-        _inputSystem.Player.Reload.performed += Reload;
+        _inputSystem.Player.Reload.performed += CmdReload;
         _inputSystem.Player.PullSlide.performed += PullSlide;
 
         _weaponSlots = new List<InputAction>()
@@ -55,9 +55,17 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         _inputSystem.Enable();
     }
 
-    private void Reload(InputAction.CallbackContext obj)
+    [Command]
+    private void CmdReload(InputAction.CallbackContext obj)
     {
-        _weaponControllers[_activeWeaponIndex].Reload();
+        _weaponControllers[_activeWeaponIndex].CmdReload();
+        RpcReload(obj);
+    }
+    
+    [ClientRpc]
+    private void RpcReload(InputAction.CallbackContext obj)
+    {
+        _weaponControllers[_activeWeaponIndex].RpcReload();
     }
 
 
@@ -92,7 +100,14 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     [Command]
     private void CmdShoot()
     {
-        _weaponControllers[_activeWeaponIndex].Shoot();
+        _weaponControllers[_activeWeaponIndex].CmdShoot();
+        RpcShoot();
+    }
+
+    [ClientRpc]
+    private void RpcShoot()
+    {
+        _weaponControllers[_activeWeaponIndex].RpcShoot();
     }
     
     private void ChangeAimingState(InputAction.CallbackContext obj)

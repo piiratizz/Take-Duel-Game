@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Mirror;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class RiflePresenter : WeaponPresenterBase, ISlideRequireable
@@ -11,7 +12,7 @@ public class RiflePresenter : WeaponPresenterBase, ISlideRequireable
         _raycaster = new WeaponRaycaster(PlayerCameraRoot.RaycastPosition);
     }
     
-    public override void Shoot()
+    public override void CmdShoot(NetworkIdentity netIdentity)
     {
         if(Model.ClipAmmoCount <= 0 || !_isSlided) return;
         _isSlided = false;
@@ -24,7 +25,7 @@ public class RiflePresenter : WeaponPresenterBase, ISlideRequireable
         performer?.PerformHit(new HitContext(Model.PlayerDamage));
     }
 
-    public override void Reload()
+    public override void CmdReload(NetworkIdentity netIdentity)
     {
         Model.Reload();
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Mirror;
+using UnityEngine;
 
 public class ShotgunPresenter : WeaponPresenterBase
 {
@@ -9,7 +10,7 @@ public class ShotgunPresenter : WeaponPresenterBase
         _raycaster = new WeaponRaycaster(PlayerCameraRoot.RaycastPosition);
     }
     
-    public override void Shoot()
+    public override void CmdShoot(NetworkIdentity netIdentity)
     {
         if(Model.ClipAmmoCount <= 0) return;
         
@@ -22,7 +23,7 @@ public class ShotgunPresenter : WeaponPresenterBase
         performer?.PerformHit(new HitContext(Model.PlayerDamage));
     }
 
-    public override void Reload()
+    public override void CmdReload(NetworkIdentity netIdentity)
     {
         Model.Reload();
     }

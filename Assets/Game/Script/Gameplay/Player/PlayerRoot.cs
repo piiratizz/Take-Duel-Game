@@ -13,7 +13,9 @@ public class PlayerRoot : NetworkBehaviour
     [SerializeField] private PlayerDamagePerformer _damagePerformer;
     [SerializeField] private PlayerCameraMovement _playerCameraMovement;
     [SerializeField] private PlayerAnimator _playerAnimator;
-
+    [SerializeField] private PlayerModelChanger _playerModelChanger;
+    [SerializeField] private PlayerCameraRecoil _playerCameraRecoil;
+    
     private GameplayUIRoot _gameplayUI;
     
     private void Start()
@@ -25,7 +27,7 @@ public class PlayerRoot : NetworkBehaviour
         _playerHealth.Initialize(_playerConfig);
         
         AttachCameraToLocalPlayer();
-        _playerWeaponInteractor.Initialize();
+        _playerWeaponInteractor.Initialize(_playerCameraRecoil);
         
         _damagePerformer.HitEvent.AddListener(ctx =>
         {
@@ -40,6 +42,15 @@ public class PlayerRoot : NetworkBehaviour
             transform.position = new Vector3(0,1,0);
             _playerHealth.Reset();
         });
+
+        if (isLocalPlayer)
+        {
+            _playerModelChanger.SetLocalModel();
+        }
+        else
+        {
+            _playerModelChanger.SetGlobalModel();
+        }
         
     }
     

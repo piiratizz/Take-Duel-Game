@@ -127,6 +127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3190441941666420213}
   - component: {fileID: 2952374130705875157}
+  - component: {fileID: 2522113197141317834}
   - component: {fileID: 784519892715818678}
   - component: {fileID: -8576151062411700733}
   m_Layer: 0
@@ -169,6 +170,19 @@ MonoBehaviour:
   _raycastPosition: {fileID: 607888845694647199}
   _bodyAimTarget: {fileID: 3642986753573859825}
   _camera: {fileID: 1047851064765442053}
+--- !u!114 &2522113197141317834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3294314378789287161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f91c30ed49094b07a3e35bcba54798d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerCamera: {fileID: 2952374130705875157}
 --- !u!114 &784519892715818678
 MonoBehaviour:
   m_ObjectHideFlags: 0

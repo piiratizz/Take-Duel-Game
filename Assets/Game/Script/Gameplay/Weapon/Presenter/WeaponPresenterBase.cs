@@ -17,6 +17,8 @@ public abstract class WeaponPresenterBase
         _view = view;
     }
     
-    public virtual void Shoot() { }
-    public abstract void Reload();
+    public virtual void CmdShoot(NetworkIdentity netIdentity) { }
+    public virtual void RpcShoot(NetworkIdentity netIdentity) { }
+    public virtual void CmdReload(NetworkIdentity netIdentity) { }
+    public virtual void RpcReload(NetworkIdentity netIdentity) { }
 }

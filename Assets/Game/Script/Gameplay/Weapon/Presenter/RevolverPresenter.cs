@@ -11,21 +11,38 @@ public class RevolverPresenter : WeaponPresenterBase
         _raycaster = new WeaponRaycaster(PlayerCameraRoot.RaycastPosition);
     }
 
-    public override void Shoot()
+    public override void CmdShoot(NetworkIdentity netIdentity)
     {
-        if(Model.ClipAmmoCount <= 0) return;
-        
+        if (Model.ClipAmmoCount <= 0) return;
+ 
         View.PlayShootAnimation();
         View.ShowMuzzleFlashEffect();
         Model.TakeShot();
+        
         var raycastResult = _raycaster.TryHitForward(out IHitPerformer hitObject);
         
         if(!raycastResult) return;
         hitObject?.PerformHit(new HitContext(Model.PlayerDamage, hitObject.GetNetworkIdentity()));
     }
     
+    public override void RpcShoot(NetworkIdentity netIdentity)
+    {
+        if (Model.ClipAmmoCount <= 0) return;
+        
+        View.PerformRecoil();
+        View.PlayShotSound();
+        
+        if(!netIdentity.isServer)
+            Model.TakeShot();
+    }
     
-    public override void Reload()
+    
+    public override void CmdReload(NetworkIdentity netIdentity)
+    {
+        Model.Reload();
+    }
+
+    public override void RpcReload(NetworkIdentity netIdentity)
     {
         Model.Reload();
     }
