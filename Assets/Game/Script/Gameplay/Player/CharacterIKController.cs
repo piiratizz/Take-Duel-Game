@@ -10,6 +10,8 @@ public class CharacterIKController : NetworkBehaviour
     [SerializeField] private Transform _leftHandTarget;
     [SerializeField] private Transform _rightHandTarget;
 
+    [SerializeField] private Rig _handsRig;
+    
     private Transform _aimTarget;
     private bool _initialized;
     
@@ -56,5 +58,15 @@ public class CharacterIKController : NetworkBehaviour
         
         // Time solution
         SetDefaultHandsPosition();
+    }
+
+    public void DisableHandsIK()
+    {
+        _handsRig.weight = 0;
+    }
+    
+    public void EnableHandsIK()
+    {
+        _handsRig.weight = 1;
     }
 }

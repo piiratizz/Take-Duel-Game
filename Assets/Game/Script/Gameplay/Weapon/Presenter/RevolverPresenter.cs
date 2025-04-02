@@ -13,8 +13,11 @@ public class RevolverPresenter : WeaponPresenterBase
 
     public override void Shoot()
     {
+        if(Model.ClipAmmoCount <= 0) return;
+        
         View.PlayShootAnimation();
         View.ShowMuzzleFlashEffect();
+        Model.TakeShot();
         var raycastResult = _raycaster.TryHitForward(out IHitPerformer hitObject);
         
         if(!raycastResult) return;
@@ -24,7 +27,7 @@ public class RevolverPresenter : WeaponPresenterBase
     
     public override void Reload()
     {
-        throw new System.NotImplementedException();
+        Model.Reload();
     }
 
    

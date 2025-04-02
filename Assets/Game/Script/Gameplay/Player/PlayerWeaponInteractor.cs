@@ -37,6 +37,8 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         _inputSystem.Player.Attack.performed += Shoot;
         _inputSystem.Player.Zoom.performed += ChangeAimingState;
         _inputSystem.Player.PullSlide.performed += PullSlide;
+        _inputSystem.Player.Reload.performed += Reload;
+        _inputSystem.Player.PullSlide.performed += PullSlide;
 
         _weaponSlots = new List<InputAction>()
         {
@@ -51,6 +53,11 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         }
 
         _inputSystem.Enable();
+    }
+
+    private void Reload(InputAction.CallbackContext obj)
+    {
+        _weaponControllers[_activeWeaponIndex].Reload();
     }
 
 
@@ -72,13 +79,15 @@ public class PlayerWeaponInteractor : NetworkBehaviour
 
     private void PullSlide(InputAction.CallbackContext obj)
     {
-
+        _weaponControllers[_activeWeaponIndex].Slide();
     }
 
     private void Shoot(InputAction.CallbackContext obj)
     {
         CmdShoot();
     }
+    
+    
 
     [Command]
     private void CmdShoot()

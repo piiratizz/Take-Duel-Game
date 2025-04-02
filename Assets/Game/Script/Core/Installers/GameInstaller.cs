@@ -33,7 +33,6 @@ public class GameInstaller : MonoInstaller
         return;
 #endif
         // --- !!!DONT DELETE!!! ---
-        await sceneService.LoadBootAsync();
         await sceneService.LoadMainMenuAsync();
     }
 

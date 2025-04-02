@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4703915770428643936}
+  - component: {fileID: 138311775365706874}
   - component: {fileID: 8995138594180414593}
   - component: {fileID: 2692861730108186072}
   - component: {fileID: -4259729097885072789}
@@ -36,6 +37,28 @@ Transform:
   - {fileID: 1488606289625362043}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &138311775365706874
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6819832186339467495}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &8995138594180414593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,6 +74,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  _animator: {fileID: 138311775365706874}
   _muzzle: {fileID: 1488606289625362043}
 --- !u!114 &2692861730108186072
 MonoBehaviour:

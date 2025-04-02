@@ -45,7 +45,7 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "852140f2-7766-474d-8707-702459ba45f3",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "Hold",
                     "initialStateCheck": false
@@ -126,6 +126,15 @@
                     "name": "PullSlide",
                     "type": "Button",
                     "id": "1dc64611-d9de-4271-9b65-6d31a5e44b2b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "cde09fcb-b93e-4a3f-9ee8-67c5d82d1cb0",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -570,6 +579,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "PullSlide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "91c2bcc4-4e14-4bed-b609-69936f1b707d",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

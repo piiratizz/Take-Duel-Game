@@ -76,13 +76,13 @@ public class WeaponController : NetworkBehaviour
     {
         if (!isLocalPlayer || !_initialized) return;
         
-        _clipAmmoFieldSubscription = _model.ClipAmmo.Subscribe(value =>
+        _clipAmmoFieldSubscription = _model.ClipAmmoProperty.Subscribe(value =>
         {
             _weaponHud.ClipAmmo.text = value.ToString();
             Debug.Log($"CLIP AMMO CHANGED {value}");
         });
         
-        _totalAmmoFieldSubscription = _model.TotalAmmo.Subscribe(value =>
+        _totalAmmoFieldSubscription = _model.TotalAmmoProperty.Subscribe(value =>
         {
             _weaponHud.TotalAmmo.text = value.ToString();
             Debug.Log($"TOTAL AMMO CHANGED {value}");
