@@ -25,12 +25,12 @@ public class WeaponController : NetworkBehaviour
     private WeaponRaycaster _raycaster;
     private float _elapsedTimeAfterShot;
     
-    public void Initialize(PlayerCameraRecoil cameraRecoil)
+    public void Initialize(PlayerCameraRecoil cameraRecoil, PlayerAnimator playerAnimator)
     {
         _raycaster = new WeaponRaycaster(PlayerCameraRoot.RaycastPosition);
         
         _view = GetComponent<WeaponViewBase>();
-        _view.Initialize(_handsIKConfig, _config, cameraRecoil);
+        _view.Initialize(_config, cameraRecoil, playerAnimator);
 
 
         switch (_weaponType)

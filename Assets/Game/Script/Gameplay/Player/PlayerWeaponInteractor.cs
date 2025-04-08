@@ -10,6 +10,7 @@ public class PlayerWeaponInteractor : NetworkBehaviour
 {
     [SerializeField] private List<WeaponViewBase> _weaponList;
     [SerializeField] private CharacterIKController _ikController;
+    [SerializeField] private PlayerAnimator _playerAnimator;
 
     [SyncVar] private int _activeWeaponIndex;
     
@@ -24,7 +25,7 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         foreach (var weapon in _weaponList)
         {
             var controller = weapon.GetComponent<WeaponController>();
-            controller.Initialize(cameraRecoil);
+            controller.Initialize(cameraRecoil, _playerAnimator);
             _weaponControllers.Add(controller);
         }
         
@@ -90,13 +91,11 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     {
         if (_aimingState)
         {
-            _ikController.SetAimingHandsPosition();
-            PlayerCameraRoot.Camera.fieldOfView = 40;
+            _playerAnimator.PlayAimAnimation();
         }
         else
         {
-            _ikController.SetDefaultHandsPosition();
-            PlayerCameraRoot.Camera.fieldOfView = 68;
+            _playerAnimator.PlayDeAimAnimation();
         }
 
         _aimingState = !_aimingState;
@@ -125,6 +124,7 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         }
         
         _ikController.AttachHandsToWeapon(_weaponList[weaponIndex]);
+        _playerAnimator.OverrideWeaponHolderAnimator(_weaponList[weaponIndex].AnimatorOverrideController);
         _activeWeaponIndex = weaponIndex;
     }
 }

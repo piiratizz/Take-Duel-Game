@@ -17,7 +17,8 @@ public class RevolverView : WeaponViewBase
     
     public override void PlayShootAnimation()
     {
-        Animator.SetTrigger(Shoot);
+        WeaponAnimator.SetTrigger(Shoot);
+        PlayerAnimator.PlayShootAnimation();
     }
 
     public override void PlayReloadAnimation()

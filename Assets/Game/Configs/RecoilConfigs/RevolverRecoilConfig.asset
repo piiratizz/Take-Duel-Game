@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14533e41fa04ffcb7fdfb4b112544e8, type: 3}
   m_Name: RevolverRecoilConfig
   m_EditorClassIdentifier: 
-  MoveToNextRecoilPointTime: 0.5
-  SpeedModifier: 150
+  MoveToNextRecoilPointTime: 0.1
+  SpeedModifier: 200
   VerticalStrength: 10
   HorizontalStrength: 0

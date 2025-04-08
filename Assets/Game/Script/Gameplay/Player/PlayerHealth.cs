@@ -8,6 +8,8 @@ public class PlayerHealth : NetworkBehaviour
     private float _startHealth;
     [SyncVar] private float _currentHealth;
 
+    public float Value => _currentHealth;
+    
     public void Initialize(PlayerConfig config)
     {
         _startHealth = config.Health;

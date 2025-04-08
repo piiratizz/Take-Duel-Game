@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerRoot : NetworkBehaviour
 {
+    [SerializeField] private PlayerUIRoot _playerUIRoot;
     [SerializeField] private PlayerConfig _playerConfig;
     [SerializeField] private CharacterIKController _characterIKController;
     [SerializeField] private Camera _cameraObject;
@@ -25,6 +26,7 @@ public class PlayerRoot : NetworkBehaviour
         _playerCameraMovement.Initialize(_playerCameraRoot);
         _playerMovement.Initialize(_playerConfig, _playerAnimator);
         _playerHealth.Initialize(_playerConfig);
+        _playerUIRoot.Initialize();
         
         AttachCameraToLocalPlayer();
         _playerWeaponInteractor.Initialize(_playerCameraRecoil);
@@ -34,13 +36,15 @@ public class PlayerRoot : NetworkBehaviour
             Debug.Log("APPLYING DAMAGE");
             ShowEffectOnTargetPlayer(ctx.Target.connectionToClient);
             _playerHealth.TakeDamage(ctx.BulletDamage);
+            _playerUIRoot.RpcUpdateHealth(_playerHealth.Value);
         });
         
         _playerHealth.DieEvent.AddListener(() =>
         {
-            Debug.Log("DIED");
+            Debug.Log($"DIED {netId}");
             transform.position = new Vector3(0,1,0);
             _playerHealth.Reset();
+            _playerUIRoot.CmdUpdateHealth(_playerHealth.Value);
         });
 
         if (isLocalPlayer)

@@ -2,6 +2,7 @@
 
 public class ShotgunView : WeaponViewBase
 {
+    
     public override void ShowMuzzleFlashEffect()
     {
         ServerSpawner.InstantiateObject(WeaponConfig.MuzzleFlash.gameObject, Muzzle.position, transform.rotation);
@@ -19,7 +20,7 @@ public class ShotgunView : WeaponViewBase
 
     public override void PlayShootAnimation()
     {
-        
+        PlayerAnimator.PlayShootAnimation();
     }
 
     public override void PlayReloadAnimation()

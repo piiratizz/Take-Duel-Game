@@ -37,34 +37,30 @@ public class CharacterIKController : NetworkBehaviour
         if (!_initialized) return;
 
         UpdateAimTargetPosition();
+
+        if (_weapon != null)
+        {
+            UpdateHandsPosition();
+        }
+    }
+
+    private void UpdateHandsPosition()
+    {
+        _leftHandTarget.position = _weapon.LeftHandPosition.position;
+        _leftHandTarget.rotation = _weapon.LeftHandPosition.rotation;
+        
+        _rightHandTarget.position = _weapon.RightHandPosition.position;
+        _rightHandTarget.rotation = _weapon.RightHandPosition.rotation;
     }
 
     public void SetDefaultHandsPosition()
     {
-        PlayHandsAnimation(
-            _leftHandTarget,
-            _rightHandTarget,
-            _weapon.HandsConfig.LeftHandLocalPosition,
-            _weapon.HandsConfig.RightHandLocalPosition);
-        
-        //_leftHandTarget.localPosition = _weapon.HandsConfig.LeftHandLocalPosition;
-        _leftHandTarget.localRotation = _weapon.HandsConfig.LeftHandLocalRotation;
-        //_rightHandTarget.localPosition = _weapon.HandsConfig.RightHandLocalPosition;
-        _rightHandTarget.localRotation = _weapon.HandsConfig.RightHandLocalRotation;
+
     }
     
     public void SetAimingHandsPosition()
     {
-        PlayHandsAnimation(
-            _leftHandTarget,
-            _rightHandTarget,
-            _weapon.HandsConfig.LeftHandAimingLocalPosition,
-            _weapon.HandsConfig.RightHandAimingLocalPosition);
-        
-        //_leftHandTarget.localPosition = _weapon.HandsConfig.LeftHandAimingLocalPosition;
-        _leftHandTarget.localRotation = _weapon.HandsConfig.LeftHandAimingLocalRotation;
-        //_rightHandTarget.localPosition = _weapon.HandsConfig.RightHandAimingLocalPosition;
-        _rightHandTarget.localRotation = _weapon.HandsConfig.RightHandAimingLocalRotation;
+
     }
 
     private async void PlayHandsAnimation(Transform left, Transform right, Vector3 leftPosition, Vector3 rightPosition)
