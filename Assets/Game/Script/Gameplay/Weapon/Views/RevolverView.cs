@@ -7,7 +7,8 @@ public class RevolverView : WeaponViewBase
 
     public override void ShowMuzzleFlashEffect()
     {
-        ServerSpawner.InstantiateObject(WeaponConfig.MuzzleFlash.gameObject, Muzzle.position, transform.rotation);
+        //ServerSpawner.InstantiateObject(WeaponConfig.MuzzleFlash.gameObject, Muzzle.position, transform.rotation);
+       Instantiate(WeaponConfig.MuzzleFlash.gameObject, Muzzle.position, transform.rotation);
     }
 
     public override void ShowEnvironmentImpactEffect(RaycastHit hit)

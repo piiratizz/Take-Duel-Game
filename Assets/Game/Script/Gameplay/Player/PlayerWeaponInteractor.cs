@@ -84,11 +84,13 @@ public class PlayerWeaponInteractor : NetworkBehaviour
 
     private void Shoot(InputAction.CallbackContext obj)
     {
-        _weaponControllers[_activeWeaponIndex].CmdShoot();
+        _weaponControllers[_activeWeaponIndex].Shoot();
     }
     
     private void ChangeAimingState(InputAction.CallbackContext obj)
     {
+        _aimingState = !_aimingState;
+        
         if (_aimingState)
         {
             _playerAnimator.PlayAimAnimation();
@@ -97,8 +99,6 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         {
             _playerAnimator.PlayDeAimAnimation();
         }
-
-        _aimingState = !_aimingState;
     }
     
     private void AttachWeapon(int weaponIndex)

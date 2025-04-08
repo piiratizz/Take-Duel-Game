@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveToNextRecoilPointTime: 0.1
   SpeedModifier: 200
-  VerticalStrength: 10
+  VerticalStrength: 7
   HorizontalStrength: 0

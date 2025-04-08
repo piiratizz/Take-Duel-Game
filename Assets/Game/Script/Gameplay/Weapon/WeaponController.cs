@@ -74,16 +74,20 @@ public class WeaponController : NetworkBehaviour
         _model.Reload();
     }
 
-    [Command]
-    public void CmdShoot()
+    public void Shoot()
     {
-        if (_model.ClipAmmoCount <= 0 || _elapsedTimeAfterShot < 60f / _config.FireRate) return;
+        ClientShoot();
+        CmdShoot();
+    }
+    
+    [Command]
+    private void CmdShoot()
+    {
+        if (!IsCanShoot()) return;
 
         _elapsedTimeAfterShot = 0;
-        _view.PlayShootAnimation();
-        _view.ShowMuzzleFlashEffect();
         _model.TakeShot();
-        RpcShoot();
+        LateRpcShoot();
         
         var raycastResult = _raycaster.TryHitForward(out IHitPerformer hitObject);
         var hitInfo = _raycaster.HitInfo;
@@ -93,13 +97,29 @@ public class WeaponController : NetworkBehaviour
     }
     
     [ClientRpc]
-    private void RpcShoot()
+    private void LateRpcShoot()
     {
-        _view.PerformRecoil();
-        _view.PlayShotSound();
+        if (!isLocalPlayer)
+        {
+            _view.PlayShotSound();
+            _view.ShowMuzzleFlashEffect();
+        }
         
         if(!netIdentity.isServer)
             _model.TakeShot();
+    }
+    
+    private void ClientShoot()
+    {
+        if (!IsCanShoot()) return;
+        
+        _view.PlayShotSound();
+        _view.PerformRecoil();
+        _view.ShowMuzzleFlashEffect();
+        _view.PlayShootAnimation();
+        
+        if(!netIdentity.isServer)
+            _elapsedTimeAfterShot = 0;
     }
 
     public void Slide()
@@ -134,5 +154,10 @@ public class WeaponController : NetworkBehaviour
         
         _clipAmmoFieldSubscription?.Dispose();
         _totalAmmoFieldSubscription?.Dispose();
+    }
+
+    private bool IsCanShoot()
+    {
+        return _model.ClipAmmoCount > 0 && _elapsedTimeAfterShot >= 60f / _config.FireRate;
     }
 }

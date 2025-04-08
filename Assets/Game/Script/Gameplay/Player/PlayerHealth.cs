@@ -24,7 +24,7 @@ public class PlayerHealth : NetworkBehaviour
 
         if (_currentHealth <= 0)
         {
-            InvokeDieEvent();
+            CmdInvokeDieEvent();
         }
     }
 
@@ -33,9 +33,17 @@ public class PlayerHealth : NetworkBehaviour
         _currentHealth = _startHealth;
     }
 
-    [ClientRpc]
-    private void InvokeDieEvent()
+    [Command]
+    private void CmdInvokeDieEvent()
     {
+        DieEvent.Invoke();
+        RpcInvokeDieEvent();
+    }
+    
+    [ClientRpc]
+    private void RpcInvokeDieEvent()
+    {
+        if(netIdentity.isServer) return;
         DieEvent.Invoke();
     }
 }

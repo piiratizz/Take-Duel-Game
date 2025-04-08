@@ -9,7 +9,6 @@ public abstract class WeaponViewBase : NetworkBehaviour
     [SerializeField] private Transform _muzzle;
     [SerializeField] private WeaponRecoilConfig _weaponRecoilConfig;
     [SerializeField] private AudioClip _shotSound;
-    [SerializeField] private GameObject _playerImpactEffect;
     [SerializeField] private Transform _leftHandIKPosition;
     [SerializeField] private Transform _rightHandIKPosition;
     [SerializeField] private AnimatorOverrideController _weaponHolderOverrideController;
@@ -18,6 +17,7 @@ public abstract class WeaponViewBase : NetworkBehaviour
     private PlayerCameraRecoil _cameraRecoil;
     private AudioSource _audioSource;
     private PlayerAnimator _playerAnimator;
+    private GameObject _playerImpactEffect;
     
     public AnimatorOverrideController AnimatorOverrideController => _weaponHolderOverrideController;
     public Transform LeftHandPosition => _leftHandIKPosition;
@@ -32,6 +32,12 @@ public abstract class WeaponViewBase : NetworkBehaviour
         _cameraRecoil = cameraRecoil;
         _weaponConfigBase = weaponConfigBase;
         _playerAnimator = playerAnimator;
+
+        if (weaponConfigBase.PlayerHitEffect != null)
+        {
+            _playerImpactEffect = weaponConfigBase.PlayerHitEffect.gameObject;
+        }
+        
         _audioSource = GetComponent<AudioSource>();
     }
 
