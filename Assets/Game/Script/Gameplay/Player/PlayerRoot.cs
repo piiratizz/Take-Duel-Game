@@ -1,35 +1,37 @@
 ﻿using Mirror;
 using UnityEngine;
+using Zenject;
 
 public class PlayerRoot : NetworkBehaviour
 {
-    [SerializeField] private PlayerUIRoot _playerUIRoot;
-    [SerializeField] private PlayerConfig _playerConfig;
-    [SerializeField] private CharacterIKController _characterIKController;
-    [SerializeField] private Camera _cameraObject;
-    [SerializeField] private PlayerCameraRoot _playerCameraRoot;
-    [SerializeField] private PlayerWeaponInteractor _playerWeaponInteractor;
-    [SerializeField] private PlayerHealth _playerHealth;
-    [SerializeField] private PlayerMovement _playerMovement;
-    [SerializeField] private PlayerDamagePerformer _damagePerformer;
-    [SerializeField] private PlayerCameraMovement _playerCameraMovement;
-    [SerializeField] private PlayerAnimator _playerAnimator;
-    [SerializeField] private PlayerModelChanger _playerModelChanger;
-    [SerializeField] private PlayerCameraRecoil _playerCameraRecoil;
+    [SerializeField] private PlayerInstaller _playerInstaller;
+    
+    [Inject] private PlayerUIRoot _playerUIRoot;
+    [Inject] private PlayerConfig _playerConfig;
+    [Inject] private CharacterIKController _characterIKController;
+    [Inject] private Camera _cameraObject;
+    [Inject] private PlayerCameraRoot _playerCameraRoot;
+    [Inject] private PlayerWeaponInteractor _playerWeaponInteractor;
+    [Inject] private PlayerHealth _playerHealth;
+    [Inject] private PlayerMovement _playerMovement;
+    [Inject] private PlayerDamagePerformer _damagePerformer;
+    [Inject] private PlayerCameraMovement _playerCameraMovement;
+    [Inject] private PlayerAnimator _playerAnimator;
+    [Inject] private PlayerModelChanger _playerModelChanger;
+    [Inject] private PlayerCameraRecoil _playerCameraRecoil;
     
     private GameplayUIRoot _gameplayUI;
     
     private void Start()
     {
         _gameplayUI = ContainerHolder.Resolve<GameplayUIRoot>();
-        
-        _playerCameraMovement.Initialize(_playerCameraRoot);
-        _playerMovement.Initialize(_playerConfig, _playerAnimator);
-        _playerHealth.Initialize(_playerConfig);
+        _playerCameraMovement.Initialize();
+        _playerMovement.Initialize();
+        _playerHealth.Initialize();
         _playerUIRoot.Initialize();
         
         AttachCameraToLocalPlayer();
-        _playerWeaponInteractor.Initialize(_playerCameraRecoil);
+        _playerWeaponInteractor.Initialize();
         
         _damagePerformer.HitEvent.AddListener(ctx =>
         {

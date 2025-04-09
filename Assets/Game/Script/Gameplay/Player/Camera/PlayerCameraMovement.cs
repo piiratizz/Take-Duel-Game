@@ -9,13 +9,11 @@ public class PlayerCameraMovement : NetworkBehaviour
     [SerializeField] private float _sensitivity = 5f;
     [SerializeField] private Transform _cameraPosition;
     
-    private PlayerCameraRoot _playerCamera;
+    [Inject] private PlayerCameraRoot _playerCamera;
     private bool _initialized;
     
-    public void Initialize(PlayerCameraRoot playerCamera)
+    public void Initialize()
     {
-        _playerCamera = playerCamera;
-        
         if (!isLocalPlayer) return;
         Cursor.lockState = CursorLockMode.Locked;
         

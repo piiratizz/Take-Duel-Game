@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using R3;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 public class PlayerWeaponInteractor : NetworkBehaviour
 {
@@ -18,14 +19,15 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     private List<InputAction> _weaponSlots;
     private bool _aimingState = false;
     private List<WeaponController> _weaponControllers;
+    [Inject] private PlayerCameraRecoil _playerCameraRecoil;
     
-    public void Initialize(PlayerCameraRecoil cameraRecoil)
+    public void Initialize()
     {
         _weaponControllers = new List<WeaponController>();
         foreach (var weapon in _weaponList)
         {
             var controller = weapon.GetComponent<WeaponController>();
-            controller.Initialize(cameraRecoil, _playerAnimator);
+            controller.Initialize(_playerCameraRecoil, _playerAnimator);
             _weaponControllers.Add(controller);
         }
         

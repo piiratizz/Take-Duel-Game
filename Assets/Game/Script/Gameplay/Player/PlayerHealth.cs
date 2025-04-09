@@ -1,18 +1,22 @@
 ﻿using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
+using Zenject;
 
 public class PlayerHealth : NetworkBehaviour
 {
     [HideInInspector] public UnityEvent DieEvent;
+
+    [Inject] private PlayerConfig _config;
     private float _startHealth;
+    
     [SyncVar] private float _currentHealth;
 
     public float Value => _currentHealth;
     
-    public void Initialize(PlayerConfig config)
+    public void Initialize()
     {
-        _startHealth = config.Health;
+        _startHealth = _config.Health;
         _currentHealth = _startHealth;
         DieEvent = new UnityEvent();
     }
@@ -24,7 +28,7 @@ public class PlayerHealth : NetworkBehaviour
 
         if (_currentHealth <= 0)
         {
-            CmdInvokeDieEvent();
+            RpcInvokeDieEvent();
         }
     }
 
@@ -36,6 +40,7 @@ public class PlayerHealth : NetworkBehaviour
     [Command]
     private void CmdInvokeDieEvent()
     {
+        Debug.Log("DIED CMD");
         DieEvent.Invoke();
         RpcInvokeDieEvent();
     }
@@ -43,7 +48,7 @@ public class PlayerHealth : NetworkBehaviour
     [ClientRpc]
     private void RpcInvokeDieEvent()
     {
-        if(netIdentity.isServer) return;
+        Debug.Log("DIED RPC");
         DieEvent.Invoke();
     }
 }

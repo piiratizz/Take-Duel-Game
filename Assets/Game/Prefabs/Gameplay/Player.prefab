@@ -1450,6 +1450,7 @@ GameObject:
   - component: {fileID: -8589917087548236913}
   - component: {fileID: -7532486505871682326}
   - component: {fileID: 8430932180681690170}
+  - component: {fileID: 7801416888569266822}
   - component: {fileID: 6110498922253490546}
   - component: {fileID: 2802320747698400428}
   - component: {fileID: -266017195029981051}
@@ -1519,19 +1520,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _playerUIRoot: {fileID: 5503345823136321441}
-  _playerConfig: {fileID: 11400000, guid: aa7f1344a3d143e4dac591794fb3613c, type: 2}
-  _characterIKController: {fileID: 3183177975716142467}
-  _cameraObject: {fileID: 8116880176386363389}
-  _playerCameraRoot: {fileID: 6257388702095796013}
-  _playerWeaponInteractor: {fileID: -2091899660779551775}
-  _playerHealth: {fileID: -8589917087548236913}
-  _playerMovement: {fileID: 8176652639700307497}
-  _damagePerformer: {fileID: -1350270218269840049}
-  _playerCameraMovement: {fileID: 7562961550994826931}
-  _playerAnimator: {fileID: -7532486505871682326}
-  _playerModelChanger: {fileID: 8430932180681690170}
-  _playerCameraRecoil: {fileID: 6714336982092119858}
+  _playerInstaller: {fileID: 7801416888569266822}
 --- !u!114 &8176652639700307497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1656,6 +1645,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _globalModel: {fileID: 7427397488453487315}
   _localModel: {fileID: 4696135121643408011}
+--- !u!114 &7801416888569266822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062155258246752917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89eb0e586dd8446ba484480f1b1a2ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerRoot: {fileID: 1414923868960213563}
+  _playerUIRoot: {fileID: 5503345823136321441}
+  _playerConfig: {fileID: 11400000, guid: aa7f1344a3d143e4dac591794fb3613c, type: 2}
+  _characterIKController: {fileID: 3183177975716142467}
+  _cameraObject: {fileID: 8116880176386363389}
+  _playerCameraRoot: {fileID: 6257388702095796013}
+  _playerWeaponInteractor: {fileID: -2091899660779551775}
+  _playerHealth: {fileID: -8589917087548236913}
+  _playerMovement: {fileID: 8176652639700307497}
+  _damagePerformer: {fileID: -1350270218269840049}
+  _playerCameraMovement: {fileID: 7562961550994826931}
+  _playerAnimator: {fileID: -7532486505871682326}
+  _playerModelChanger: {fileID: 8430932180681690170}
+  _playerCameraRecoil: {fileID: 6714336982092119858}
 --- !u!114 &6110498922253490546
 MonoBehaviour:
   m_ObjectHideFlags: 0

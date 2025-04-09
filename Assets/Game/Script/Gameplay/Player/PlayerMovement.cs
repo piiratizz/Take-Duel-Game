@@ -1,12 +1,16 @@
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : NetworkBehaviour
 {
     [SerializeField] private Transform _groundCheckPosition;
     [SerializeField] private LayerMask _groundCheckLayers;
+
+    [Inject] private PlayerConfig _config;
+    [Inject] private PlayerAnimator _playerAnimator;
     
     private float _maxSpeed;
     private float _speedModifier;
@@ -14,7 +18,7 @@ public class PlayerMovement : NetworkBehaviour
     
     private InputSystem_Actions _playerInput;
     private CharacterController _characterController;
-    private PlayerAnimator _playerAnimator;
+    
     private const float Gravity = 9.81f;
     private bool _initialized = false;
     private Vector3 _velocity;
@@ -22,13 +26,13 @@ public class PlayerMovement : NetworkBehaviour
     private float MinVelocityY = -10f;
     private float MaxVelocityY = 10f;
     
-    public void Initialize(PlayerConfig config, PlayerAnimator animator)
+    public void Initialize()
     {
         if (!isLocalPlayer) return;
         
-        _maxSpeed = config.MovementSpeed;
-        _speedModifier = config.MovementSpeedChangingModifier;
-        _jumpHeight = config.JumpHeight;
+        _maxSpeed = _config.MovementSpeed;
+        _speedModifier = _config.MovementSpeedChangingModifier;
+        _jumpHeight = _config.JumpHeight;
         
         _playerInput = new InputSystem_Actions();
         _playerInput.Player.Move.Enable();
@@ -36,7 +40,6 @@ public class PlayerMovement : NetworkBehaviour
         _playerInput.Player.Jump.performed += TryJump;
         _playerInput.Player.Jump.Enable();
         
-        _playerAnimator = animator;
         _characterController = GetComponent<CharacterController>();
         _initialized = true;
     }
