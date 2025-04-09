@@ -4,10 +4,7 @@ using Zenject;
 
 public class PlayerRoot : NetworkBehaviour
 {
-    [SerializeField] private PlayerInstaller _playerInstaller;
-    
     [Inject] private PlayerUIRoot _playerUIRoot;
-    [Inject] private PlayerConfig _playerConfig;
     [Inject] private CharacterIKController _characterIKController;
     [Inject] private Camera _cameraObject;
     [Inject] private PlayerCameraRoot _playerCameraRoot;
@@ -16,9 +13,7 @@ public class PlayerRoot : NetworkBehaviour
     [Inject] private PlayerMovement _playerMovement;
     [Inject] private PlayerDamagePerformer _damagePerformer;
     [Inject] private PlayerCameraMovement _playerCameraMovement;
-    [Inject] private PlayerAnimator _playerAnimator;
     [Inject] private PlayerModelChanger _playerModelChanger;
-    [Inject] private PlayerCameraRecoil _playerCameraRecoil;
     
     private GameplayUIRoot _gameplayUI;
     

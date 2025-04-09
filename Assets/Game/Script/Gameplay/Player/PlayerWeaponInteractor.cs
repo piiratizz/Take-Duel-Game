@@ -10,16 +10,16 @@ using Zenject;
 public class PlayerWeaponInteractor : NetworkBehaviour
 {
     [SerializeField] private List<WeaponViewBase> _weaponList;
-    [SerializeField] private CharacterIKController _ikController;
-    [SerializeField] private PlayerAnimator _playerAnimator;
-
+    
+    [Inject] private CharacterIKController _ikController;
+    [Inject] private PlayerAnimator _playerAnimator;
+    
     [SyncVar] private int _activeWeaponIndex;
     
     private InputSystem_Actions _inputSystem;
     private List<InputAction> _weaponSlots;
     private bool _aimingState = false;
     private List<WeaponController> _weaponControllers;
-    [Inject] private PlayerCameraRecoil _playerCameraRecoil;
     
     public void Initialize()
     {
@@ -27,7 +27,7 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         foreach (var weapon in _weaponList)
         {
             var controller = weapon.GetComponent<WeaponController>();
-            controller.Initialize(_playerCameraRecoil, _playerAnimator);
+            controller.Initialize();
             _weaponControllers.Add(controller);
         }
         

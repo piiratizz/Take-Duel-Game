@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Zenject;
 
 [SelectionBase]
 public abstract class WeaponViewBase : NetworkBehaviour
@@ -13,10 +14,11 @@ public abstract class WeaponViewBase : NetworkBehaviour
     [SerializeField] private Transform _rightHandIKPosition;
     [SerializeField] private AnimatorOverrideController _weaponHolderOverrideController;
     
+    [Inject] private PlayerCameraRecoil _cameraRecoil;
+    [Inject] private PlayerAnimator _playerAnimator;
+    
     private WeaponConfigBase _weaponConfigBase;
-    private PlayerCameraRecoil _cameraRecoil;
     private AudioSource _audioSource;
-    private PlayerAnimator _playerAnimator;
     private GameObject _playerImpactEffect;
     
     public AnimatorOverrideController AnimatorOverrideController => _weaponHolderOverrideController;
@@ -27,11 +29,9 @@ public abstract class WeaponViewBase : NetworkBehaviour
     protected Animator WeaponAnimator => _weaponAnimator;
     protected PlayerAnimator PlayerAnimator => _playerAnimator;
 
-    public void Initialize(WeaponConfigBase weaponConfigBase, PlayerCameraRecoil cameraRecoil, PlayerAnimator playerAnimator)
+    public void Initialize(WeaponConfigBase weaponConfigBase)
     {
-        _cameraRecoil = cameraRecoil;
         _weaponConfigBase = weaponConfigBase;
-        _playerAnimator = playerAnimator;
 
         if (weaponConfigBase.PlayerHitEffect != null)
         {

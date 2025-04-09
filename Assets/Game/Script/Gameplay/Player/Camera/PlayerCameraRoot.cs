@@ -8,7 +8,7 @@ public class PlayerCameraRoot : MonoBehaviour
     [SerializeField] private Camera _camera;
     
     public static Camera Camera { get; private set; }
-    public static Transform RaycastPosition { get; set; }
+    public Transform RaycastPosition { get; set; }
     
     public Transform BodyAimTarget => _bodyAimTarget;
     

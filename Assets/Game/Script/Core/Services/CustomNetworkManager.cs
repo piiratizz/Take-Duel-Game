@@ -11,10 +11,17 @@ public class CustomNetworkManager : NetworkManager
     [Inject] private DiContainer _container;
 
     private GameObject _lastSpawnedPlayer;
-    
+
+
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         _spawnPoints = FindObjectsByType<NetworkStartPosition>(FindObjectsSortMode.None);
+        
         NetworkStartPosition startPos = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
         
         GameObject player = Instantiate(

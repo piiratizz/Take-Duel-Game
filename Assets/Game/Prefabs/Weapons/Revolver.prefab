@@ -81,7 +81,6 @@ MonoBehaviour:
   _muzzle: {fileID: 7000509253342161228}
   _weaponRecoilConfig: {fileID: 11400000, guid: 90003a872b2ac2b438cb68f7fb77edc6, type: 2}
   _shotSound: {fileID: 8300000, guid: 19b13a5c71bc67445b42b08714cf2603, type: 3}
-  _playerImpactEffect: {fileID: 166404, guid: afbf34b8c15833f4381b789805df1ca6, type: 3}
   _leftHandIKPosition: {fileID: 4381302341115323826}
   _rightHandIKPosition: {fileID: 6845874370288681453}
   _weaponHolderOverrideController: {fileID: 22100000, guid: bd7e65c9886eff84ab5e0b02c14e6e25, type: 2}
@@ -101,9 +100,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _config: {fileID: 11400000, guid: 6c3abdf42523ca14980b3988062e5f20, type: 2}
-  _handsIKConfig: {fileID: 11400000, guid: 47bec2c957e785a458f58d5d71b0564b, type: 2}
   _weaponType: 0
   _isSlideRequired: 0
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 65
 --- !u!114 &-3275393924093193678
 MonoBehaviour:
   m_ObjectHideFlags: 0

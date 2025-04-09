@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Mirror;
+using UnityEngine;
 using Zenject;
 
 public class PlayerInstaller : MonoInstaller
@@ -17,7 +18,8 @@ public class PlayerInstaller : MonoInstaller
     [SerializeField] private PlayerAnimator _playerAnimator;
     [SerializeField] private PlayerModelChanger _playerModelChanger;
     [SerializeField] private PlayerCameraRecoil _playerCameraRecoil;
-
+    [SerializeField] private LagCompensator _lagCompensator;
+    
     private DiContainer _container;
     
     private bool _installed = false;
@@ -48,25 +50,13 @@ public class PlayerInstaller : MonoInstaller
         _container.Bind<PlayerAnimator>().FromInstance(_playerAnimator).AsSingle();
         _container.Bind<PlayerModelChanger>().FromInstance(_playerModelChanger).AsSingle();
         _container.Bind<PlayerCameraRecoil>().FromInstance(_playerCameraRecoil).AsSingle();
+        _container.Bind<LagCompensator>().FromInstance(_lagCompensator).AsSingle();
 
         Debug.Log("PLAYER INSTALLED");
     }
 
     private void InjectAll()
     {
-        _container.Inject(_playerRoot);
-        _container.Inject(_playerUIRoot);
-        _container.Inject(_playerConfig);
-        _container.Inject(_characterIKController);
-        _container.Inject(_cameraObject);
-        _container.Inject(_playerCameraRoot);
-        _container.Inject(_playerWeaponInteractor);
-        _container.Inject(_playerHealth);
-        _container.Inject(_playerMovement);
-        _container.Inject(_damagePerformer);
-        _container.Inject(_playerCameraMovement);
-        _container.Inject(_playerAnimator);
-        _container.Inject(_playerModelChanger);
-        _container.Inject(_playerCameraRecoil);
+        _container.InjectGameObject(_playerRoot.gameObject);
     }
 }

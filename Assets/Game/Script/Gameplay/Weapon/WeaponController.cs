@@ -3,14 +3,18 @@ using Cysharp.Threading.Tasks;
 using Mirror;
 using R3;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(WeaponViewBase))]
 public class WeaponController : NetworkBehaviour
 {
     [SerializeField] private WeaponConfigBase _config;
-    [SerializeField] private HandsIKConfig _handsIKConfig;
     [SerializeField] private WeaponType _weaponType;
     [SerializeField] private bool _isSlideRequired;
+    [SerializeField] private LayerMask _layerMask;
+
+    [Inject] private PlayerCameraRoot _playerCameraRoot;
+    [Inject] private LagCompensator _compensator;
     
     private WeaponViewBase _view;
     private WeaponModelBase _model;
@@ -25,12 +29,12 @@ public class WeaponController : NetworkBehaviour
     private WeaponRaycaster _raycaster;
     private float _elapsedTimeAfterShot;
     
-    public void Initialize(PlayerCameraRecoil cameraRecoil, PlayerAnimator playerAnimator)
+    public void Initialize()
     {
-        _raycaster = new WeaponRaycaster(PlayerCameraRoot.RaycastPosition);
+        _raycaster = new WeaponRaycaster(_playerCameraRoot.RaycastPosition);
         
         _view = GetComponent<WeaponViewBase>();
-        _view.Initialize(_config, cameraRecoil, playerAnimator);
+        _view.Initialize(_config);
 
 
         switch (_weaponType)
@@ -74,26 +78,54 @@ public class WeaponController : NetworkBehaviour
         _model.Reload();
     }
 
+    [Client]
     public void Shoot()
     {
-        ClientShoot();
-        CmdShoot();
+        PerformClientShootView();
+
+        if(_raycaster.TryHitForward(out IHitPerformer hitObject))
+            CmdShoot(_playerCameraRoot.RaycastPosition.position, _raycaster.HitInfo.point);
+        else
+            CmdShoot(_playerCameraRoot.RaycastPosition.position, Vector3.zero);
     }
     
     [Command]
-    private void CmdShoot()
+    private void CmdShoot(Vector3 origin, Vector3 target)
     {
         if (!IsCanShoot()) return;
-
+        
         _elapsedTimeAfterShot = 0;
         _model.TakeShot();
         LateRpcShoot();
+
+        if (target == Vector3.zero) return;
         
-        var raycastResult = _raycaster.TryHitForward(out IHitPerformer hitObject);
-        var hitInfo = _raycaster.HitInfo;
-        if(!raycastResult) return;
-        hitObject?.PerformHit(new HitContext(_model.PlayerDamage, hitObject.GetNetworkIdentity()));
-        _view.ShowPlayerImpactEffect(hitInfo);
+        var lagCompensationResult =
+            _compensator.RaycastCheck
+            (
+                this.connectionToClient,
+                origin,
+                target,
+                10,
+                _layerMask,
+                out var hit
+            );
+        
+        //DEBUG
+        _gizmosDebugSpherePosition = target;
+        _gizmosDebugRayOriginPosition = origin;
+        _gizmosDebugRayTargetPosition = target;
+        //
+        
+        Debug.Log(lagCompensationResult);
+        if(lagCompensationResult)
+            Debug.Log(hit.collider.gameObject.name);
+        
+        if(!lagCompensationResult) return;
+
+        hit.collider.TryGetComponent<IHitPerformer>(out var performer);
+        
+        performer?.PerformHit(new HitContext(_model.PlayerDamage, performer.GetNetworkIdentity()));
     }
     
     [ClientRpc]
@@ -109,7 +141,8 @@ public class WeaponController : NetworkBehaviour
             _model.TakeShot();
     }
     
-    private void ClientShoot()
+    [Client]
+    private void PerformClientShootView()
     {
         if (!IsCanShoot()) return;
         
@@ -159,5 +192,15 @@ public class WeaponController : NetworkBehaviour
     private bool IsCanShoot()
     {
         return _model.ClipAmmoCount > 0 && _elapsedTimeAfterShot >= 60f / _config.FireRate;
+    }
+
+
+    private Vector3 _gizmosDebugSpherePosition;
+    private Vector3 _gizmosDebugRayOriginPosition;
+    private Vector3 _gizmosDebugRayTargetPosition;
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(_gizmosDebugSpherePosition, 0.1f);
+        Gizmos.DrawLine(_gizmosDebugRayOriginPosition, _gizmosDebugRayTargetPosition);
     }
 }
