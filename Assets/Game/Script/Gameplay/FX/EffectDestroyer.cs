@@ -9,15 +9,20 @@ public class EffectDestroyer : NetworkBehaviour
 
     private async void Start()
     {
-        if (isServer)
-        {
-            await DestroyAfterDelay();
-        }
+        await DestroyAfterDelay();
     }
 
     private async UniTask DestroyAfterDelay()
     {
         await UniTask.WaitForSeconds(_timeToDestroy);
-        NetworkServer.Destroy(gameObject);
+        if (isServer)
+        {
+            NetworkServer.Destroy(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
     }
 }

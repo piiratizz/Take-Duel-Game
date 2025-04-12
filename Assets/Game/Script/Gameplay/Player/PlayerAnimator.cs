@@ -29,16 +29,16 @@ public class PlayerAnimator : NetworkBehaviour
 
     private async UniTask RestoreJumpStateAfterDelay()
     {
-        await UniTask.WaitForEndOfFrame();
-        await UniTask.WaitForEndOfFrame();
-        await UniTask.WaitForEndOfFrame();
+        await UniTask.Yield();
+        await UniTask.Yield();
+        await UniTask.Yield();
         
         _characterAnimator.SetBool(Jump, false);
     }
 
     public void PlayAimAnimation()
     {
-        _weaponHolderAnimator.SetBool(Aiming, true);
+       _weaponHolderAnimator.SetBool(Aiming, true);
     }
     
     public void PlayDeAimAnimation()
