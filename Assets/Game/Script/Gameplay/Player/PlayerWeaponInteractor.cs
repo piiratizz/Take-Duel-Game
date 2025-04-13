@@ -11,6 +11,7 @@ public class PlayerWeaponInteractor : NetworkBehaviour
 {
     [SerializeField] private List<WeaponViewBase> _weaponList;
     
+    [Inject] private WeaponHolderEventsHandler _weaponHolderEventsHandler;
     [Inject] private CharacterIKController _ikController;
     [Inject] private PlayerAnimator _playerAnimator;
     
@@ -31,16 +32,15 @@ public class PlayerWeaponInteractor : NetworkBehaviour
             _weaponControllers.Add(controller);
         }
         
-        if (!isLocalPlayer) return;
-
         AttachWeapon(0);
         
+        if (!isLocalPlayer) return;
         
         _inputSystem = new InputSystem_Actions();
         _inputSystem.Player.Attack.performed += Shoot;
         _inputSystem.Player.Zoom.performed += ChangeAimingState;
         _inputSystem.Player.PullSlide.performed += PullSlide;
-        _inputSystem.Player.Reload.performed += CmdReload;
+        _inputSystem.Player.Reload.performed += Reload;
         _inputSystem.Player.PullSlide.performed += PullSlide;
 
         _weaponSlots = new List<InputAction>()
@@ -56,11 +56,6 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         }
 
         _inputSystem.Enable();
-    }
-    
-    private void CmdReload(InputAction.CallbackContext obj)
-    {
-        _weaponControllers[_activeWeaponIndex].CmdReload();
     }
     
     private void SelectSlot(InputAction.CallbackContext obj)
@@ -89,6 +84,11 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         _weaponControllers[_activeWeaponIndex].Shoot();
     }
     
+    private void Reload(InputAction.CallbackContext obj)
+    {
+        _weaponControllers[_activeWeaponIndex].Reload();
+    }
+    
     private void ChangeAimingState(InputAction.CallbackContext obj)
     {
         _aimingState = !_aimingState;
@@ -106,7 +106,13 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     private void AttachWeapon(int weaponIndex)
     {
         _weaponControllers[_activeWeaponIndex].UnsubscribeUI();
+        _weaponHolderEventsHandler.ReloadStartedEvent.RemoveListener(_weaponControllers[_activeWeaponIndex].OnReloadStarted);
+        _weaponHolderEventsHandler.ReloadCompleteEvent.RemoveListener(_weaponControllers[_activeWeaponIndex].OnReloadComplete);
+        
         _weaponControllers[weaponIndex].SubscribeUI();
+        _weaponHolderEventsHandler.ReloadStartedEvent.AddListener(_weaponControllers[weaponIndex].OnReloadStarted);
+        _weaponHolderEventsHandler.ReloadCompleteEvent.AddListener(_weaponControllers[weaponIndex].OnReloadComplete);
+    
         CmdAttachWeapon(weaponIndex);
     }
     

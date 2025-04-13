@@ -41,4 +41,6 @@ public abstract class WeaponModelBase
         _totalAmmo.Value -= ammoToClip;
     }
 
+    public bool IsNeedReload() => ClipAmmoCount < ClipSize && TotalAmmoCount > 0;
+
 }

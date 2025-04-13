@@ -25,6 +25,7 @@ public class WeaponController : NetworkBehaviour
 
     private bool _initialized;
     private bool _slided;
+    [SyncVar] private bool _reloaded = true;
     
     private WeaponRaycaster _raycaster;
     private float _elapsedTimeAfterShot;
@@ -64,8 +65,16 @@ public class WeaponController : NetworkBehaviour
         _elapsedTimeAfterShot += Time.deltaTime;
     }
 
+    [Client]
+    public void Reload()
+    {
+        if(!_model.IsNeedReload()) return;
+        
+        CmdReload();
+    }
+    
     [Command]
-    public void CmdReload()
+    private void CmdReload()
     {
         _model.Reload();
         RpcReload();
@@ -74,6 +83,7 @@ public class WeaponController : NetworkBehaviour
     [ClientRpc]
     private void RpcReload()
     {
+        _view.PlayReloadAnimation();
         if(isServer) return;
         _model.Reload();
     }
@@ -189,9 +199,12 @@ public class WeaponController : NetworkBehaviour
         _totalAmmoFieldSubscription?.Dispose();
     }
 
+    public void OnReloadComplete() => _reloaded = true;
+    public void OnReloadStarted() => _reloaded = false;
+    
     private bool IsCanShoot()
     {
-        return _model.ClipAmmoCount > 0 && _elapsedTimeAfterShot >= 60f / _config.FireRate;
+        return _model.ClipAmmoCount > 0 && _elapsedTimeAfterShot >= 60f / _config.FireRate && _reloaded;
     }
 
 

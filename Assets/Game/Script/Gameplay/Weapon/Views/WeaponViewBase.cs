@@ -41,7 +41,7 @@ public abstract class WeaponViewBase : NetworkBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    public virtual void ShowMuzzleFlashEffect() {}
+    public virtual void ShowMuzzleFlashEffect() { }
     
     public abstract void ShowEnvironmentImpactEffect(RaycastHit hit);
 
@@ -50,8 +50,12 @@ public abstract class WeaponViewBase : NetworkBehaviour
         ServerSpawner.InstantiateObject(_playerImpactEffect, hit.point, Quaternion.identity);
     }
     
-    public abstract void PlayShootAnimation();
-    public abstract void PlayReloadAnimation();
+    public virtual void PlayShootAnimation() { }
+
+    public virtual void PlayReloadAnimation()
+    {
+        _playerAnimator.PlayReloadAnimation();
+    }
 
     public virtual void PerformRecoil()
     {

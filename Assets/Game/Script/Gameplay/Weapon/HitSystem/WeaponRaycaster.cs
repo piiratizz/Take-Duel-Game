@@ -19,7 +19,6 @@ public class WeaponRaycaster
         if (!Physics.Raycast(ray: ray, out var hit)) return false;
         HitInfo = hit;
         hit.collider.TryGetComponent(out hitPermormer);
-        Debug.Log("Hitted object " + hit.collider.gameObject.name);
         return true;
     }
 }

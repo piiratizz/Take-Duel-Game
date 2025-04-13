@@ -844,7 +844,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8989017671074289723}
-  - component: {fileID: 475200321611666119}
+  - component: {fileID: 3671506712444005728}
   m_Layer: 6
   m_Name: LeftHandTarget
   m_TagString: Untagged
@@ -867,7 +867,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3429694498181161264}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &475200321611666119
+--- !u!114 &3671506712444005728
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1451,10 +1451,10 @@ GameObject:
   - component: {fileID: -7532486505871682326}
   - component: {fileID: 8430932180681690170}
   - component: {fileID: 7801416888569266822}
-  - component: {fileID: 6110498922253490546}
   - component: {fileID: 2802320747698400428}
   - component: {fileID: -266017195029981051}
   - component: {fileID: 478623868091670429}
+  - component: {fileID: 6110498922253490546}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1670,23 +1670,7 @@ MonoBehaviour:
   _playerModelChanger: {fileID: 8430932180681690170}
   _playerCameraRecoil: {fileID: 6714336982092119858}
   _lagCompensator: {fileID: 478623868091670429}
---- !u!114 &6110498922253490546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2062155258246752917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 1697454099
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
+  _weaponHolderEventsHandler: {fileID: 1740059186292186730}
 --- !u!114 &2802320747698400428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1758,6 +1742,23 @@ MonoBehaviour:
     historyLimit: 6
     captureInterval: 0.1
   historyColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &6110498922253490546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062155258246752917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1697454099
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &2077216803340862011
 GameObject:
   m_ObjectHideFlags: 0
@@ -5301,6 +5302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6062704590544650731}
   - component: {fileID: 4971999825697016907}
+  - component: {fileID: 1740059186292186730}
   m_Layer: 6
   m_Name: WeaponHolder
   m_TagString: Untagged
@@ -5346,6 +5348,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1740059186292186730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5582271701789218731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d99c7520a994dd7ade4f5d5f5fed619, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5615193668661115324
 GameObject:
   m_ObjectHideFlags: 0
@@ -5598,7 +5612,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7119704424092038860}
-  - component: {fileID: 914458106161072211}
+  - component: {fileID: 6348415448273372510}
   m_Layer: 6
   m_Name: RightHandTarget
   m_TagString: Untagged
@@ -5621,7 +5635,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5488932569325426793}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &914458106161072211
+--- !u!114 &6348415448273372510
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
