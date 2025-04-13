@@ -24,26 +24,12 @@ public class PlayerRoot : NetworkBehaviour
         _playerMovement.Initialize();
         _playerHealth.Initialize();
         _playerUIRoot.Initialize();
+        _damagePerformer.Initialize();
         
         AttachCameraToLocalPlayer();
         _playerWeaponInteractor.Initialize();
         
-        _damagePerformer.HitEvent.AddListener(ctx =>
-        {
-            Debug.Log("APPLYING DAMAGE");
-            ShowEffectOnTargetPlayer(ctx.Target.connectionToClient);
-            _playerHealth.TakeDamage(ctx.BulletDamage);
-            _playerUIRoot.RpcUpdateHealth(_playerHealth.Value);
-        });
         
-        _playerHealth.DieEvent.AddListener(() =>
-        {
-            Debug.Log($"DIED {netId}");
-            transform.position = new Vector3(0,1,0);
-            _playerHealth.Reset();
-            _playerUIRoot.CmdUpdateHealth(_playerHealth.Value);
-        });
-
         if (isLocalPlayer)
         {
             _playerModelChanger.SetLocalModel();
@@ -66,9 +52,5 @@ public class PlayerRoot : NetworkBehaviour
     }
 
     //Time solution
-    [TargetRpc]
-    private void ShowEffectOnTargetPlayer(NetworkConnection target)
-    {
-        _gameplayUI.ScreenHitEffect.PlayEffectAnimation();
-    }
+
 }

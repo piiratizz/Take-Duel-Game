@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31269cfb39784a5b88fc381619965e2e, type: 3}
   m_Name: ShotgunConfig
   m_EditorClassIdentifier: 
-  ClipAmmo: 5
+  ClipAmmo: 2
   TotalAmmo: 50
-  FireRate: 60
+  FireRate: 300
   MuzzleFlash: {fileID: 4914121807760042695, guid: c17c701ee531fd245b9f9c85700a3759, type: 3}
   PlayerHitEffect: {fileID: 19808544, guid: afbf34b8c15833f4381b789805df1ca6, type: 3}
   EnvironmentHitEffect: {fileID: 0}

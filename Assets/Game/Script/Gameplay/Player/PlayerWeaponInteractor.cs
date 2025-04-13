@@ -105,6 +105,8 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     
     private void AttachWeapon(int weaponIndex)
     {
+        if(!_weaponControllers[_activeWeaponIndex].Reloaded) return;
+        
         _weaponControllers[_activeWeaponIndex].UnsubscribeUI();
         _weaponHolderEventsHandler.ReloadStartedEvent.RemoveListener(_weaponControllers[_activeWeaponIndex].OnReloadStarted);
         _weaponHolderEventsHandler.ReloadCompleteEvent.RemoveListener(_weaponControllers[_activeWeaponIndex].OnReloadComplete);

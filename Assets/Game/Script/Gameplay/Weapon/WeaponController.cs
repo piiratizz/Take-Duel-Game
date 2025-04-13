@@ -29,6 +29,8 @@ public class WeaponController : NetworkBehaviour
     
     private WeaponRaycaster _raycaster;
     private float _elapsedTimeAfterShot;
+
+    public bool Reloaded => _reloaded;
     
     public void Initialize()
     {
