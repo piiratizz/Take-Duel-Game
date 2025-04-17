@@ -29,7 +29,7 @@ public class PlayerCameraRecoil : MonoBehaviour
         PlayAnimation(config, endPoint);
     }
 
-    private async UniTask PlayAnimation(WeaponRecoilConfig config, Quaternion endPoint)
+    private async void PlayAnimation(WeaponRecoilConfig config, Quaternion endPoint)
     {
         float currentTime = config.MoveToNextRecoilPointTime;
         while (currentTime > 0)

@@ -36,14 +36,7 @@ public class PlayerHealth : NetworkBehaviour
     {
         _currentHealth = _startHealth;
     }
-
-    [Command]
-    private void CmdInvokeDieEvent()
-    {
-        Debug.Log("DIED CMD");
-        DieEvent.Invoke();
-        RpcInvokeDieEvent();
-    }
+    
     
     [ClientRpc]
     private void RpcInvokeDieEvent()

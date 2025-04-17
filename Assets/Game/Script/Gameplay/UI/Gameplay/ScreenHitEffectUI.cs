@@ -26,7 +26,7 @@ public class ScreenHitEffectUI : MonoBehaviour
         ShowEffectAsync();
     }
 
-    private async UniTask ShowEffectAsync()
+    private async void ShowEffectAsync()
     {
         Debug.Log("STARTING ANIMATION");
         _screenEffect.gameObject.SetActive(true);

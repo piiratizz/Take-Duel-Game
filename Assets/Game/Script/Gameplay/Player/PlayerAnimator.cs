@@ -28,7 +28,7 @@ public class PlayerAnimator : NetworkBehaviour
         RestoreJumpStateAfterDelay();
     }
 
-    private async UniTask RestoreJumpStateAfterDelay()
+    private async void RestoreJumpStateAfterDelay()
     {
         await UniTask.Yield();
         await UniTask.Yield();

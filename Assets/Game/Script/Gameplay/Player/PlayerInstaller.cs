@@ -20,6 +20,8 @@ public class PlayerInstaller : MonoInstaller
     [SerializeField] private PlayerCameraRecoil _playerCameraRecoil;
     [SerializeField] private LagCompensator _lagCompensator;
     [SerializeField] private WeaponHolderEventsHandler _weaponHolderEventsHandler;
+    [SerializeField] private PlayerStateMachine _playerStateMachine;
+    [SerializeField] private PlayerRagdollController _playerRagdollController;
     
     private DiContainer _container;
     
@@ -38,6 +40,7 @@ public class PlayerInstaller : MonoInstaller
     public override void InstallBindings()
     {
         Debug.Log(_container);
+        _container.Bind<PlayerRoot>().FromInstance(_playerRoot).AsSingle();
         _container.Bind<PlayerUIRoot>().FromInstance(_playerUIRoot).AsSingle();
         _container.Bind<PlayerConfig>().FromInstance(_playerConfig).AsSingle();
         _container.Bind<CharacterIKController>().FromInstance(_characterIKController).AsSingle();
@@ -53,6 +56,9 @@ public class PlayerInstaller : MonoInstaller
         _container.Bind<PlayerCameraRecoil>().FromInstance(_playerCameraRecoil).AsSingle();
         _container.Bind<LagCompensator>().FromInstance(_lagCompensator).AsSingle();
         _container.Bind<WeaponHolderEventsHandler>().FromInstance(_weaponHolderEventsHandler).AsSingle();
+        _container.Bind<PlayerStateMachine>().FromInstance(_playerStateMachine).AsSingle();
+        _container.Bind<PlayerRagdollController>().FromInstance(_playerRagdollController).AsSingle();
+        
 
         Debug.Log("PLAYER INSTALLED");
     }

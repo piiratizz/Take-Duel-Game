@@ -14,17 +14,17 @@ public class PlayerRoot : NetworkBehaviour
     [Inject] private PlayerDamagePerformer _damagePerformer;
     [Inject] private PlayerCameraMovement _playerCameraMovement;
     [Inject] private PlayerModelChanger _playerModelChanger;
+    [Inject] private PlayerStateMachine _stateMachine;
     
-    private GameplayUIRoot _gameplayUI;
     
     private void Start()
     {
-        _gameplayUI = ContainerHolder.Resolve<GameplayUIRoot>();
         _playerCameraMovement.Initialize();
         _playerMovement.Initialize();
         _playerHealth.Initialize();
         _playerUIRoot.Initialize();
         _damagePerformer.Initialize();
+        _stateMachine.Initialize(States.Fight);
         
         AttachCameraToLocalPlayer();
         _playerWeaponInteractor.Initialize();

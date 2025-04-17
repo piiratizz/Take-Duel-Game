@@ -25,6 +25,8 @@ public class PlayerMovement : NetworkBehaviour
     
     private float MinVelocityY = -10f;
     private float MaxVelocityY = 10f;
+
+    private bool _blocked;
     
     public void Initialize()
     {
@@ -48,6 +50,8 @@ public class PlayerMovement : NetworkBehaviour
     {
         if(!_initialized) return;
         if (!isLocalPlayer) return;
+        if(_blocked) return;
+        
         var playerInputDirection = _playerInput.Player.Move.ReadValue<Vector2>();
         var direction = new Vector3(playerInputDirection.x, 0, playerInputDirection.y);
         
@@ -77,5 +81,15 @@ public class PlayerMovement : NetworkBehaviour
     private bool IsGrounded()
     {
         return Physics.CheckSphere(_groundCheckPosition.position, 0.1f, _groundCheckLayers);
+    }
+
+    public void BlockMovement()
+    {
+        _blocked = true;
+    }
+    
+    public void UnBlockMovement()
+    {
+        _blocked = false;
     }
 }
