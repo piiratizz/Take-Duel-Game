@@ -13,7 +13,7 @@ public class MainMenuButtonsHandler : MonoBehaviour
     [SerializeField] private Button _connectButton;
     [SerializeField] private Button _hostButton;
 
-    [Inject] private NetworkManager _networkManager;
+    [Inject] private CustomNetworkManager _networkManager;
     
     private void Start()
     {

@@ -39,7 +39,6 @@ public class PlayerInstaller : MonoInstaller
     
     public override void InstallBindings()
     {
-        Debug.Log(_container);
         _container.Bind<PlayerRoot>().FromInstance(_playerRoot).AsSingle();
         _container.Bind<PlayerUIRoot>().FromInstance(_playerUIRoot).AsSingle();
         _container.Bind<PlayerConfig>().FromInstance(_playerConfig).AsSingle();

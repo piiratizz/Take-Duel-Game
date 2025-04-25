@@ -4,13 +4,23 @@ using Zenject;
 
 public class GameplayInstaller : MonoInstaller
 {
-    [Inject] private NetworkManager _networkManager;
     [SerializeField] private GameplayUIRoot _gameplayUIPrefab;
+    [SerializeField] private ServerPlayersService _serverPlayersService;
+    [SerializeField] private GameStateService _gameStateService;
     
     public override void InstallBindings()
     {
         ContainerHolder.AttachContainer(Container);
-        var instance = CreateAndBindAsSelf(_gameplayUIPrefab);
+        CreateAndBindAsSelf(_gameplayUIPrefab);
+
+        Container.Bind<ServerPlayersService>().FromInstance(_serverPlayersService).AsSingle().NonLazy();
+        Container.Inject(_serverPlayersService);
+        _serverPlayersService.Initialize();
+        
+        Container.Bind<GameStateService>().FromInstance(_gameStateService).AsSingle().NonLazy();
+        Container.Inject(_gameStateService);
+        _gameStateService.Initialize();
+        
         Debug.Log("GAMEPLAY INITIALIZED");
     }
     

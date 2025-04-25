@@ -25,19 +25,33 @@ public class DeadState : State
         Debug.Log($"DIED {_playerRoot.netId}");
         _playerMovement.BlockMovement();
         _playerCameraMovement.BlockMovement();
-        //_playerHealth.Reset();
-        //_playerUIRoot.CmdUpdateHealth(_playerHealth.Value);
-        StateMachine.ClientRpcCall();
+        
+        //_playerRagdollController.ActivateRagdoll();
+        //StateMachine.ClientRpcCall();
     }
 
     public override void OnClientRPCCall()
     {
-        _playerRagdollController.ActivateRagdoll();
+        if (_playerRagdollController.IsRagdollActive)
+        {
+            _playerRagdollController.DeactivateRagdoll();
+        }
+        else
+        {
+            _playerRagdollController.ActivateRagdoll();
+        }
     }
-
+    
     public override void Exit()
     {
-
+        _playerMovement.UnBlockMovement();
+        _playerCameraMovement.UnBlockMovement();
+        
+        //_playerRagdollController.DeactivateRagdoll();
+        //StateMachine.ClientRpcCall();
+        
+        _playerHealth.Reset();
+        _playerUIRoot.CmdUpdateHealth(_playerHealth.Value);
     }
 
 

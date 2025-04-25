@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mirror;
+using UnityEngine;
 using Zenject;
 
 public class PlayerStateMachine : NetworkBehaviour
@@ -34,7 +35,16 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void SetState(States newState)
     {
-        _currentState?.Exit();
+        if (newState == null)
+        {
+            Debug.LogError("NULL REFERENCE ERROR");
+        }
+
+        if (_currentState != null)
+        {
+            _currentState?.Exit();
+        }
+        
         _currentState = _allState[newState];
         _currentState.Enter();
     }
@@ -45,8 +55,14 @@ public class PlayerStateMachine : NetworkBehaviour
         _currentState.OnCommandCall();
     }
     
-    [ClientRpc]
+    [Command]
     public void ClientRpcCall()
+    {
+        RpcCall();
+    }
+    
+    [ClientRpc]
+    private void RpcCall()
     {
         _currentState.OnClientRPCCall();
     }

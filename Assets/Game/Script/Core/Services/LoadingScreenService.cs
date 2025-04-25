@@ -4,7 +4,7 @@ using Zenject;
 public class LoadingScreenService
 {
     private GameObject _loadingScreen;
-
+    
     public void Initialize()
     {
         var prefab = Resources.Load("LoadingScreen");

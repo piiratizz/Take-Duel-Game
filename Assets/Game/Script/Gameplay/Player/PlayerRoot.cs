@@ -16,7 +16,6 @@ public class PlayerRoot : NetworkBehaviour
     [Inject] private PlayerModelChanger _playerModelChanger;
     [Inject] private PlayerStateMachine _stateMachine;
     
-    
     private void Start()
     {
         _playerCameraMovement.Initialize();
@@ -28,7 +27,6 @@ public class PlayerRoot : NetworkBehaviour
         
         AttachCameraToLocalPlayer();
         _playerWeaponInteractor.Initialize();
-        
         
         if (isLocalPlayer)
         {
@@ -51,6 +49,9 @@ public class PlayerRoot : NetworkBehaviour
         _cameraObject.gameObject.SetActive(true);
     }
 
-    //Time solution
+    public void SetState(States state)
+    {
+        _stateMachine.SetState(state);
+    }
 
 }

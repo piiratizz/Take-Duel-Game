@@ -1,7 +1,8 @@
+using Mirror;
 using UnityEngine;
 using Zenject;
 
-public class PlayerRagdollController : MonoBehaviour
+public class PlayerRagdollController : NetworkBehaviour
 {
     [SerializeField] private GameObject _defaultPlayerObject;
     [SerializeField] private GameObject _ragdollObject;
@@ -10,6 +11,8 @@ public class PlayerRagdollController : MonoBehaviour
     [SerializeField] private Transform _ragdollCameraMovementTarget;
     
     [Inject] private PlayerCameraMovement _playerCameraMovement;
+
+    public bool IsRagdollActive { get; private set; }
     
     public void ActivateRagdoll()
     {
@@ -17,6 +20,7 @@ public class PlayerRagdollController : MonoBehaviour
         _playerCameraMovement.EnableForceLookingOnTarget(_ragdollCameraMovementTarget);
         _defaultPlayerObject.gameObject.SetActive(false);
         _ragdollObject.gameObject.SetActive(true);
+        IsRagdollActive = true;
     }
 
     public void DeactivateRagdoll()
@@ -25,5 +29,6 @@ public class PlayerRagdollController : MonoBehaviour
         _playerCameraMovement.DisableForceLookingOnTarget();
         _defaultPlayerObject.gameObject.SetActive(true);
         _ragdollObject.gameObject.SetActive(false);
+        IsRagdollActive = false;
     }
 }

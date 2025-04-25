@@ -6,17 +6,18 @@ using Zenject;
 public class PlayerDamagePerformer : NetworkBehaviour, IDamageable
 {
     [HideInInspector] public UnityEvent<HitContext> HitEvent = new UnityEvent<HitContext>();
+    [Inject] private PlayerRoot _playerRoot;
     [Inject] private PlayerHealth _playerHealth;
     [Inject] private PlayerUIRoot _playerUIRoot;
     [Inject] private GameplayUIRoot _gameplayUI;
     [Inject] private PlayerStateMachine _playerStateMachine;
     
+    
+    [Inject] private GameStateService _gameStateService;
+    
     public void Initialize()
     {
-        _playerHealth.DieEvent.AddListener(() =>
-        {
-            _playerStateMachine.SetState(States.Dead);
-        });
+        _playerHealth.DieEvent.AddListener(OnDead);
     }
 
     [Server]
@@ -33,6 +34,11 @@ public class PlayerDamagePerformer : NetworkBehaviour, IDamageable
     private void ShowEffectOnTargetPlayer(NetworkConnection target)
     {
         _gameplayUI.ScreenHitEffect.PlayEffectAnimation();
+    }
+
+    private void OnDead()
+    {
+        _gameStateService.SendPlayerDead(netIdentity.connectionToClient, _playerRoot);
     }
 
     public NetworkIdentity GetNetworkIdentity()

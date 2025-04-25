@@ -6,7 +6,7 @@ using Zenject;
 
 public class GameInstaller : MonoInstaller
 {
-    [SerializeField] private NetworkManager _networkManager;
+    [SerializeField] private CustomNetworkManager _networkManager;
     
     public override async void InstallBindings()
     {
@@ -19,10 +19,9 @@ public class GameInstaller : MonoInstaller
         SceneService sceneService = new SceneService();
         Container.Bind<SceneService>().FromInstance(sceneService).AsSingle();
         
-        await UniTask.Yield(PlayerLoopTiming.Update);
+        await UniTask.Yield();
         Container.Inject(sceneService);
         loadingScreenService.Initialize();
-        
         await StartLoadingAsync(sceneService);
     }
     
