@@ -1,3 +1,4 @@
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using Mirror;
 using UnityEngine;
@@ -5,34 +6,56 @@ using Zenject;
 
 public class GameStateService : NetworkBehaviour
 {
+    [SerializeField] private bool _waitUntilTwoPlayersLoaded = true;
+    [SerializeField] private float _timeToStartRound = 5;
+    
     [Inject] private CustomNetworkManager _networkManager;
     [Inject] private ServerPlayersService _serverPlayersService;
     [Inject] private LoadingScreenService _loadingScreenService;
+    [Inject] private GameplayUIRoot _gameplayUI;
+    [Inject] private SpawnPointManager _spawnPointManager;
+    
+    private RoundTimerUI _roundTimer;
+    private LivesCountUI _playerLivesCounter;
     
     public async void Initialize()
     {
         await UniTask.Yield();
         _networkManager.PlayerSpawnedEvent.AddListener(OnPlayerSpawned);
+        _roundTimer = _gameplayUI.RoundTimer;
+        _playerLivesCounter = _gameplayUI.LivesCounter;
     }
 
     [Server]
     private async void OnPlayerSpawned(NetworkConnectionToClient conn)
     {
-        await UniTask.Yield();
-        await UniTask.Yield();
-        await UniTask.WaitForSeconds(2);
+        if(!_waitUntilTwoPlayersLoaded) return;
 
+        await UniTask.WaitForSeconds(0.5f);
+        RpcShowLoadingScreen();
         var players = FindObjectsByType<PlayerRoot>(FindObjectsSortMode.None);
-        if (players.Length == 2)
-        {
-            UnfreezePlayers(players);
-        }
-        else
-        {
-            FreezePlayers(players);
-        }
-    }
+        
+        FreezePlayers(players);
 
+        var lives = _serverPlayersService.LivesOfPlayer(conn);
+        UpdateLivesCountOnPlayer(conn, lives);
+        
+        if (players.Length != 2) return;
+        TeleportPlayersToStartPosition();
+        RpcHideLoadingScreen();
+        
+        RpcStartTimer();
+        await _roundTimer.StartTimerAsync(_timeToStartRound);
+        
+        UnfreezePlayers(players);
+        
+    }
+    
+    [TargetRpc]
+    private void UpdateLivesCountOnPlayer(NetworkConnection connectionOfPlayer, int lives)
+    {
+        _playerLivesCounter.UpdateText(lives);
+    }
     
     [Server]
     private void FreezePlayers(PlayerRoot[] players)
@@ -48,7 +71,6 @@ public class GameStateService : NetworkBehaviour
     [ClientRpc]
     private void RpcFreeze()
     {
-        _loadingScreenService.ShowLoadingScreen();
         Debug.Log("PLAYER FREEZED");
         var players = FindObjectsByType<PlayerRoot>(FindObjectsSortMode.None);
         foreach (var playerRoot in players)
@@ -60,7 +82,6 @@ public class GameStateService : NetworkBehaviour
     
     private void UnfreezePlayers(PlayerRoot[] players)
     {
-        _loadingScreenService.HideLoadingScreen();
         Debug.Log("PLAYER FREEZED");
         foreach (var playerRoot in players)
         {
@@ -76,7 +97,6 @@ public class GameStateService : NetworkBehaviour
         var players = FindObjectsByType<PlayerRoot>(FindObjectsSortMode.None);
         foreach (var playerRoot in players)
         {
-            Debug.Log(playerRoot);
             playerRoot.SetState(States.Fight);
         }
     }
@@ -92,17 +112,27 @@ public class GameStateService : NetworkBehaviour
             player.SetState(States.Dead);
         }
 
+        var players = FindObjectsByType<PlayerRoot>(FindObjectsSortMode.None);
+        FreezePlayers(players);
+        TeleportPlayersToStartPosition();
         RpcOnPlayerDead(player);
 
         _serverPlayersService.DecreaseLiveCount(conn);
+        
+        var lives = _serverPlayersService.LivesOfPlayer(conn);
+        UpdateLivesCountOnPlayer(conn, lives);
+        
+        
         if (_serverPlayersService.LivesOfPlayer(conn) <= 0)
         {
             Debug.Log(player.netId + " Lose the game");
         }
-
-        await UniTask.WaitForSeconds(3);
-
+        
+        RpcStartTimer();
+        await _roundTimer.StartTimerAsync(_timeToStartRound);
+        
         player.SetState(States.Fight);
+        UnfreezePlayers(players);
         RpcAfterPlayerDead(player);
 
         Debug.Log(_serverPlayersService.LivesOfPlayer(conn));
@@ -118,16 +148,39 @@ public class GameStateService : NetworkBehaviour
     private void RpcOnPlayerDead(PlayerRoot player)
     {
         player.SetState(States.Dead);
-        TeleportPlayersToStartPosition();
+    }
+
+    [ClientRpc]
+    private void RpcStartTimer()
+    {
+        _roundTimer.StartTimerAsync(_timeToStartRound);
     }
     
-
+    [Server]
     private void TeleportPlayersToStartPosition()
     {
-        var players = FindObjectsByType<PlayerRoot>(FindObjectsSortMode.None);
-        var points = FindObjectsByType<NetworkStartPosition>(FindObjectsSortMode.None);
+        var players = _serverPlayersService.PlayersConnections;
 
-        players[0].transform.position = points[0].transform.position;
-        players[1].transform.position = points[1].transform.position;
+        foreach (var player in players)
+        {
+            player.identity.GetComponent<PlayerRoot>().StopMove();
+        }
+        
+        var startPositions = _spawnPointManager.StartPosition;
+        players[0].identity.transform.position = startPositions[0].transform.position;
+        players[1].identity.transform.position = startPositions[1].transform.position;
     }
+
+    [ClientRpc]
+    private void RpcShowLoadingScreen()
+    {
+        _loadingScreenService.ShowLoadingScreen();
+    }
+    
+    [ClientRpc]
+    private void RpcHideLoadingScreen()
+    {
+        _loadingScreenService.HideLoadingScreen();
+    }
+    
 }

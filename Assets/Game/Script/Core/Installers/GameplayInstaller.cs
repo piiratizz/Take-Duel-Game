@@ -7,6 +7,7 @@ public class GameplayInstaller : MonoInstaller
     [SerializeField] private GameplayUIRoot _gameplayUIPrefab;
     [SerializeField] private ServerPlayersService _serverPlayersService;
     [SerializeField] private GameStateService _gameStateService;
+    [SerializeField] private SpawnPointManager _spawnPointManager;
     
     public override void InstallBindings()
     {
@@ -16,6 +17,8 @@ public class GameplayInstaller : MonoInstaller
         Container.Bind<ServerPlayersService>().FromInstance(_serverPlayersService).AsSingle().NonLazy();
         Container.Inject(_serverPlayersService);
         _serverPlayersService.Initialize();
+        
+        Container.Bind<SpawnPointManager>().FromInstance(_spawnPointManager).AsSingle();
         
         Container.Bind<GameStateService>().FromInstance(_gameStateService).AsSingle().NonLazy();
         Container.Inject(_gameStateService);

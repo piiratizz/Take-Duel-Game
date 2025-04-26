@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using R3;
 using UnityEngine;
@@ -13,7 +14,8 @@ public class ServerPlayersService : NetworkBehaviour
     //private Dictionary<NetworkConnectionToClient, int> _playersLives;
     private Dictionary<NetworkConnectionToClient, int> _playersLives;
     public int PlayerCount => _playersLives.Count;
-    public int LivesOfPlayer(NetworkConnectionToClient player) => _playersLives[player];
+    public List<NetworkConnectionToClient> PlayersConnections => _playersLives.Keys.ToList();
+    
     [HideInInspector] public UnityEvent<int> OnPlayerCountChanged;
     
     public void Initialize()
@@ -51,4 +53,6 @@ public class ServerPlayersService : NetworkBehaviour
         _playersLives[player] = _livesCountForEachPlayer;
     }
     
+    [Server]
+    public int LivesOfPlayer(NetworkConnectionToClient player) => _playersLives[player];
 }

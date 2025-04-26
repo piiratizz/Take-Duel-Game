@@ -22,6 +22,8 @@ public class GameInstaller : MonoInstaller
         await UniTask.Yield();
         Container.Inject(sceneService);
         loadingScreenService.Initialize();
+        await UniTask.Yield();
+
         await StartLoadingAsync(sceneService);
     }
     

@@ -15,6 +15,9 @@ public class PlayerRoot : NetworkBehaviour
     [Inject] private PlayerCameraMovement _playerCameraMovement;
     [Inject] private PlayerModelChanger _playerModelChanger;
     [Inject] private PlayerStateMachine _stateMachine;
+
+    public bool Initialized => _initialized;
+    private bool _initialized;
     
     private void Start()
     {
@@ -36,7 +39,8 @@ public class PlayerRoot : NetworkBehaviour
         {
             _playerModelChanger.SetGlobalModel();
         }
-        
+
+        _initialized = true;
     }
     
     private void AttachCameraToLocalPlayer()
@@ -52,6 +56,11 @@ public class PlayerRoot : NetworkBehaviour
     public void SetState(States state)
     {
         _stateMachine.SetState(state);
+    }
+
+    public void StopMove()
+    {
+        _playerMovement.StopPlayer();
     }
 
 }

@@ -35,16 +35,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void SetState(States newState)
     {
-        if (newState == null)
-        {
-            Debug.LogError("NULL REFERENCE ERROR");
-        }
-
-        if (_currentState != null)
-        {
-            _currentState?.Exit();
-        }
-        
+        _currentState?.Exit();
         _currentState = _allState[newState];
         _currentState.Enter();
     }

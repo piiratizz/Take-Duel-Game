@@ -1665,6 +1665,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 249835552}
+  - component: {fileID: 249835553}
   m_Layer: 0
   m_Name: SpawnPoints
   m_TagString: Untagged
@@ -1689,6 +1690,21 @@ Transform:
   - {fileID: 113448715}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &249835553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249835551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2744c3a0de8437baf74e0a8a25b6fbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startPoints:
+  - {fileID: 1519621037}
+  - {fileID: 113448716}
 --- !u!1001 &271839745
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1744,6 +1760,10 @@ PrefabInstance:
     - target: {fileID: 5253316696080883128, guid: 4889dd3a8bca2674ea5cb183d1dd17d0, type: 3}
       propertyPath: m_Name
       value: GameStateService
+      objectReference: {fileID: 0}
+    - target: {fileID: 7877429910857214603, guid: 4889dd3a8bca2674ea5cb183d1dd17d0, type: 3}
+      propertyPath: _waitUntilTwoPlayersLoaded
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13276,6 +13296,10 @@ PrefabInstance:
       propertyPath: _gameplayUIPrefab
       value: 
       objectReference: {fileID: 4078650288600680178, guid: 099ed5a124b9e5148b360b3cf2fe5eeb, type: 3}
+    - target: {fileID: 2397916418770680615, guid: 5201d575b6ac9fe43a554e8f7ba33af6, type: 3}
+      propertyPath: _spawnPointManager
+      value: 
+      objectReference: {fileID: 249835553}
     - target: {fileID: 2397916418770680615, guid: 5201d575b6ac9fe43a554e8f7ba33af6, type: 3}
       propertyPath: _serverPlayersService
       value: 
