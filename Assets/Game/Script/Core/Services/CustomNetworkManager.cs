@@ -39,6 +39,7 @@ public class CustomNetworkManager : NetworkManager
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
+        base.OnServerDisconnect(conn);
         Debug.Log($"Player disconnected: {conn.connectionId}");
         PlayerDisconnectedEvent.Invoke(conn);
     }
