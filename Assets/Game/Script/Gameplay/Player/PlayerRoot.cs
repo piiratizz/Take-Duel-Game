@@ -63,4 +63,9 @@ public class PlayerRoot : NetworkBehaviour
         _playerMovement.StopPlayer();
     }
 
+    [ClientRpc]
+    public void TeleportTo(Vector3 position)
+    {
+        transform.position = position;
+    }
 }

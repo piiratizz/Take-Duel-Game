@@ -1705,6 +1705,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0681b7e30134384bbd867f33a69034b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   _defaultPlayerObject: {fileID: 4598826626450189901}
   _ragdollObject: {fileID: 7756691920928282906}
   _defaultCameraMovementTarget: {fileID: 2618475110157284999}

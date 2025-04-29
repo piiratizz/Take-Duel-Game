@@ -31,8 +31,9 @@ public class GameStateService : NetworkBehaviour
     {
         if(!_waitUntilTwoPlayersLoaded) return;
 
-        await UniTask.WaitForSeconds(0.5f);
         RpcShowLoadingScreen();
+        await UniTask.WaitForSeconds(0.5f);
+
         var players = FindObjectsByType<PlayerRoot>(FindObjectsSortMode.None);
         
         FreezePlayers(players);
@@ -161,14 +162,14 @@ public class GameStateService : NetworkBehaviour
     {
         var players = _serverPlayersService.PlayersConnections;
 
-        foreach (var player in players)
-        {
-            player.identity.GetComponent<PlayerRoot>().StopMove();
-        }
-        
         var startPositions = _spawnPointManager.StartPosition;
-        players[0].identity.transform.position = startPositions[0].transform.position;
-        players[1].identity.transform.position = startPositions[1].transform.position;
+
+        for (int i = 0; i < players.Count; i++)
+        {
+            var player = players[i].identity.GetComponent<PlayerRoot>();
+            player.StopMove();
+            player.TeleportTo(startPositions[i].transform.position);
+        }
     }
 
     [ClientRpc]
@@ -182,5 +183,4 @@ public class GameStateService : NetworkBehaviour
     {
         _loadingScreenService.HideLoadingScreen();
     }
-    
 }
