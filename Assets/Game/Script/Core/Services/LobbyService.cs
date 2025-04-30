@@ -1,10 +1,12 @@
 using Mirror;
 using Steamworks;
+using TMPro;
 using UnityEngine;
 using Zenject;
 
 public class LobbyService : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI _lobbyStatusText;
     [Inject] private CustomNetworkManager _networkManager;
 
     private Callback<LobbyCreated_t> _lobbyCreatedCallback;
@@ -25,6 +27,8 @@ public class LobbyService : MonoBehaviour
     public void HostLobby()
     {
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, _networkManager.maxConnections);
+        _lobbyStatusText.text = "Hosting lobby...";
+        Debug.Log("Hosting lobby...");
     }
     
     private void OnLobbyEntered(LobbyEnter_t param)
@@ -47,6 +51,7 @@ public class LobbyService : MonoBehaviour
 
     private void OnLobbyCreated(LobbyCreated_t param)
     {
+        Debug.Log($"Lobby created with status: {param.m_eResult}");
         if (param.m_eResult != EResult.k_EResultOK)
         {
             return;

@@ -52,14 +52,15 @@ public class GameInstaller : MonoInstaller
 
         _loadingScreenService.ShowLoadingScreen();
         await StartLoadingAsync(sceneService);
+        Debug.Log("GAME INSTALLED");
     }
     
     private async UniTask StartLoadingAsync(SceneService sceneService)
     {
-#if UNITY_EDITOR
-        await sceneService.LoadSceneAsync(SceneManager.GetActiveScene().name);
-        return;
-#endif
+//#if UNITY_EDITOR
+        //await sceneService.LoadSceneAsync(SceneManager.GetActiveScene().name);
+        //return;
+//#endif
         // --- !!!DONT DELETE!!! ---
         await sceneService.LoadMainMenuAsync();
     }

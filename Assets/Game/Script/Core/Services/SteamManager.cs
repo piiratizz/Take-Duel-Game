@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Steamworks;
 
 public class SteamManager : MonoBehaviour
@@ -19,6 +20,13 @@ public class SteamManager : MonoBehaviour
             Debug.Log($"Connected to steam profile: {SteamFriends.GetPersonaName()}");
             _initialized = true;
         }
+    }
+
+    private void Update()
+    {
+        if(!_initialized) return;
+        
+        SteamAPI.RunCallbacks();
     }
 
     void OnApplicationQuit()

@@ -37,11 +37,8 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         if (!isLocalPlayer) return;
         
         _inputSystem = new InputSystem_Actions();
-        _inputSystem.Player.Attack.performed += Shoot;
-        _inputSystem.Player.Zoom.performed += ChangeAimingState;
-        _inputSystem.Player.PullSlide.performed += PullSlide;
-        _inputSystem.Player.Reload.performed += Reload;
-        _inputSystem.Player.PullSlide.performed += PullSlide;
+
+        BindInput();
 
         _weaponSlots = new List<InputAction>()
         {
@@ -136,5 +133,33 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         _ikController.AttachHandsToWeapon(_weaponList[weaponIndex]);
         _playerAnimator.OverrideWeaponHolderAnimator(_weaponList[weaponIndex].AnimatorOverrideController);
         _activeWeaponIndex = weaponIndex;
+    }
+
+    public void BlockWeaponInteraction()
+    {
+        UnbindInput();
+    }
+
+    public void UnblockWeaponInteraction()
+    {
+        BindInput();
+    }
+
+    private void BindInput()
+    {
+        _inputSystem.Player.Attack.performed += Shoot;
+        _inputSystem.Player.Zoom.performed += ChangeAimingState;
+        _inputSystem.Player.PullSlide.performed += PullSlide;
+        _inputSystem.Player.Reload.performed += Reload;
+        _inputSystem.Player.PullSlide.performed += PullSlide;
+    }
+
+    private void UnbindInput()
+    {
+        _inputSystem.Player.Attack.performed -= Shoot;
+        _inputSystem.Player.Zoom.performed -= ChangeAimingState;
+        _inputSystem.Player.PullSlide.performed -= PullSlide;
+        _inputSystem.Player.Reload.performed -= Reload;
+        _inputSystem.Player.PullSlide.performed -= PullSlide;
     }
 }
