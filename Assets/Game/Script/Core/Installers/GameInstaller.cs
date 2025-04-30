@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
+using kcp2k;
 using Mirror;
+using Mirror.FizzySteam;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -7,14 +9,36 @@ using Zenject;
 public class GameInstaller : MonoInstaller
 {
     [SerializeField] private CustomNetworkManager _networkManager;
-
+    [SerializeField] private bool _useSteamConnection;
+    
+    private KcpTransport _mirrorKcp;
+    private FizzySteamworks _steamKcp;
+    private SteamManager _steamManager;
+    
     private LoadingScreenService _loadingScreenService;
     
     public override async void InstallBindings()
     {
         Debug.Log("GAME INSTALLER STARTED");
-        CreateAndBindAsSelf(_networkManager);
+        var networkManagerInstance = CreateAndBindAsSelf(_networkManager);
 
+        _mirrorKcp = networkManagerInstance.GetComponent<KcpTransport>();
+        _steamKcp = networkManagerInstance.GetComponent<FizzySteamworks>();
+        _steamManager = networkManagerInstance.GetComponent<SteamManager>();
+        _steamManager.Initialize();
+
+        
+        if (_useSteamConnection)
+        {
+            networkManagerInstance.transport = _steamKcp;
+            _mirrorKcp.enabled = false;
+        }
+        else
+        {
+            networkManagerInstance.transport = _mirrorKcp;
+            _steamKcp.enabled = false;
+        }
+        
         _loadingScreenService = new LoadingScreenService();
         Container.Bind<LoadingScreenService>().FromInstance(_loadingScreenService).AsSingle();
         
