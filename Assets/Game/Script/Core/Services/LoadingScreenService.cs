@@ -19,7 +19,6 @@ public class LoadingScreenService
     
     public void HideLoadingScreen()
     {
-        Debug.Log(_loadingScreen);
         _loadingScreen.SetActive(false);
     }
 }

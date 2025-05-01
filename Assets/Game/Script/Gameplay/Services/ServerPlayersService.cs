@@ -11,12 +11,11 @@ public class ServerPlayersService : NetworkBehaviour
     [SerializeField] private int _livesCountForEachPlayer;
     [Inject] private CustomNetworkManager _networkManager;
     
-    //private Dictionary<NetworkConnectionToClient, int> _playersLives;
     private Dictionary<NetworkConnectionToClient, int> _playersLives;
-    public int PlayerCount => _playersLives.Count;
-    public List<NetworkConnectionToClient> PlayersConnections => _playersLives.Keys.ToList();
     
+    public List<NetworkConnectionToClient> PlayersConnections => _playersLives.Keys.ToList();
     [HideInInspector] public UnityEvent<int> OnPlayerCountChanged;
+    public int PlayerCount => _playersLives.Count;
     
     public void Initialize()
     {
@@ -55,4 +54,12 @@ public class ServerPlayersService : NetworkBehaviour
     
     [Server]
     public int LivesOfPlayer(NetworkConnectionToClient player) => _playersLives[player];
+
+    [Server]
+    public NetworkIdentity GetPlayerById(uint id)
+    {
+        var players = _playersLives.Keys;
+        var require = players.First(p => p.identity.netId == id);
+        return require.identity;
+    }
 }

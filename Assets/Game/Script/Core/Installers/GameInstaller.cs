@@ -51,8 +51,11 @@ public class GameInstaller : MonoInstaller
         await UniTask.Yield();
 
         _loadingScreenService.ShowLoadingScreen();
-        await StartLoadingAsync(sceneService);
+        
         Debug.Log("GAME INSTALLED");
+        
+        await StartLoadingAsync(sceneService);
+        
     }
     
     private async UniTask StartLoadingAsync(SceneService sceneService)

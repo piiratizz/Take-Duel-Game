@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -6,9 +7,10 @@ public class MainMenuInstaller : MonoInstaller
     [SerializeField] private LobbyService _lobbyService;
     [Inject] private LoadingScreenService _loadingScreenService;
     
-    public override void InstallBindings()
+    public override async void InstallBindings()
     {
         Debug.Log("MAIN MENU INSTALLER STARTED");
+        await UniTask.Yield();
         _loadingScreenService.HideLoadingScreen();
         Cursor.lockState = CursorLockMode.Confined;
 
