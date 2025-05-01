@@ -137,12 +137,24 @@ public class PlayerWeaponInteractor : NetworkBehaviour
 
     public void BlockWeaponInteraction()
     {
-        UnbindInput();
+        if(!isLocalPlayer) return;
+        
+        _inputSystem.Player.Attack.Disable();
+        _inputSystem.Player.Zoom.Disable();
+        _inputSystem.Player.PullSlide.Disable();
+        _inputSystem.Player.Reload.Disable();
+        _inputSystem.Player.PullSlide.Disable();
     }
 
     public void UnblockWeaponInteraction()
     {
-        BindInput();
+        if(!isLocalPlayer) return;
+        
+        _inputSystem.Player.Attack.Enable();
+        _inputSystem.Player.Zoom.Enable();
+        _inputSystem.Player.PullSlide.Enable();
+        _inputSystem.Player.Reload.Enable();
+        _inputSystem.Player.PullSlide.Enable();
     }
 
     private void BindInput()
@@ -154,12 +166,10 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         _inputSystem.Player.PullSlide.performed += PullSlide;
     }
 
-    private void UnbindInput()
+    private void OnDestroy()
     {
-        _inputSystem.Player.Attack.performed -= Shoot;
-        _inputSystem.Player.Zoom.performed -= ChangeAimingState;
-        _inputSystem.Player.PullSlide.performed -= PullSlide;
-        _inputSystem.Player.Reload.performed -= Reload;
-        _inputSystem.Player.PullSlide.performed -= PullSlide;
+        if(!isLocalPlayer) return;
+        
+        _inputSystem.Dispose();
     }
 }

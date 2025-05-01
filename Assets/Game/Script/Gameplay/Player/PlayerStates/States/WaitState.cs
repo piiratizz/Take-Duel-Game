@@ -17,13 +17,13 @@ public class WaitState : State
     {
         _playerMovement.BlockMovement();
         _playerCameraMovement.BlockMovement();
-        //_playerWeaponInteractor.BlockWeaponInteraction();
+        _playerWeaponInteractor.BlockWeaponInteraction();
     }
 
     public override void Exit()
     {
         _playerMovement.UnBlockMovement();
         _playerCameraMovement.UnBlockMovement();
-        //_playerWeaponInteractor.UnblockWeaponInteraction();
+        _playerWeaponInteractor.UnblockWeaponInteraction();
     }
 }

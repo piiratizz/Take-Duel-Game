@@ -3,8 +3,6 @@ using Zenject;
 
 public class DeadState : State
 {
-    private PlayerHealth _playerHealth;
-    private PlayerUIRoot _playerUIRoot;
     private PlayerRoot _playerRoot;
     private PlayerRagdollController _playerRagdollController;
     private PlayerMovement _playerMovement;
@@ -12,8 +10,6 @@ public class DeadState : State
     
     public DeadState(DiContainer container, PlayerStateMachine stateMachine) : base(container, stateMachine)
     {
-        _playerHealth = container.Resolve<PlayerHealth>();
-        _playerUIRoot = container.Resolve<PlayerUIRoot>();
         _playerRoot = container.Resolve<PlayerRoot>();
         _playerRagdollController = container.Resolve<PlayerRagdollController>();
         _playerMovement = container.Resolve<PlayerMovement>();
@@ -49,9 +45,6 @@ public class DeadState : State
         
         //_playerRagdollController.DeactivateRagdoll();
         //StateMachine.ClientRpcCall();
-        
-        _playerHealth.Reset();
-        _playerUIRoot.CmdUpdateHealth(_playerHealth.Value);
     }
 
 

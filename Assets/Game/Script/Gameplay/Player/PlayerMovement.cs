@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -96,5 +97,12 @@ public class PlayerMovement : NetworkBehaviour
     public void StopPlayer()
     {
         _velocity = Vector3.zero;
+    }
+
+    private void OnDestroy()
+    {
+        if(!isLocalPlayer) return;
+
+        _playerInput.Dispose();
     }
 }

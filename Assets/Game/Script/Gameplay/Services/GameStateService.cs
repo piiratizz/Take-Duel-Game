@@ -1,4 +1,3 @@
-using System.Linq;
 using Cysharp.Threading.Tasks;
 using Mirror;
 using UnityEngine;
@@ -14,6 +13,7 @@ public class GameStateService : NetworkBehaviour
     [Inject] private LoadingScreenService _loadingScreenService;
     [Inject] private GameplayUIRoot _gameplayUI;
     [Inject] private SpawnPointManager _spawnPointManager;
+    [Inject] private SceneService _sceneService;
     
     private RoundTimerUI _roundTimer;
     private LivesCountUI _playerLivesCounter;
@@ -22,6 +22,7 @@ public class GameStateService : NetworkBehaviour
     {
         await UniTask.Yield();
         _networkManager.PlayerSpawnedEvent.AddListener(OnPlayerSpawned);
+        _networkManager.PlayerDisconnectedEvent.AddListener(OnPlayerDisconnected);
         _roundTimer = _gameplayUI.RoundTimer;
         _playerLivesCounter = _gameplayUI.LivesCounter;
     }
@@ -49,6 +50,19 @@ public class GameStateService : NetworkBehaviour
         await _roundTimer.StartTimerAsync(_timeToStartRound);
         
         UnfreezePlayers(players);
+        
+    }
+
+    [Server]
+    private async void OnPlayerDisconnected(NetworkConnectionToClient conn)
+    {
+        if(!_waitUntilTwoPlayersLoaded) return;
+        
+        await _sceneService.LoadMainMenuAsync();
+        
+        _networkManager.StopClient();
+        _networkManager.StopHost();
+        _networkManager.StopServer();
         
     }
     
@@ -116,6 +130,12 @@ public class GameStateService : NetworkBehaviour
         var players = FindObjectsByType<PlayerRoot>(FindObjectsSortMode.None);
         FreezePlayers(players);
         TeleportPlayersToStartPosition();
+
+        foreach (var p in players)
+        {
+            p.ResetHealthFromServer();
+        }
+        
         RpcOnPlayerDead(player);
 
         _serverPlayersService.DecreaseLiveCount(conn);

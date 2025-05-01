@@ -68,4 +68,11 @@ public class PlayerRoot : NetworkBehaviour
     {
         transform.position = position;
     }
+
+    [Server]
+    public void ResetHealthFromServer()
+    {
+        _playerHealth.Reset();
+        _playerUIRoot.RpcUpdateHealth(_playerHealth.Value);
+    }
 }
