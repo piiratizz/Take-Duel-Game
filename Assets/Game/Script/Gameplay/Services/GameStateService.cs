@@ -1,3 +1,4 @@
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using Mirror;
 using UnityEngine;
@@ -108,7 +109,8 @@ public class GameStateService : NetworkBehaviour
 
         if (remainingLives <= 0)
         {
-            Debug.Log($"{player.netId} LOST the game");
+            var winPlayer = _serverPlayersService.PlayersConnections.First(c => c != conn);
+            Debug.Log($"{winPlayer.identity.netId} WIN the game");
         }
 
         await StartRoundCountdownAsync();

@@ -7,15 +7,26 @@
         public readonly UnityEvent ReloadCompleteEvent  = new UnityEvent();
         public readonly UnityEvent ReloadStartedEvent  = new UnityEvent();
         
+        public readonly UnityEvent SwitchWeaponStartedEvent  = new UnityEvent();
+        public readonly UnityEvent SwitchWeaponEndedEvent  = new UnityEvent();
+        
         public void OnReloadComplete()
         {
-            Debug.Log("RELOAD COMPLETE");
             ReloadCompleteEvent.Invoke();
         }
 
         public void OnReloadStarted()
         {
-            Debug.Log("RELOAD STARTED");
             ReloadStartedEvent.Invoke();
+        }
+
+        public void OnWeaponSwitchStarted()
+        {
+            SwitchWeaponStartedEvent.Invoke();
+        }
+        
+        public void OnWeaponSwitchEnded()
+        {
+            SwitchWeaponEndedEvent.Invoke();
         }
     }

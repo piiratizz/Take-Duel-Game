@@ -15,6 +15,7 @@ public class PlayerAnimator : NetworkBehaviour
     private static readonly int Aiming = Animator.StringToHash("Aiming");
     private static readonly int Shoot = Animator.StringToHash("Shoot");
     private static readonly int Reload = Animator.StringToHash("Reload");
+    private static readonly int Switch = Animator.StringToHash("Switch");
 
     public void PlayWalkingAnimation(float xDirection, float yDirection)
     {
@@ -56,7 +57,12 @@ public class PlayerAnimator : NetworkBehaviour
     {
         _weaponHolderAnimator.SetTrigger(Reload);
     }
-
+    
+    public void PlaySwitchAnimation()
+    {
+        _weaponHolderAnimator.SetTrigger(Switch);
+    }
+    
     public void OverrideWeaponHolderAnimator(AnimatorOverrideController overrideController)
     {
         _weaponHolderAnimator.runtimeAnimatorController = overrideController;

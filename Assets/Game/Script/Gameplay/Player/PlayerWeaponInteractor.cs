@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Mirror;
 using NaughtyAttributes;
 using R3;
@@ -21,6 +22,8 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     private List<InputAction> _weaponSlots;
     private bool _aimingState = false;
     private List<WeaponController> _weaponControllers;
+    private bool _switchingWeapon = false;
+    
     
     public void Initialize()
     {
@@ -53,6 +56,9 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         }
 
         _inputSystem.Enable();
+        
+        _weaponHolderEventsHandler.SwitchWeaponStartedEvent.AddListener(OnSwitchWeaponStarted);
+        _weaponHolderEventsHandler.SwitchWeaponEndedEvent.AddListener(OnSwitchWeaponEnded);
     }
     
     private void SelectSlot(InputAction.CallbackContext obj)
@@ -100,9 +106,13 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         }
     }
     
-    private void AttachWeapon(int weaponIndex)
+    private async void AttachWeapon(int weaponIndex)
     {
         if(!_weaponControllers[_activeWeaponIndex].Reloaded) return;
+        
+        _playerAnimator.PlaySwitchAnimation();
+        
+        await UniTask.WaitUntil(() => _switchingWeapon == false);
         
         _weaponControllers[_activeWeaponIndex].UnsubscribeUI();
         _weaponHolderEventsHandler.ReloadStartedEvent.RemoveListener(_weaponControllers[_activeWeaponIndex].OnReloadStarted);
@@ -114,6 +124,10 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     
         CmdAttachWeapon(weaponIndex);
     }
+
+    private void OnSwitchWeaponStarted() => _switchingWeapon = true;
+    private void OnSwitchWeaponEnded() => _switchingWeapon = false;
+    
     
     [Command]
     private void CmdAttachWeapon(int weaponIndex)

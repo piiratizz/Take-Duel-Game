@@ -53,16 +53,7 @@ public class CharacterIKController : NetworkBehaviour
         _rightHandTarget.rotation = _weapon.RightHandPosition.rotation;
     }
 
-    public void SetDefaultHandsPosition()
-    {
-
-    }
     
-    public void SetAimingHandsPosition()
-    {
-
-    }
-
     private async void PlayHandsAnimation(Transform left, Transform right, Vector3 leftPosition, Vector3 rightPosition)
     {
         _cancellationToken?.Cancel();
@@ -92,9 +83,6 @@ public class CharacterIKController : NetworkBehaviour
     public void AttachHandsToWeapon(WeaponViewBase weapon)
     {
         _weapon = weapon;
-        
-        // Time solution
-        SetDefaultHandsPosition();
     }
 
     public void DisableHandsIK()
