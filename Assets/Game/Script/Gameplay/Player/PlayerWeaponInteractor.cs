@@ -23,6 +23,7 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     private bool _aimingState = false;
     private List<WeaponController> _weaponControllers;
     private bool _switchingWeapon = false;
+    private bool _weaponChangeMoment = false;
     
     
     public void Initialize()
@@ -39,26 +40,15 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         
         if (!isLocalPlayer) return;
         
+        _weaponHolderEventsHandler.SwitchWeaponStartedEvent.AddListener(OnSwitchWeaponStarted);
+        _weaponHolderEventsHandler.SwitchWeaponEndedEvent.AddListener(OnSwitchWeaponEnded);
+        _weaponHolderEventsHandler.SwitchWeaponChangeMomentEvent.AddListener(OnWeaponChangeMoment);
+        
         _inputSystem = new InputSystem_Actions();
 
         BindInput();
-
-        _weaponSlots = new List<InputAction>()
-        {
-            _inputSystem.Player.Slot1,
-            _inputSystem.Player.Slot2,
-            _inputSystem.Player.Slot3
-        };
-
-        foreach (var slot in _weaponSlots)
-        {
-            slot.performed += SelectSlot;
-        }
-
-        _inputSystem.Enable();
         
-        _weaponHolderEventsHandler.SwitchWeaponStartedEvent.AddListener(OnSwitchWeaponStarted);
-        _weaponHolderEventsHandler.SwitchWeaponEndedEvent.AddListener(OnSwitchWeaponEnded);
+        _inputSystem.Enable();
     }
     
     private void SelectSlot(InputAction.CallbackContext obj)
@@ -109,10 +99,12 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     private async void AttachWeapon(int weaponIndex)
     {
         if(!_weaponControllers[_activeWeaponIndex].Reloaded) return;
+        if(_switchingWeapon) return;
         
         _playerAnimator.PlaySwitchAnimation();
         
-        await UniTask.WaitUntil(() => _switchingWeapon == false);
+        await UniTask.WaitUntil(() => _weaponChangeMoment == true);
+        _weaponChangeMoment = false;
         
         _weaponControllers[_activeWeaponIndex].UnsubscribeUI();
         _weaponHolderEventsHandler.ReloadStartedEvent.RemoveListener(_weaponControllers[_activeWeaponIndex].OnReloadStarted);
@@ -127,7 +119,7 @@ public class PlayerWeaponInteractor : NetworkBehaviour
 
     private void OnSwitchWeaponStarted() => _switchingWeapon = true;
     private void OnSwitchWeaponEnded() => _switchingWeapon = false;
-    
+    private void OnWeaponChangeMoment() => _weaponChangeMoment = true;
     
     [Command]
     private void CmdAttachWeapon(int weaponIndex)
@@ -178,6 +170,18 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         _inputSystem.Player.PullSlide.performed += PullSlide;
         _inputSystem.Player.Reload.performed += Reload;
         _inputSystem.Player.PullSlide.performed += PullSlide;
+        
+        _weaponSlots = new List<InputAction>()
+        {
+            _inputSystem.Player.Slot1,
+            _inputSystem.Player.Slot2,
+            _inputSystem.Player.Slot3
+        };
+
+        foreach (var slot in _weaponSlots)
+        {
+            slot.performed += SelectSlot;
+        }
     }
 
     private void OnDestroy()

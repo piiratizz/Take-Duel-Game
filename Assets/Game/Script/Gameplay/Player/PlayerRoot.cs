@@ -64,9 +64,15 @@ public class PlayerRoot : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void TeleportTo(Vector3 position)
+    public void RpcTeleportTo(Vector3 position)
     {
         transform.position = position;
+    }
+
+    [ClientRpc]
+    public void RpcRotate(Quaternion rotation)
+    {
+        transform.rotation = rotation;
     }
 
     [Server]

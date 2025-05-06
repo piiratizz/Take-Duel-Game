@@ -21,6 +21,7 @@ public class PlayerCameraMovement : NetworkBehaviour
         if (!isLocalPlayer) return;
         Cursor.lockState = CursorLockMode.Locked;
         
+        _blocked = true;
         _initialized = true;
     }
     

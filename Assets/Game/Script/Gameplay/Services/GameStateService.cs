@@ -29,18 +29,11 @@ public class GameStateService : NetworkBehaviour
         _roundTimer = _gameplayUI.RoundTimer;
         _playerLivesCounter = _gameplayUI.LivesCounter;
     }
-
-    public void Dispose()
-    {
-        _networkManager.PlayerSpawnedEvent.RemoveListener(OnPlayerSpawned);
-        _networkManager.PlayerDisconnectedEvent.RemoveListener(OnPlayerDisconnected);
-    }
+    
 
     [Server]
     private async void OnPlayerSpawned(NetworkConnectionToClient conn)
     {
-        if (!_waitUntilTwoPlayersLoaded) return;
-
         RpcShowLoadingScreen();
         await UniTask.Delay(500);
 
@@ -49,8 +42,14 @@ public class GameStateService : NetworkBehaviour
         var lives = _serverPlayersService.LivesOfPlayer(conn);
         TargetUpdateLivesCount(conn, lives);
 
-        if (_serverPlayersService.PlayersConnections.Count != 2) return;
-
+        if (_waitUntilTwoPlayersLoaded)
+        {
+            if (_serverPlayersService.PlayersConnections.Count != 2)
+            {
+                return;
+            }
+        }
+        
         TeleportPlayersToStart();
         RpcHideLoadingScreen();
 
@@ -85,7 +84,8 @@ public class GameStateService : NetworkBehaviour
         {
             var player = players[i].identity.GetComponent<PlayerRoot>();
             player.StopMove();
-            player.TeleportTo(positions[i].transform.position);
+            player.RpcTeleportTo(positions[i].transform.position);
+            player.RpcRotate(positions[i].transform.rotation);
         }
     }
 

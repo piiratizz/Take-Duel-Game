@@ -93,12 +93,12 @@ public class WeaponController : NetworkBehaviour
     [Client]
     public void Shoot()
     {
-        PerformClientShootView();
-
         if(_raycaster.TryHitForward(out IHitPerformer hitObject))
             CmdShoot(_playerCameraRoot.RaycastPosition.position, _raycaster.HitInfo.point);
         else
             CmdShoot(_playerCameraRoot.RaycastPosition.position, Vector3.zero);
+        
+        PerformClientShootView();
     }
     
     [Command]

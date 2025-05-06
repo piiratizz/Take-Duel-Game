@@ -8,6 +8,7 @@
         public readonly UnityEvent ReloadStartedEvent  = new UnityEvent();
         
         public readonly UnityEvent SwitchWeaponStartedEvent  = new UnityEvent();
+        public readonly UnityEvent SwitchWeaponChangeMomentEvent  = new UnityEvent();
         public readonly UnityEvent SwitchWeaponEndedEvent  = new UnityEvent();
         
         public void OnReloadComplete()
@@ -28,5 +29,10 @@
         public void OnWeaponSwitchEnded()
         {
             SwitchWeaponEndedEvent.Invoke();
+        }
+
+        public void OnWeaponChangeMoment()
+        {
+            SwitchWeaponChangeMomentEvent.Invoke();
         }
     }
