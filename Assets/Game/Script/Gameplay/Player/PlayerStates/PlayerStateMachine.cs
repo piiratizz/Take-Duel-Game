@@ -7,7 +7,7 @@ public class PlayerStateMachine : NetworkBehaviour
 {
     [Inject] private DiContainer _container;
     
-    private Dictionary<States, State> _allState;
+    private Dictionary<States, State> _allStates;
     private State _currentState;
     public State Current => _currentState;
 
@@ -15,7 +15,7 @@ public class PlayerStateMachine : NetworkBehaviour
     
     public void Initialize(States start)
     {
-        _allState = new Dictionary<States, State>
+        _allStates = new Dictionary<States, State>
         {
             { States.Fight, new FightState(_container, this) },
             { States.Dead, new DeadState(_container, this) },
@@ -36,7 +36,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void SetState(States newState)
     {
         _currentState?.Exit();
-        _currentState = _allState[newState];
+        _currentState = _allStates[newState];
         _currentState.Enter();
     }
 

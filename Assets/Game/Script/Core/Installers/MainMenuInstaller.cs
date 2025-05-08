@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Mirror;
 using UnityEngine;
 using Zenject;
 
@@ -13,7 +14,7 @@ public class MainMenuInstaller : MonoInstaller
         await UniTask.Yield();
         _loadingScreenService.HideLoadingScreen();
         Cursor.lockState = CursorLockMode.Confined;
-
+        
         Container.Bind<LobbyService>().FromInstance(_lobbyService).AsSingle();
         Container.Inject(_lobbyService);
         

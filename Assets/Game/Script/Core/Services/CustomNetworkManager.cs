@@ -13,6 +13,7 @@ public class CustomNetworkManager : NetworkManager
     [HideInInspector] public UnityEvent<NetworkConnectionToClient> PlayerConnectedEvent;
     [HideInInspector] public UnityEvent<NetworkConnectionToClient> PlayerDisconnectedEvent;
     [HideInInspector] public UnityEvent<NetworkConnectionToClient> PlayerSpawnedEvent;
+    [HideInInspector] public UnityEvent ClientDisconnectedEvent;
 
     public override void Awake()
     {
@@ -20,9 +21,9 @@ public class CustomNetworkManager : NetworkManager
         PlayerConnectedEvent = new UnityEvent<NetworkConnectionToClient>();
         PlayerDisconnectedEvent = new UnityEvent<NetworkConnectionToClient>();
         PlayerSpawnedEvent = new UnityEvent<NetworkConnectionToClient>();
+        ClientDisconnectedEvent = new UnityEvent();
     }
     
-
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         GameObject player = Instantiate(
@@ -40,13 +41,20 @@ public class CustomNetworkManager : NetworkManager
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         base.OnServerDisconnect(conn);
-        Debug.Log($"Player disconnected: {conn.connectionId}");
         PlayerDisconnectedEvent.Invoke(conn);
+        Debug.Log($"Player disconnected: {conn.connectionId}");
     }
     
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
+        base.OnServerConnect(conn);
         Debug.Log($"Player connected: {conn.connectionId}");
         PlayerConnectedEvent.Invoke(conn);
+    }
+
+    public override void OnClientDisconnect()
+    {
+        base.OnClientDisconnect();
+        ClientDisconnectedEvent.Invoke();
     }
 }

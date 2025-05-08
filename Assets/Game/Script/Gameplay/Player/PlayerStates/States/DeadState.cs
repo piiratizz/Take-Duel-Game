@@ -21,9 +21,6 @@ public class DeadState : State
         Debug.Log($"DIED {_playerRoot.netId}");
         _playerMovement.BlockMovement();
         _playerCameraMovement.BlockMovement();
-        
-        //_playerRagdollController.ActivateRagdoll();
-        //StateMachine.ClientRpcCall();
     }
 
     public override void OnClientRPCCall()
@@ -42,9 +39,6 @@ public class DeadState : State
     {
         _playerMovement.UnBlockMovement();
         _playerCameraMovement.UnBlockMovement();
-        
-        //_playerRagdollController.DeactivateRagdoll();
-        //StateMachine.ClientRpcCall();
     }
 
 

@@ -1,6 +1,8 @@
+using System;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Mirror;
+using NaughtyAttributes;
 using UnityEngine;
 using Zenject;
 
@@ -25,11 +27,12 @@ public class GameStateService : NetworkBehaviour
         await UniTask.Yield();
         _networkManager.PlayerSpawnedEvent.AddListener(OnPlayerSpawned);
         _networkManager.PlayerDisconnectedEvent.AddListener(OnPlayerDisconnected);
+        _networkManager.ClientDisconnectedEvent.AddListener(OnClientDisconnected);
 
         _roundTimer = _gameplayUI.RoundTimer;
         _playerLivesCounter = _gameplayUI.LivesCounter;
     }
-    
+
 
     [Server]
     private async void OnPlayerSpawned(NetworkConnectionToClient conn)
@@ -49,7 +52,7 @@ public class GameStateService : NetworkBehaviour
                 return;
             }
         }
-        
+
         TeleportPlayersToStart();
         RpcHideLoadingScreen();
 
@@ -61,11 +64,15 @@ public class GameStateService : NetworkBehaviour
     private async void OnPlayerDisconnected(NetworkConnectionToClient conn)
     {
         if (!_waitUntilTwoPlayersLoaded) return;
-
-        await _sceneService.LoadMainMenuAsync();
-        _networkManager.StopClient();
+        
+        await UniTask.Delay(100);
         _networkManager.StopHost();
-        _networkManager.StopServer();
+    }
+    
+    
+    private async void OnClientDisconnected()
+    {
+        await _sceneService.LoadMainMenuAsync();
     }
 
     [TargetRpc]
@@ -114,7 +121,7 @@ public class GameStateService : NetworkBehaviour
         }
 
         await StartRoundCountdownAsync();
-        
+
         _playerStateService.SetAllPlayersState(States.Fight);
     }
 

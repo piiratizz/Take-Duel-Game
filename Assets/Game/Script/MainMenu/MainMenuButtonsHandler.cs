@@ -14,6 +14,7 @@ public class MainMenuButtonsHandler : MonoBehaviour
     [SerializeField] private Button _hostButton;
 
     [Inject] private CustomNetworkManager _networkManager;
+    [Inject] private SceneService _sceneService;
     
     private void Start()
     {
@@ -25,15 +26,17 @@ public class MainMenuButtonsHandler : MonoBehaviour
     }
     
     
-    private void Connect()
+    private async void Connect()
     {
         ApplyData();
+        await _sceneService.LoadGameplayAsync();
         _networkManager.StartClient();
     }
 
-    private void Host()
+    private async void Host()
     {
         ApplyData();
+        await _sceneService.LoadGameplayAsync();
         _networkManager.StartHost();
     }
 
