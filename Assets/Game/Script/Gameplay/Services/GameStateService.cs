@@ -69,7 +69,6 @@ public class GameStateService : NetworkBehaviour
         _networkManager.StopHost();
     }
     
-    
     private async void OnClientDisconnected()
     {
         await _sceneService.LoadMainMenuAsync();

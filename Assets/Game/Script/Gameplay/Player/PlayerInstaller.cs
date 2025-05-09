@@ -58,7 +58,6 @@ public class PlayerInstaller : MonoInstaller
         _container.Bind<PlayerStateMachine>().FromInstance(_playerStateMachine).AsSingle();
         _container.Bind<PlayerRagdollController>().FromInstance(_playerRagdollController).AsSingle();
         
-
         Debug.Log("PLAYER INSTALLED");
     }
 

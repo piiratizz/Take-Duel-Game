@@ -27,6 +27,11 @@ public class GameInstaller : MonoInstaller
         _steamManager = networkManagerInstance.GetComponent<SteamManager>();
         _steamManager.Initialize();
 
+        Container.Bind<ISaveLoadService<DecimalWrapper>>().To<JsonSaveLoadService<DecimalWrapper>>().AsTransient().WithArguments("balance.json");
+        
+        Container.Bind<PlayerBankService>().FromNew().AsSingle();
+        var playerBankService = Container.Resolve<PlayerBankService>();
+        playerBankService.Initialize();
         
         if (_useSteamConnection)
         {
