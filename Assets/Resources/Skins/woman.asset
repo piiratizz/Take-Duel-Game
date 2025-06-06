@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60e59929ce2c57a4cbccacb53b925a96, type: 3}
-  m_Name: Woman
+  m_Name: woman
   m_EditorClassIdentifier: 
+  skinName: woman
   previewImage: {fileID: 2800000, guid: bd689be0daf771e46b472b244a88ec5c, type: 3}
   price: 100

@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60e59929ce2c57a4cbccacb53b925a96, type: 3}
-  m_Name: CowGirl
+  m_Name: business_man
   m_EditorClassIdentifier: 
-  previewImage: {fileID: 2800000, guid: 55be675be7a18294186c58ac5a2c03c1, type: 3}
-  price: 200
+  skinName: business_man
+  previewImage: {fileID: 2800000, guid: defa9bdeac0f1194ea6288c933675309, type: 3}
+  price: 1000

@@ -1,5 +1,5 @@
-﻿public interface ISaveLoadService<T>
+﻿public interface ISaveLoadService
 {
-    void Save(T data);
-    T Load();
+    void Save(PlayerData data);
+    PlayerData Load();
 }

@@ -1,8 +1,9 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
 
-public class JsonSaveLoadService<T> : ISaveLoadService<T>
+public class JsonSaveLoadService : ISaveLoadService
 {
     private readonly string filePath;
 
@@ -11,18 +12,27 @@ public class JsonSaveLoadService<T> : ISaveLoadService<T>
         filePath = Path.Combine(Application.persistentDataPath, fileName);
     }
 
-    public void Save(T data)
+    public void Save(PlayerData data)
     {
         string json = JsonConvert.SerializeObject(data, Formatting.Indented);
         File.WriteAllText(filePath, json);
     }
 
-    public T Load()
+    public PlayerData Load()
     {
         if (!File.Exists(filePath))
-            return default;
+        {
+            File.Create(filePath).Dispose();
+            Save(new PlayerData()
+            {
+                Name = "Unnamed",
+                Balance = 100.0m,
+                SelectedSkin = "bandit",
+                AvailableSkins = new List<string>() {"bandit"}
+            });
+        }
     
         string json = File.ReadAllText(filePath);
-        return JsonConvert.DeserializeObject<T>(json);
+        return JsonConvert.DeserializeObject<PlayerData>(json);
     }
 }

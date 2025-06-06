@@ -39,28 +39,4 @@ public class PlayerStateMachine : NetworkBehaviour
         _currentState = _allStates[newState];
         _currentState.Enter();
     }
-
-    [Command]
-    public void CommandCall()
-    {
-        _currentState.OnCommandCall();
-    }
-    
-    [Command]
-    public void ClientRpcCall()
-    {
-        RpcCall();
-    }
-    
-    [ClientRpc]
-    private void RpcCall()
-    {
-        _currentState.OnClientRPCCall();
-    }
-    
-    [TargetRpc]
-    public void TargetRPCCall(NetworkConnection target)
-    {
-        _currentState.OnTargetRPCCall(target);
-    }
 }

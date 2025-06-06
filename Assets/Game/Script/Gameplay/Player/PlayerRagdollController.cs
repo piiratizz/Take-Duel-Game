@@ -31,4 +31,16 @@ public class PlayerRagdollController : NetworkBehaviour
         _ragdollObject.gameObject.SetActive(false);
         IsRagdollActive = false;
     }
+
+    [ClientRpc]
+    public void RpcActivateRagdoll() => ActivateRagdoll();
+    
+    [ClientRpc]
+    public void RpcDeactivateRagdoll() => DeactivateRagdoll();
+
+    [Command]
+    public void CmdActivateRagdoll() => RpcActivateRagdoll();
+    
+    [Command]
+    public void CmdDeactivateRagdoll() => RpcDeactivateRagdoll();
 }

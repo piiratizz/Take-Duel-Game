@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60e59929ce2c57a4cbccacb53b925a96, type: 3}
-  m_Name: Sheriff
+  m_Name: working_girl
   m_EditorClassIdentifier: 
-  previewImage: {fileID: 2800000, guid: 529843aa98bfc11459df9a212ec6f224, type: 3}
-  price: 500
+  skinName: working_girl
+  previewImage: {fileID: 2800000, guid: 9cf2f4892d52a7647b73b9373822f06f, type: 3}
+  price: 800

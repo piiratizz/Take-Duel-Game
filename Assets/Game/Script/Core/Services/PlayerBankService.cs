@@ -4,15 +4,20 @@ using Zenject;
 
 public class PlayerBankService
 {
-    [Inject] private ISaveLoadService<DecimalWrapper> _saveLoadService; 
+    [Inject] private PlayerDataStorageService _playerDataStorageService;
     
     private ReactiveProperty<decimal> _balanceReactive;
     public Observable<decimal> Balance => _balanceReactive;
 
+    private PlayerData _playerDataReadOnly;
+    
     public void Initialize()
     {
         _balanceReactive = new ReactiveProperty<decimal>();
-        Load();
+        _playerDataReadOnly = _playerDataStorageService.Data;
+        _balanceReactive.Value = _playerDataReadOnly.Balance;
+
+        _balanceReactive.Subscribe(_playerDataStorageService.UpdateBalance);
     }
     
     public void Add(decimal value)
@@ -29,15 +34,5 @@ public class PlayerBankService
         
         _balanceReactive.Value -= value;
         return true;
-    }
-
-    public void Load()
-    {
-        _balanceReactive.Value = _saveLoadService.Load().value;
-    }
-    
-    public void Save()
-    {
-        _saveLoadService.Save(new DecimalWrapper(_balanceReactive.Value));
     }
 }

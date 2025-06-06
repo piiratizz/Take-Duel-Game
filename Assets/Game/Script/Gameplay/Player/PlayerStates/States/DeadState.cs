@@ -22,24 +22,10 @@ public class DeadState : State
         _playerMovement.BlockMovement();
         _playerCameraMovement.BlockMovement();
     }
-
-    public override void OnClientRPCCall()
-    {
-        if (_playerRagdollController.IsRagdollActive)
-        {
-            _playerRagdollController.DeactivateRagdoll();
-        }
-        else
-        {
-            _playerRagdollController.ActivateRagdoll();
-        }
-    }
     
     public override void Exit()
     {
         _playerMovement.UnBlockMovement();
         _playerCameraMovement.UnBlockMovement();
     }
-
-
 }
