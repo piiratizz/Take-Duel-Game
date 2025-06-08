@@ -7,30 +7,28 @@ using Zenject;
 public class ShopService : MonoBehaviour
 {
     [SerializeField] private SkinItemView _skinViewPrefab;
-    [SerializeField] private HorizontalLayoutGroup _itemsContainer;
-    [SerializeField] private ScrollRect _scrollRect;
 
+    [Inject] private MainMenuUIRoot _menuUIRoot;
     [Inject] private PlayerDataStorageService _playerDataStorageService;
     [Inject] private PlayerBankService _playerBankService;
 
     private List<SkinItemView> _skinViews;
     private List<SkinData> _skinsData;
+    private SkinData[] _allSkins;
     
     public void Start()
     {
-        var skins = Resources.LoadAll<SkinData>("Skins");
-        _skinViews = new List<SkinItemView>(skins.Length);
+        _allSkins = Resources.LoadAll<SkinData>("Skins");
+        _skinViews = new List<SkinItemView>(_allSkins.Length);
         
-        var playerData = _playerDataStorageService.Data;
-        _skinsData = skins.OrderBy(a => a.price).Except(skins.Where(a => playerData.AvailableSkins.Contains(a.skinName))).ToList();
-        
+        UpdateSkinsData();
         UpdateView();
     }
     
 
     public void UpdateView()
     {
-        foreach (Transform child in _itemsContainer.transform)
+        foreach (Transform child in _menuUIRoot.ShopItemsContainer.transform)
         {
             Destroy(child.gameObject);
         }
@@ -39,13 +37,24 @@ public class ShopService : MonoBehaviour
 
         foreach (var skin in _skinsData)
         {
-            var instance = Instantiate(_skinViewPrefab, _itemsContainer.transform);
+            var instance = Instantiate(_skinViewPrefab, _menuUIRoot.ShopItemsContainer.transform);
             instance.AttachData(skin);
             instance.BuyEvent.AddListener(TryBuySkin);
             _skinViews.Add(instance);
         }
         
-        LayoutRebuilder.ForceRebuildLayoutImmediate(_scrollRect.GetComponent<RectTransform>());
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_menuUIRoot.ShopItemsScrollRect.GetComponent<RectTransform>());
+    }
+
+    private void UpdateSkinsData()
+    {
+        var playerData = _playerDataStorageService.Data;
+        _skinsData = _allSkins.OrderBy(a => a.price)
+            .Except(
+                _allSkins.Where(a => 
+                    playerData.AvailableSkins.Contains(a.skinName)
+                    )
+                ).ToList();
     }
     
     private void TryBuySkin(SkinData data)
@@ -54,6 +63,8 @@ public class ShopService : MonoBehaviour
         if (_playerBankService.TryPay(data.price))
         {
             _playerDataStorageService.AddAvailableSkin(data.skinName);
+            UpdateSkinsData();
+            UpdateView();
         }
     }
 }

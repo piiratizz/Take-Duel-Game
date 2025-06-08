@@ -23,6 +23,8 @@ public class GameplayInstaller : MonoInstaller
 
         Container.Bind<PlayerStateService>().FromInstance(_playerStateService).AsSingle();
         
+        Container.Bind<PlayersSkinsLoaderService>().FromNew().AsSingle();
+        
         Container.Bind<GameStateService>().FromInstance(_gameStateService).AsSingle().NonLazy();
         Container.Inject(_gameStateService);
         _gameStateService.Initialize();

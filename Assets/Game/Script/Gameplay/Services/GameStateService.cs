@@ -18,6 +18,7 @@ public class GameStateService : NetworkBehaviour
     [Inject] private SpawnPointManager _spawnPointManager;
     [Inject] private SceneService _sceneService;
     [Inject] private PlayerStateService _playerStateService;
+    [Inject] private PlayersSkinsLoaderService _playersSkinsLoaderService;
 
     private RoundTimerUI _roundTimer;
     private LivesCountUI _playerLivesCounter;
@@ -53,6 +54,7 @@ public class GameStateService : NetworkBehaviour
             }
         }
 
+        SetPlayersSkins();
         TeleportPlayersToStart();
         RpcHideLoadingScreen();
 
@@ -140,5 +142,11 @@ public class GameStateService : NetworkBehaviour
     private void RpcStartTimer()
     {
         _roundTimer.StartTimerAsync(_timeToStartRound).Forget();
+    }
+
+    [Server]
+    private void SetPlayersSkins()
+    {
+        _playersSkinsLoaderService.SetSkins();
     }
 }

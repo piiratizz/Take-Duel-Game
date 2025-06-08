@@ -22,6 +22,7 @@ public class PlayerInstaller : MonoInstaller
     [SerializeField] private WeaponHolderEventsHandler _weaponHolderEventsHandler;
     [SerializeField] private PlayerStateMachine _playerStateMachine;
     [SerializeField] private PlayerRagdollController _playerRagdollController;
+    [SerializeField] private PlayerSkinChanger _playerSkinChanger;
     
     private DiContainer _container;
     
@@ -57,6 +58,7 @@ public class PlayerInstaller : MonoInstaller
         _container.Bind<WeaponHolderEventsHandler>().FromInstance(_weaponHolderEventsHandler).AsSingle();
         _container.Bind<PlayerStateMachine>().FromInstance(_playerStateMachine).AsSingle();
         _container.Bind<PlayerRagdollController>().FromInstance(_playerRagdollController).AsSingle();
+        _container.Bind<PlayerSkinChanger>().FromInstance(_playerSkinChanger).AsSingle();
         
         Debug.Log("PLAYER INSTALLED");
     }

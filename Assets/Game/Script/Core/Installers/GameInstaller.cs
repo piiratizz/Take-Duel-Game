@@ -8,6 +8,7 @@ using Zenject;
 
 public class GameInstaller : MonoInstaller
 {
+    [SerializeField] private LobbyService _lobbyService;
     [SerializeField] private CustomNetworkManager _networkManager;
     [SerializeField] private bool _useSteamConnection;
     
@@ -20,23 +21,23 @@ public class GameInstaller : MonoInstaller
     public override async void InstallBindings()
     {
         Debug.Log("GAME INSTALLER STARTED");
+        Container.Bind<ISaveLoadService>().To<JsonSaveLoadService>().AsTransient().WithArguments("player_data.json");
+        
         var networkManagerInstance = CreateAndBindAsSelf(_networkManager);
 
         _mirrorKcp = networkManagerInstance.GetComponent<KcpTransport>();
         _steamKcp = networkManagerInstance.GetComponent<FizzySteamworks>();
         _steamManager = networkManagerInstance.GetComponent<SteamManager>();
         _steamManager.Initialize();
-
-        Container.Bind<ISaveLoadService>().To<JsonSaveLoadService>().AsTransient().WithArguments("player_data.json");
-
+        
         var playerDataStorageService = new PlayerDataStorageService();
-        Container.Inject(playerDataStorageService);
         Container.Bind<PlayerDataStorageService>().FromInstance(playerDataStorageService).AsSingle();
+        Container.Inject(playerDataStorageService);
         playerDataStorageService.Initialize();
 
         var playerBankService = new PlayerBankService();
-        Container.Inject(playerBankService);
         Container.Bind<PlayerBankService>().FromInstance(playerBankService).AsSingle();
+        Container.Inject(playerBankService);
         playerBankService.Initialize();
         
         if (_useSteamConnection)
@@ -55,6 +56,12 @@ public class GameInstaller : MonoInstaller
         
         SceneService sceneService = new SceneService();
         Container.Bind<SceneService>().FromInstance(sceneService).AsSingle();
+
+        var lobbyServiceInstance = Container.InstantiatePrefabForComponent<LobbyService>(_lobbyService);
+        Container.Bind<LobbyService>().FromInstance(lobbyServiceInstance).AsSingle();
+
+        lobbyServiceInstance.Initialize();
+        ///
         
         await UniTask.Yield();
         Container.Inject(sceneService);

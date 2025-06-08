@@ -1,68 +1,51 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class WindowsManager : MonoBehaviour
 {
-    [SerializeField] private Button _mainMenuButton;
-    [SerializeField] private Button _playButton;
-    [SerializeField] private Button _settingsButton;
-    [SerializeField] private Button _shopButton;
-    [SerializeField] private Button _skinsButton;
-    [SerializeField] private Button _quitButton;
+    [Inject] private MainMenuUIRoot _menuUIRoot;
 
-    [SerializeField] private GameObject _mainMenuWindow;
-    [SerializeField] private GameObject _playWindow;
-    [SerializeField] private GameObject _settingsWindow;
-    [SerializeField] private GameObject _shopWindow;
-    [SerializeField] private GameObject _skinsWindow;
-
-    private GameObject _currentWindow;
+    private WindowBase _currentWindow;
     
     private void Start()
     {
-        _mainMenuButton.onClick = new Button.ButtonClickedEvent();
-        _mainMenuButton.onClick.AddListener(BackToMainMenu);
+        _menuUIRoot.MainMenuBtn.onClick = new Button.ButtonClickedEvent();
+        _menuUIRoot.MainMenuBtn.onClick.AddListener(BackToMainMenu);
         
-        _playButton.onClick = new Button.ButtonClickedEvent();
-        _playButton.onClick.AddListener(ShowPlay);
+        _menuUIRoot.PlayBtn.onClick = new Button.ButtonClickedEvent();
+        _menuUIRoot.PlayBtn.onClick.AddListener(ShowPlay);
         
-        _settingsButton.onClick = new Button.ButtonClickedEvent();
-        _settingsButton.onClick.AddListener(ShowSettings);
+        _menuUIRoot.ShopBtn.onClick = new Button.ButtonClickedEvent();
+        _menuUIRoot.ShopBtn.onClick.AddListener(ShowShop);
         
-        _shopButton.onClick = new Button.ButtonClickedEvent();
-        _shopButton.onClick.AddListener(ShowShop);
+        _menuUIRoot.SkinsBtn.onClick = new Button.ButtonClickedEvent();
+        _menuUIRoot.SkinsBtn.onClick.AddListener(ShowSkins);
         
-        _skinsButton.onClick = new Button.ButtonClickedEvent();
-        _skinsButton.onClick.AddListener(ShowSkins);
+        _menuUIRoot.QuitBtn.onClick = new Button.ButtonClickedEvent();
+        _menuUIRoot.QuitBtn.onClick.AddListener(Quit);
         
-        _quitButton.onClick = new Button.ButtonClickedEvent();
-        _quitButton.onClick.AddListener(Quit);
-        
+        ShowWindow(_menuUIRoot.MainMenuWindow);
     }
 
     private void BackToMainMenu()
     {
-        ShowWindow(_mainMenuWindow);
+        ShowWindow(_menuUIRoot.MainMenuWindow);
     }
     
     private void ShowPlay()
     {
-        ShowWindow(_playWindow);
+        ShowWindow(_menuUIRoot.PlayWindow);
     }
-
-    private void ShowSettings()
-    {
-        ShowWindow(_settingsWindow);
-    }
-
+    
     private void ShowShop()
     {
-        ShowWindow(_shopWindow);
+        ShowWindow(_menuUIRoot.ShopWindow);
     }
     
     private void ShowSkins()
     {
-        ShowWindow(_skinsWindow);
+        ShowWindow(_menuUIRoot.InventorySkinsWindow);
     }
 
     private void Quit()
@@ -70,14 +53,14 @@ public class WindowsManager : MonoBehaviour
         Application.Quit();
     }
 
-    private void ShowWindow(GameObject window)
+    private void ShowWindow(WindowBase window)
     {
         if (_currentWindow != null)
         {
-            _currentWindow.SetActive(false);
+            _currentWindow.Close();
         }
         
         _currentWindow = window;
-        _currentWindow.SetActive(true);
+        _currentWindow.Open();
     }
 }

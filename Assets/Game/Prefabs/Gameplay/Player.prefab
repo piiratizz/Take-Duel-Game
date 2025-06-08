@@ -545,10 +545,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053029048116562802}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 7.03125
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -770,10 +770,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1370956051273419259}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 4.6875
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1127,10 +1127,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677997030151819028}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 7.03125
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1454,6 +1454,7 @@ GameObject:
   - component: {fileID: 8430932180681690170}
   - component: {fileID: 6149498726106419052}
   - component: {fileID: 8148019550105445807}
+  - component: {fileID: -8011171068936701232}
   - component: {fileID: 2802320747698400428}
   - component: {fileID: -266017195029981051}
   - component: {fileID: 478623868091670429}
@@ -1515,6 +1516,7 @@ MonoBehaviour:
   _weaponHolderEventsHandler: {fileID: 1740059186292186730}
   _playerStateMachine: {fileID: 6149498726106419052}
   _playerRagdollController: {fileID: 8148019550105445807}
+  _playerSkinChanger: {fileID: -8011171068936701232}
 --- !u!143 &3291573820341491473
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1712,6 +1714,22 @@ MonoBehaviour:
   _ragdollObject: {fileID: 7756691920928282906}
   _defaultCameraMovementTarget: {fileID: 2618475110157284999}
   _ragdollCameraMovementTarget: {fileID: 5489244183600047781}
+--- !u!114 &-8011171068936701232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062155258246752917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d41a386c3a9b4eaead75cb45ec899f89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  _skinHolder: {fileID: 7586993171742699728}
 --- !u!114 &2802320747698400428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2150,7 +2168,7 @@ GameObject:
   - component: {fileID: 5500242756933437703}
   - component: {fileID: 8735778260291162410}
   m_Layer: 6
-  m_Name: Character_Cowboy_01
+  m_Name: cow_boy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2164,12 +2182,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2747740639734812427}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1028776742009832037}
+  m_Father: {fileID: 7586993171742699728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &8735778260291162410
 SkinnedMeshRenderer:
@@ -2287,7 +2305,7 @@ GameObject:
   - component: {fileID: 6136704272952346945}
   - component: {fileID: 1126088539552575445}
   m_Layer: 6
-  m_Name: Character_Woman_01
+  m_Name: woman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2301,12 +2319,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2795906464377016042}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1028776742009832037}
+  m_Father: {fileID: 7586993171742699728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &1126088539552575445
 SkinnedMeshRenderer:
@@ -2606,10 +2624,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3093382780502974352}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 11.71875
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -3067,6 +3085,46 @@ Transform:
   - {fileID: 8529131426868125913}
   m_Father: {fileID: 7796975797823314841}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3519212136759328649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7586993171742699728}
+  m_Layer: 6
+  m_Name: SkinHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7586993171742699728
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3519212136759328649}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1125929076065735031}
+  - {fileID: 3549694889840569349}
+  - {fileID: 6226024232060047343}
+  - {fileID: 5500242756933437703}
+  - {fileID: 4933325272316762317}
+  - {fileID: 8822527933605547873}
+  - {fileID: 3363171201752035958}
+  - {fileID: 6136704272952346945}
+  - {fileID: 4558624405753424990}
+  m_Father: {fileID: 1028776742009832037}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3566803089038248040
 GameObject:
   m_ObjectHideFlags: 0
@@ -3250,15 +3308,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1125929076065735031}
-  - {fileID: 3549694889840569349}
-  - {fileID: 6226024232060047343}
-  - {fileID: 5500242756933437703}
-  - {fileID: 4933325272316762317}
-  - {fileID: 8822527933605547873}
-  - {fileID: 3363171201752035958}
-  - {fileID: 6136704272952346945}
-  - {fileID: 4558624405753424990}
+  - {fileID: 7586993171742699728}
   - {fileID: 1936398988028574876}
   - {fileID: 7269049877285907306}
   - {fileID: 2894999735024235374}
@@ -3574,10 +3624,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3808865766722166065}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 4.6875
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -4228,10 +4278,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4357065834195972849}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 7.03125
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -4651,12 +4701,12 @@ GameObject:
   - component: {fileID: 1125929076065735031}
   - component: {fileID: 4772594939090661775}
   m_Layer: 0
-  m_Name: Character_Badguy_01
+  m_Name: bandit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1125929076065735031
 Transform:
   m_ObjectHideFlags: 0
@@ -4670,7 +4720,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1028776742009832037}
+  m_Father: {fileID: 7586993171742699728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &4772594939090661775
 SkinnedMeshRenderer:
@@ -5035,10 +5085,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5286135390918815660}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 4.6875
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -5175,7 +5225,7 @@ GameObject:
   - component: {fileID: 4933325272316762317}
   - component: {fileID: 3526804374611399596}
   m_Layer: 6
-  m_Name: Character_Cowgirl_01
+  m_Name: cow_girl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5189,12 +5239,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5399336988816443347}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1028776742009832037}
+  m_Father: {fileID: 7586993171742699728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &3526804374611399596
 SkinnedMeshRenderer:
@@ -5878,7 +5928,7 @@ GameObject:
   - component: {fileID: 3363171201752035958}
   - component: {fileID: 7390710223450564476}
   m_Layer: 6
-  m_Name: Character_Sheriff_01
+  m_Name: sheriff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5892,12 +5942,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6725486871109164411}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1028776742009832037}
+  m_Father: {fileID: 7586993171742699728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &7390710223450564476
 SkinnedMeshRenderer:
@@ -6132,10 +6182,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6953901300532952285}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 7.03125
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -6502,12 +6552,12 @@ GameObject:
   - component: {fileID: 3549694889840569349}
   - component: {fileID: 895292303779500365}
   m_Layer: 6
-  m_Name: Character_Badguy_01
+  m_Name: bandit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3549694889840569349
 Transform:
   m_ObjectHideFlags: 0
@@ -6516,12 +6566,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7427397488453487315}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1028776742009832037}
+  m_Father: {fileID: 7586993171742699728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &895292303779500365
 SkinnedMeshRenderer:
@@ -6725,10 +6775,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7604306228144992595}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 4.6875
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -6802,7 +6852,7 @@ GameObject:
   - component: {fileID: 4558624405753424990}
   - component: {fileID: 4498368467416638185}
   m_Layer: 6
-  m_Name: Character_WorkingGirl_01
+  m_Name: working_girl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6816,12 +6866,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7681334545015436379}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1028776742009832037}
+  m_Father: {fileID: 7586993171742699728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &4498368467416638185
 SkinnedMeshRenderer:
@@ -6971,7 +7021,7 @@ GameObject:
   - component: {fileID: 8822527933605547873}
   - component: {fileID: 8964884351394094692}
   m_Layer: 6
-  m_Name: Character_Gunman_01
+  m_Name: gun_man
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6985,12 +7035,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7903534998354785510}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1028776742009832037}
+  m_Father: {fileID: 7586993171742699728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &8964884351394094692
 SkinnedMeshRenderer:
@@ -7596,7 +7646,7 @@ GameObject:
   - component: {fileID: 6226024232060047343}
   - component: {fileID: 260940221662318834}
   m_Layer: 6
-  m_Name: Character_Business_Man_01
+  m_Name: business_man
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7610,12 +7660,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8702388581320048909}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1028776742009832037}
+  m_Father: {fileID: 7586993171742699728}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &260940221662318834
 SkinnedMeshRenderer:
@@ -7897,10 +7947,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8794806506298070303}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 11.71875
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -8178,10 +8228,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9033004412540632527}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 4.6875
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}

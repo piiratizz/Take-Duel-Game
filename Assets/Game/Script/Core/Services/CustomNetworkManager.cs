@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using System.Collections.Generic;
+using Zenject;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,14 +8,19 @@ public class CustomNetworkManager : NetworkManager
 {
     [Header("CUSTOM SECTION")] 
     [SerializeField] private GameObject _playerPrefab;
-    [Inject] private DiContainer _container;
-    private GameObject _lastSpawnedPlayer;
 
     [HideInInspector] public UnityEvent<NetworkConnectionToClient> PlayerConnectedEvent;
     [HideInInspector] public UnityEvent<NetworkConnectionToClient> PlayerDisconnectedEvent;
     [HideInInspector] public UnityEvent<NetworkConnectionToClient> PlayerSpawnedEvent;
     [HideInInspector] public UnityEvent ClientDisconnectedEvent;
 
+    [Inject] private ISaveLoadService _saveLoadService;
+    
+    private Dictionary<NetworkConnectionToClient, PlayerDataMessage> _playersData;
+
+    public PlayerDataMessage GetPlayerData(NetworkConnectionToClient playerConnection) =>
+        _playersData[playerConnection];
+    
     public override void Awake()
     {
         base.Awake();
@@ -22,8 +28,20 @@ public class CustomNetworkManager : NetworkManager
         PlayerDisconnectedEvent = new UnityEvent<NetworkConnectionToClient>();
         PlayerSpawnedEvent = new UnityEvent<NetworkConnectionToClient>();
         ClientDisconnectedEvent = new UnityEvent();
+        _playersData = new Dictionary<NetworkConnectionToClient, PlayerDataMessage>();
     }
-    
+
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        NetworkServer.RegisterHandler<PlayerDataMessage>(OnReceivePlayerData);
+    }
+
+    private void OnReceivePlayerData(NetworkConnectionToClient conn, PlayerDataMessage message)
+    {
+        _playersData.Add(conn, message);
+    }
+
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
         GameObject player = Instantiate(
@@ -31,7 +49,6 @@ public class CustomNetworkManager : NetworkManager
             Vector3.zero, 
             Quaternion.identity,
             null);
-        _lastSpawnedPlayer = player;
         
         NetworkServer.AddPlayerForConnection(conn, player);
         PlayerSpawnedEvent.Invoke(conn);
@@ -50,6 +67,17 @@ public class CustomNetworkManager : NetworkManager
         base.OnServerConnect(conn);
         Debug.Log($"Player connected: {conn.connectionId}");
         PlayerConnectedEvent.Invoke(conn);
+    }
+
+    public override void OnClientConnect()
+    {
+        base.OnClientConnect();
+        var data = _saveLoadService.Load();
+        var msg = new PlayerDataMessage()
+        {
+            SkinName = data.SelectedSkin
+        };
+        NetworkClient.Send(msg);
     }
 
     public override void OnClientDisconnect()

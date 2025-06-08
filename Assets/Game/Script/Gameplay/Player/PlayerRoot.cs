@@ -15,6 +15,7 @@ public class PlayerRoot : NetworkBehaviour
     [Inject] private PlayerCameraMovement _playerCameraMovement;
     [Inject] private PlayerModelChanger _playerModelChanger;
     [Inject] private PlayerStateMachine _stateMachine;
+    [Inject] private PlayerSkinChanger _playerSkinChanger;
 
     public bool Initialized => _initialized;
     private bool _initialized;
@@ -33,11 +34,11 @@ public class PlayerRoot : NetworkBehaviour
         
         if (isLocalPlayer)
         {
-            _playerModelChanger.SetLocalModel();
+            //_playerModelChanger.SetLocalModel();
         }
         else
         {
-            _playerModelChanger.SetGlobalModel();
+            //_playerModelChanger.SetGlobalModel();
         }
 
         _initialized = true;
@@ -80,5 +81,11 @@ public class PlayerRoot : NetworkBehaviour
     {
         _playerHealth.Reset();
         _playerUIRoot.RpcUpdateHealth(_playerHealth.Value);
+    }
+
+    [ClientRpc]
+    public void ChangeSkin(string skinName)
+    {
+        _playerSkinChanger.SetSkin(skinName);
     }
 }

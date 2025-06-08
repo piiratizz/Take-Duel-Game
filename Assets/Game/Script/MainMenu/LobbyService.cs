@@ -1,37 +1,38 @@
+using Cysharp.Threading.Tasks;
 using Mirror;
 using Steamworks;
-using TMPro;
 using UnityEngine;
 using Zenject;
 
-public class LobbyService : MonoBehaviour
+public class LobbyService : NetworkBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _lobbyStatusText;
     [Inject] private CustomNetworkManager _networkManager;
+    [Inject] private SceneService _sceneService;
 
     private Callback<LobbyCreated_t> _lobbyCreatedCallback;
     private Callback<GameLobbyJoinRequested_t> _lobbyJoinRequestedCallback;
     private Callback<LobbyEnter_t> _lobbyEnteredCallback;
 
     private const string HostAddressKey = "HostAddress";
-    
+
     public void Initialize()
     {
-        if(!SteamManager.Initialized) return;
-
+        if (!SteamManager.Initialized) return;
         _lobbyCreatedCallback = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
         _lobbyJoinRequestedCallback = Callback<GameLobbyJoinRequested_t>.Create(OnLobbyJoinRequested);
         _lobbyEnteredCallback = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
     }
 
-    public void HostLobby()
+    public async void HostLobby()
     {
+        await _sceneService.LoadGameplayAsync();
+        _networkManager.StartHost();
+        
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, _networkManager.maxConnections);
-        _lobbyStatusText.text = "Hosting lobby...";
         Debug.Log("Hosting lobby...");
     }
-    
-    private void OnLobbyEntered(LobbyEnter_t param)
+
+    private async void OnLobbyEntered(LobbyEnter_t param)
     {
         if (NetworkServer.active)
         {
@@ -41,6 +42,8 @@ public class LobbyService : MonoBehaviour
         string hostAddress = SteamMatchmaking.GetLobbyData(new CSteamID(param.m_ulSteamIDLobby), HostAddressKey);
 
         _networkManager.networkAddress = hostAddress;
+
+        await _sceneService.LoadGameplayAsync();
         _networkManager.StartClient();
     }
 
@@ -56,8 +59,6 @@ public class LobbyService : MonoBehaviour
         {
             return;
         }
-        
-        _networkManager.StartHost();
 
         SteamMatchmaking.SetLobbyData(
             new CSteamID(param.m_ulSteamIDLobby),

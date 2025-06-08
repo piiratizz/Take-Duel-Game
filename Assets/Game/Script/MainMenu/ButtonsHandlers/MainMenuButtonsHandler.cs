@@ -7,24 +7,29 @@ using Zenject;
 
 public class MainMenuButtonsHandler : MonoBehaviour
 {
-    [SerializeField] private TMP_InputField _ipAddressInputField;
-    [SerializeField] private TMP_InputField _portInputField;
-    [SerializeField] private Button _connectButton;
-    [SerializeField] private Button _hostButton;
-
+    [Inject] private MainMenuUIRoot _mainMenuUIRoot;
     [Inject] private CustomNetworkManager _networkManager;
     [Inject] private SceneService _sceneService;
+    [Inject] private LobbyService _lobbyService;
     
     private void Start()
     {
-        _connectButton.onClick = new Button.ButtonClickedEvent();
-        _connectButton.onClick.AddListener(Connect);
+        _mainMenuUIRoot.ConnectButton.onClick = new Button.ButtonClickedEvent();
+        _mainMenuUIRoot.ConnectButton.onClick.AddListener(Connect);
         
-        _hostButton.onClick = new Button.ButtonClickedEvent();
-        _hostButton.onClick.AddListener(Host);
+        _mainMenuUIRoot.HostButton.onClick = new Button.ButtonClickedEvent();
+        _mainMenuUIRoot.HostButton.onClick.AddListener(Host);
+        
+        _mainMenuUIRoot.CreateLobbyButton.onClick = new Button.ButtonClickedEvent();
+        _mainMenuUIRoot.CreateLobbyButton.onClick.AddListener(CreateLobby);
     }
-    
-    
+
+    private async void CreateLobby()
+    {
+        _lobbyService.HostLobby();
+    }
+
+
     private async void Connect()
     {
         ApplyData();
@@ -41,24 +46,24 @@ public class MainMenuButtonsHandler : MonoBehaviour
 
     private void ApplyData()
     {
-        if (_ipAddressInputField.text == string.Empty)
+        if (_mainMenuUIRoot.IpInputField.text == string.Empty)
         {
             _networkManager.networkAddress = "localhost";
         }
         else
         {
-            _networkManager.networkAddress = _ipAddressInputField.text;
+            _networkManager.networkAddress = _mainMenuUIRoot.IpInputField.text;
         }
         
         var kcp = _networkManager.GetComponent<KcpTransport>();
 
-        if (_portInputField.text == string.Empty)
+        if (_mainMenuUIRoot.PortInputField.text == string.Empty)
         {
             kcp.port = 7777;
         }
         else
         {
-            kcp.port = ushort.Parse(_portInputField.text);
+            kcp.port = ushort.Parse(_mainMenuUIRoot.PortInputField.text);
         }
     }
 }

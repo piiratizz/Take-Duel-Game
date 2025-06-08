@@ -5,9 +5,11 @@ using Zenject;
 
 public class MainMenuInstaller : MonoInstaller
 {
-    [SerializeField] private LobbyService _lobbyService;
     [SerializeField] private ShopService _shopService;
     [SerializeField] private InventorySkinsService _inventorySkinsService;
+    [SerializeField] private MainMenuUIRoot _mainMenuUI;
+    [SerializeField] private WindowsManager _windowsManager;
+    [SerializeField] private MainMenuButtonsHandler _mainMenuButtonsHandler;
     [Inject] private LoadingScreenService _loadingScreenService;
     
     public override async void InstallBindings()
@@ -17,13 +19,25 @@ public class MainMenuInstaller : MonoInstaller
         _loadingScreenService.HideLoadingScreen();
         Cursor.lockState = CursorLockMode.None;
         
-        Container.Bind<LobbyService>().FromInstance(_lobbyService).AsSingle();
+        var shopInstance = Instantiate(_shopService).GetComponent<ShopService>();
+        Container.Bind<ShopService>().FromInstance(shopInstance).AsSingle();
+
+        var inventorySkinsInstance = Instantiate(_inventorySkinsService).GetComponent<InventorySkinsService>();
+        Container.Bind<InventorySkinsService>().FromInstance(inventorySkinsInstance).AsSingle();
+
+        var mainMenuUIRootInstance = Container.InstantiatePrefabForComponent<MainMenuUIRoot>(_mainMenuUI);
+        Container.Bind<MainMenuUIRoot>().FromInstance(mainMenuUIRootInstance).AsSingle();
         
-        Container.Bind<ShopService>().FromInstance(_shopService).AsSingle();
-        Container.Bind<InventorySkinsService>().FromInstance(_inventorySkinsService).AsSingle();
+        var windowsManagerInstance = Container.InstantiatePrefabForComponent<WindowsManager>(_windowsManager);
+        Container.Bind<WindowsManager>().FromInstance(windowsManagerInstance).AsSingle();
         
-        Container.Inject(_lobbyService);
+        var mainMenuButtonsHandlerInstance = Container.InstantiatePrefabForComponent<MainMenuButtonsHandler>(_mainMenuButtonsHandler);
         
-        _lobbyService.Initialize();
+        Container.Inject(shopInstance);
+        Container.Inject(inventorySkinsInstance);
+        Container.Inject(mainMenuUIRootInstance);
+        Container.Inject(mainMenuButtonsHandlerInstance);
+        
+        Debug.Log("MAIN MENU INSTALLED");
     }
 }
