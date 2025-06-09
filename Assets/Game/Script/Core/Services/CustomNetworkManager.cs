@@ -14,7 +14,7 @@ public class CustomNetworkManager : NetworkManager
     [HideInInspector] public UnityEvent<NetworkConnectionToClient> PlayerSpawnedEvent;
     [HideInInspector] public UnityEvent ClientDisconnectedEvent;
 
-    [Inject] private ISaveLoadService _saveLoadService;
+    [Inject] private PlayerDataStorageService _playerDataStorageService;
     
     private Dictionary<NetworkConnectionToClient, PlayerDataMessage> _playersData;
 
@@ -72,7 +72,7 @@ public class CustomNetworkManager : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
-        var data = _saveLoadService.Load();
+        var data = _playerDataStorageService.Data;
         var msg = new PlayerDataMessage()
         {
             SkinName = data.SelectedSkin

@@ -23,6 +23,11 @@ public class GameInstaller : MonoInstaller
         Debug.Log("GAME INSTALLER STARTED");
         Container.Bind<ISaveLoadService>().To<JsonSaveLoadService>().AsTransient().WithArguments("player_data.json");
         
+        var playerDataStorageService = new PlayerDataStorageService();
+        Container.Bind<PlayerDataStorageService>().FromInstance(playerDataStorageService).AsSingle();
+        Container.Inject(playerDataStorageService);
+        playerDataStorageService.Initialize();
+        
         var networkManagerInstance = CreateAndBindAsSelf(_networkManager);
 
         _mirrorKcp = networkManagerInstance.GetComponent<KcpTransport>();
@@ -30,11 +35,6 @@ public class GameInstaller : MonoInstaller
         _steamManager = networkManagerInstance.GetComponent<SteamManager>();
         _steamManager.Initialize();
         
-        var playerDataStorageService = new PlayerDataStorageService();
-        Container.Bind<PlayerDataStorageService>().FromInstance(playerDataStorageService).AsSingle();
-        Container.Inject(playerDataStorageService);
-        playerDataStorageService.Initialize();
-
         var playerBankService = new PlayerBankService();
         Container.Bind<PlayerBankService>().FromInstance(playerBankService).AsSingle();
         Container.Inject(playerBankService);
