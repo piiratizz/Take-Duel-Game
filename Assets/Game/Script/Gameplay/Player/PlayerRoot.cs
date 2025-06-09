@@ -13,7 +13,6 @@ public class PlayerRoot : NetworkBehaviour
     [Inject] private PlayerMovement _playerMovement;
     [Inject] private PlayerDamagePerformer _damagePerformer;
     [Inject] private PlayerCameraMovement _playerCameraMovement;
-    [Inject] private PlayerModelChanger _playerModelChanger;
     [Inject] private PlayerStateMachine _stateMachine;
     [Inject] private PlayerSkinChanger _playerSkinChanger;
 
@@ -34,11 +33,11 @@ public class PlayerRoot : NetworkBehaviour
         
         if (isLocalPlayer)
         {
-            //_playerModelChanger.SetLocalModel();
+            _playerSkinChanger.SetNoHeadMesh();
         }
         else
         {
-            //_playerModelChanger.SetGlobalModel();
+            _playerSkinChanger.SetHeadMesh();
         }
 
         _initialized = true;

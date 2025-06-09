@@ -16,7 +16,6 @@ public class PlayerInstaller : MonoInstaller
     [SerializeField] private PlayerDamagePerformer _damagePerformer;
     [SerializeField] private PlayerCameraMovement _playerCameraMovement;
     [SerializeField] private PlayerAnimator _playerAnimator;
-    [SerializeField] private PlayerModelChanger _playerModelChanger;
     [SerializeField] private PlayerCameraRecoil _playerCameraRecoil;
     [SerializeField] private LagCompensator _lagCompensator;
     [SerializeField] private WeaponHolderEventsHandler _weaponHolderEventsHandler;
@@ -52,7 +51,6 @@ public class PlayerInstaller : MonoInstaller
         _container.Bind<PlayerDamagePerformer>().FromInstance(_damagePerformer).AsSingle();
         _container.Bind<PlayerCameraMovement>().FromInstance(_playerCameraMovement).AsSingle();
         _container.Bind<PlayerAnimator>().FromInstance(_playerAnimator).AsSingle();
-        _container.Bind<PlayerModelChanger>().FromInstance(_playerModelChanger).AsSingle();
         _container.Bind<PlayerCameraRecoil>().FromInstance(_playerCameraRecoil).AsSingle();
         _container.Bind<LagCompensator>().FromInstance(_lagCompensator).AsSingle();
         _container.Bind<WeaponHolderEventsHandler>().FromInstance(_weaponHolderEventsHandler).AsSingle();

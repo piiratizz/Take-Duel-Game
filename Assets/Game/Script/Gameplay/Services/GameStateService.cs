@@ -19,7 +19,8 @@ public class GameStateService : NetworkBehaviour
     [Inject] private SceneService _sceneService;
     [Inject] private PlayerStateService _playerStateService;
     [Inject] private PlayersSkinsLoaderService _playersSkinsLoaderService;
-
+    [Inject] private RewardServiceBase _rewardService;
+    
     private RoundTimerUI _roundTimer;
     private LivesCountUI _playerLivesCounter;
 
@@ -119,6 +120,7 @@ public class GameStateService : NetworkBehaviour
         {
             var winPlayer = _serverPlayersService.PlayersConnections.First(c => c != conn);
             Debug.Log($"{winPlayer.identity.netId} WIN the game");
+            _rewardService.RewardPlayer(winPlayer);
         }
 
         await StartRoundCountdownAsync();

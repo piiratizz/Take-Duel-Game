@@ -9,6 +9,7 @@ public class GameplayInstaller : MonoInstaller
     [SerializeField] private GameStateService _gameStateService;
     [SerializeField] private SpawnPointManager _spawnPointManager;
     [SerializeField] private PlayerStateService _playerStateService;
+    [SerializeField] private BalanceReward _rewardService;
     
     public override void InstallBindings()
     {
@@ -24,6 +25,9 @@ public class GameplayInstaller : MonoInstaller
         Container.Bind<PlayerStateService>().FromInstance(_playerStateService).AsSingle();
         
         Container.Bind<PlayersSkinsLoaderService>().FromNew().AsSingle();
+        
+        Container.Bind<RewardServiceBase>().FromInstance(_rewardService).AsSingle();
+        Container.Inject(_rewardService);
         
         Container.Bind<GameStateService>().FromInstance(_gameStateService).AsSingle().NonLazy();
         Container.Inject(_gameStateService);
