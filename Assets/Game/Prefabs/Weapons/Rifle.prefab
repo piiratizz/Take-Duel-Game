@@ -35,6 +35,8 @@ Transform:
   m_Children:
   - {fileID: 2071423185471008482}
   - {fileID: 6366860997350211877}
+  - {fileID: 6653307129500728391}
+  - {fileID: 3706865092406618308}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &-7503532136899387540
@@ -47,7 +49,7 @@ Animator:
   m_GameObject: {fileID: 1342726309374163009}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 18d7981149a8ddd42a17fa9b02ae7ae4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -74,8 +76,13 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _animator: {fileID: -7503532136899387540}
+  _weaponAnimator: {fileID: -7503532136899387540}
   _muzzle: {fileID: 6366860997350211877}
+  _weaponRecoilConfig: {fileID: 11400000, guid: 6d7e1c561afe4fc4ba40b95ad15c5c16, type: 2}
+  _shotSound: {fileID: 8300000, guid: 3d76cc8a8f11c4c4aa3acb435021a4d3, type: 3}
+  _leftHandIKPosition: {fileID: 6653307129500728391}
+  _rightHandIKPosition: {fileID: 3706865092406618308}
+  _weaponHolderOverrideController: {fileID: 22100000, guid: de8f8b465d6627240b55647d6a633707, type: 2}
 --- !u!114 &2273891654008928371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,9 +99,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _config: {fileID: 11400000, guid: 876957e9d78db00489fe0b2a1aa6ed40, type: 2}
-  _handsIKConfig: {fileID: 11400000, guid: 518250edfa49b574daa4d0dcfe681ae5, type: 2}
   _weaponType: 2
   _isSlideRequired: 1
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &9039865440769954985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,6 +121,37 @@ MonoBehaviour:
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
+--- !u!1 &5380481802618965230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3706865092406618308}
+  m_Layer: 0
+  m_Name: RightHandIK
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3706865092406618308
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5380481802618965230}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.2579068, y: 0.58197784, z: -0.040137928, w: 0.7701785}
+  m_LocalPosition: {x: -0.5772419, y: 1.229614, z: -24.588516}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1749409495145733552}
+  m_LocalEulerAnglesHint: {x: 2.582, y: -194.111, z: -19.407}
 --- !u!1 &6006620887610789754
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,6 +178,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.047, z: 0.692}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1749409495145733552}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6624323721121865850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6653307129500728391}
+  m_Layer: 0
+  m_Name: LeftHandIK
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6653307129500728391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6624323721121865850}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

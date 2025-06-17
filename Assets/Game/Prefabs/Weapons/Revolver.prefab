@@ -80,7 +80,7 @@ MonoBehaviour:
   _weaponAnimator: {fileID: 8711396648675327599}
   _muzzle: {fileID: 7000509253342161228}
   _weaponRecoilConfig: {fileID: 11400000, guid: 90003a872b2ac2b438cb68f7fb77edc6, type: 2}
-  _shotSound: {fileID: 8300000, guid: 19b13a5c71bc67445b42b08714cf2603, type: 3}
+  _shotSound: {fileID: 8300000, guid: a0d6df224fb07da4a9a518d4481ae122, type: 3}
   _leftHandIKPosition: {fileID: 4381302341115323826}
   _rightHandIKPosition: {fileID: 6845874370288681453}
   _weaponHolderOverrideController: {fileID: 22100000, guid: bd7e65c9886eff84ab5e0b02c14e6e25, type: 2}

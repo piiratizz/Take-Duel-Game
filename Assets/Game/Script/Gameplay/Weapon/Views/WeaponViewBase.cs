@@ -65,7 +65,7 @@ public abstract class WeaponViewBase : NetworkBehaviour
     public virtual void PlayShotSound()
     {
         _audioSource.clip = _shotSound;
-        _audioSource.Play();
+        _audioSource.PlayOneShot(_shotSound);
     }
     
     public virtual void SlideWeapon() { }

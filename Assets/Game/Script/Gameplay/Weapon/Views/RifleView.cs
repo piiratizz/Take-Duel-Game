@@ -12,18 +12,9 @@ public class RifleView : WeaponViewBase
         throw new System.NotImplementedException();
     }
 
-    public override void ShowPlayerImpactEffect(RaycastHit hit)
-    {
-        throw new System.NotImplementedException();
-    }
 
     public override void PlayShootAnimation()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public override void PlayReloadAnimation()
-    {
-        throw new System.NotImplementedException();
+        PlayerAnimator.PlayShootAnimation();
     }
 }
