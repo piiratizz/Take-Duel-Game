@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: RevolverRecoilConfig
   m_EditorClassIdentifier: 
   MoveToNextRecoilPointTime: 0.1
-  SpeedModifier: 200
+  SpeedModifier: 30
   VerticalStrength: 7
   HorizontalStrength: 0

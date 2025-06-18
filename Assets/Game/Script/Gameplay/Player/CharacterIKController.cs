@@ -20,6 +20,8 @@ public class CharacterIKController : NetworkBehaviour
     private WeaponViewBase _weapon;
 
     private CancellationTokenSource _cancellationToken;
+
+    private bool _skipFrame;
     
     public void Initialize(Transform aimTarget)
     {
@@ -32,12 +34,18 @@ public class CharacterIKController : NetworkBehaviour
         _localTarget.position = _aimTarget.position;
     }
     
-    private void Update()
+    private async void Update()
     {
         if (!_initialized) return;
 
         UpdateAimTargetPosition();
 
+        if (_skipFrame)
+        {
+            await UniTask.Yield();
+            _skipFrame = false;
+        }
+        
         if (_weapon != null)
         {
             UpdateHandsPosition();
@@ -82,6 +90,7 @@ public class CharacterIKController : NetworkBehaviour
 
     public void AttachHandsToWeapon(WeaponViewBase weapon)
     {
+        _skipFrame = true;
         _weapon = weapon;
     }
 

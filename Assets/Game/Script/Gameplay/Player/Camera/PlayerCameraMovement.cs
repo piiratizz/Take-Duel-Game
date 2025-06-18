@@ -9,12 +9,17 @@ public class PlayerCameraMovement : NetworkBehaviour
     [SerializeField] private float _sensitivity = 5f;
     [SerializeField] private Transform _cameraPosition;
     [SerializeField] private Transform _forceLookTarget;
+    [SerializeField] private float _minVerticalAngle = -60f;
+    [SerializeField] private float _maxVerticalAngle = 60f;
     
     [Inject] private PlayerCameraRoot _playerCamera;
+
+    public float VerticalRotation => _verticalRotation;
     
     private bool _initialized;
     private bool _blocked;
     private bool _forcedLook;
+    private float _verticalRotation;
     
     public void Initialize()
     {
@@ -48,13 +53,22 @@ public class PlayerCameraMovement : NetworkBehaviour
     
     private void UpdateCameraRotation()
     {
-        float mouseX = Input.GetAxis("Mouse X") * _sensitivity * Time.deltaTime; 
-        float mouseY = Input.GetAxis("Mouse Y") * _sensitivity * Time.deltaTime;
+        float mouseX = Input.GetAxisRaw("Mouse X") * _sensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxisRaw("Mouse Y") * _sensitivity * Time.deltaTime;
         
-        _playerCamera.transform.localRotation *= Quaternion.Euler(-mouseY, 0, 0);
-        transform.Rotate(0,mouseX,0);
+        transform.Rotate(0, mouseX, 0);
+        
+        _verticalRotation -= mouseY;
+        _verticalRotation = Mathf.Clamp(_verticalRotation, _minVerticalAngle, _maxVerticalAngle);
+
+        _playerCamera.transform.localRotation = Quaternion.Euler(_verticalRotation, 0, 0);
     }
 
+    public void SetVerticalRotation(float newRotation)
+    {
+        _verticalRotation = newRotation;
+    }
+    
     private void UpdateCameraForceLooking()
     {
         _playerCamera.transform.localRotation = Quaternion.LookRotation(_forceLookTarget.position);

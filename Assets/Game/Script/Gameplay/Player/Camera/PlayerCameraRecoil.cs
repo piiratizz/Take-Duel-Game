@@ -3,11 +3,12 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Zenject;
 
 public class PlayerCameraRecoil : MonoBehaviour
 {
     [SerializeField] private Transform _playerShakeCameraContainer;
-    [SerializeField] private Transform _playerRootCameraContainer;
+    [SerializeField] private Transform _playerRecoilCameraContainer;
     [Header("Shake configuration")]
     [SerializeField] private bool _shakeEffect;
     [SerializeField] private float _shakeDuration;
@@ -16,10 +17,12 @@ public class PlayerCameraRecoil : MonoBehaviour
     [SerializeField] private int _vibrato = 10;
     [SerializeField] private ShakeRandomnessMode _randomnessMode = ShakeRandomnessMode.Full;
     [SerializeField] private bool _fadeOut = true;
+
+    [Inject] private PlayerCameraMovement _playerCameraMovement;
     
     public void Perform(WeaponRecoilConfig config)
     {
-        var endPoint = _playerRootCameraContainer.transform.localRotation * Quaternion.Euler(-config.VerticalStrength, config.HorizontalStrength, 0);
+        var endPoint = _playerCameraMovement.VerticalRotation - config.VerticalStrength;
         
         if (_shakeEffect)
         {
@@ -29,14 +32,21 @@ public class PlayerCameraRecoil : MonoBehaviour
         PlayAnimation(config, endPoint);
     }
 
-    private async void PlayAnimation(WeaponRecoilConfig config, Quaternion endPoint)
+    private async void PlayAnimation(WeaponRecoilConfig config, float endPoint)
     {
         float currentTime = config.MoveToNextRecoilPointTime;
         while (currentTime > 0)
         {
             currentTime -= Time.deltaTime;
-            _playerRootCameraContainer.transform.localRotation = Quaternion.RotateTowards(_playerRootCameraContainer.transform.localRotation, endPoint,
+
+            var verticalEulerRotation = Mathf.Lerp(
+                _playerCameraMovement.VerticalRotation,
+                endPoint,
                 config.SpeedModifier * Time.deltaTime);
+            
+            Debug.Log($"{verticalEulerRotation} {_playerCameraMovement.VerticalRotation} {currentTime}");
+            _playerCameraMovement.SetVerticalRotation(verticalEulerRotation);
+
             await UniTask.Yield();
         }
     }

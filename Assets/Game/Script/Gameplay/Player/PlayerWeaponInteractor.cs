@@ -124,16 +124,24 @@ public class PlayerWeaponInteractor : NetworkBehaviour
     [Command]
     private void CmdAttachWeapon(int weaponIndex)
     {
-        _activeWeaponIndex = weaponIndex;
         RpcUpdateWeapon(weaponIndex);
     }
     
     [ClientRpc]
-    private void RpcUpdateWeapon(int weaponIndex)
+    private async void RpcUpdateWeapon(int weaponIndex)
     {
         for (int i = 0; i < _weaponList.Count; i++)
         {
-            _weaponList[i].gameObject.SetActive(i == weaponIndex);
+            if (i == weaponIndex)
+            {
+                await UniTask.Yield();
+                _weaponList[i].gameObject.SetActive(true);
+                
+            }
+            else
+            {
+                _weaponList[i].gameObject.SetActive(false);
+            }
         }
         
         _ikController.AttachHandsToWeapon(_weaponList[weaponIndex]);

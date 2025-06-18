@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: RifleRecoilConfig
   m_EditorClassIdentifier: 
   MoveToNextRecoilPointTime: 0.1
-  SpeedModifier: 500
+  SpeedModifier: 30
   VerticalStrength: 10
   HorizontalStrength: 0
