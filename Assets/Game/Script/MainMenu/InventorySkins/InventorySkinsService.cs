@@ -14,6 +14,8 @@ public class InventorySkinsService : MonoBehaviour
     private PlayerData _playerData;
     private SkinData[] _allSkinsData;
     private SkinData[] _availableSkinsData;
+
+    private InventorySkinView _selectedSkinView;
     
     public void Start()
     {
@@ -44,14 +46,28 @@ public class InventorySkinsService : MonoBehaviour
             instance.AttachData(skin);
             instance.EquipEvent.AddListener(EquipSkin);
             views.Add(instance);
+
+            if (skin.skinName == _playerDataStorageService.Data.SelectedSkin)
+            {
+                _selectedSkinView = instance;
+            }
+            
+            instance.OnSkinDeEquip();
         }
+        
+        _selectedSkinView.OnSkinEquip();
         
         LayoutRebuilder.ForceRebuildLayoutImmediate(_menuUIRoot.InventorySkinsScrollRect.GetComponent<RectTransform>());
     }
 
-    private void EquipSkin(SkinData data)
+    private void EquipSkin(SkinData data, InventorySkinView sender)
     {
+        _selectedSkinView.OnSkinDeEquip();
+        _selectedSkinView = sender;
+        _selectedSkinView.OnSkinEquip();
+        
         _playerDataStorageService.SelectSkin(data.skinName);
         Debug.Log($"Selected skin: {data.skinName}");
+        
     }
 }

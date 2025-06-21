@@ -24,7 +24,7 @@ public class MainMenuButtonsHandler : MonoBehaviour
         _mainMenuUIRoot.CreateLobbyButton.onClick.AddListener(CreateLobby);
     }
 
-    private async void CreateLobby()
+    private void CreateLobby()
     {
         _lobbyService.HostLobby();
     }

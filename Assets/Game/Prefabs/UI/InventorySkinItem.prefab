@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}
+  m_Color: {r: 1, g: 0.9021848, b: 0.7688679, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -338,7 +338,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _previewImage: {fileID: 1749631999628701527}
   _equipButton: {fileID: 406331917279708129}
-  BuyEvent:
+  _buttonText: {fileID: 2116139642634306678}
+  _equipButtonText: Equipped
+  _deEquipButtonText: Equip
+  EquipEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &8571685502692287249
@@ -401,7 +404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.9391703, b: 0.7971698, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

@@ -191,6 +191,9 @@ MonoBehaviour:
   _previewImage: {fileID: 2089464535482568190}
   _priceText: {fileID: 1173968369784947325}
   _buyButton: {fileID: 4833354430255504384}
+  BuyEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6463894372528584661
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.80229807, g: 1, b: 0.6084906, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -578,7 +581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}
+  m_Color: {r: 1, g: 0.8773226, b: 0.759434, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

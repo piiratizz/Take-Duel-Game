@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-public class BalanceReward : RewardServiceBase
+public class BalanceRewardService : RewardServiceBase
 {
     private decimal _moneyReward = 100m;
     [Inject] private PlayerBankService _playerBankService;

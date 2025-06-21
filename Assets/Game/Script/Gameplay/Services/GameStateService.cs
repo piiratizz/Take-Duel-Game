@@ -20,6 +20,7 @@ public class GameStateService : NetworkBehaviour
     [Inject] private PlayerStateService _playerStateService;
     [Inject] private PlayersSkinsLoaderService _playersSkinsLoaderService;
     [Inject] private RewardServiceBase _rewardService;
+    [Inject] private SteamManager _steamManager;
     
     private RoundTimerUI _roundTimer;
     private LivesCountUI _playerLivesCounter;
@@ -56,6 +57,7 @@ public class GameStateService : NetworkBehaviour
         }
 
         SetPlayersSkins();
+        SetPlayersSteamInfo();
         TeleportPlayersToStart();
         RpcHideLoadingScreen();
 
@@ -150,5 +152,16 @@ public class GameStateService : NetworkBehaviour
     private void SetPlayersSkins()
     {
         _playersSkinsLoaderService.SetSkins();
+    }
+
+    [Server]
+    private void SetPlayersSteamInfo()
+    {
+        foreach (var p in _serverPlayersService.PlayersConnections)
+        {
+            var data = _networkManager.GetPlayerData(p);
+            var root = p.identity.GetComponent<PlayerRoot>();
+            root.RpcInitializePlayerSteamInfo(data.Nickname, _steamManager.ConvertAvatarIntToTexture(data.AvatarInt));
+        }
     }
 }

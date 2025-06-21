@@ -28,12 +28,18 @@ public class GameInstaller : MonoInstaller
         Container.Inject(playerDataStorageService);
         playerDataStorageService.Initialize();
         
-        var networkManagerInstance = CreateAndBindAsSelf(_networkManager);
-
-        _mirrorKcp = networkManagerInstance.GetComponent<KcpTransport>();
-        _steamKcp = networkManagerInstance.GetComponent<FizzySteamworks>();
+        var networkManagerInstance = Instantiate(_networkManager);
+        Container.Bind<CustomNetworkManager>().FromInstance(networkManagerInstance).AsSingle();
+        
         _steamManager = networkManagerInstance.GetComponent<SteamManager>();
         _steamManager.Initialize();
+        Container.Bind<SteamManager>().FromInstance(_steamManager).AsSingle();
+        
+        Container.Inject(networkManagerInstance);
+        
+        _mirrorKcp = networkManagerInstance.GetComponent<KcpTransport>();
+        _steamKcp = networkManagerInstance.GetComponent<FizzySteamworks>();
+        
         
         var playerBankService = new PlayerBankService();
         Container.Bind<PlayerBankService>().FromInstance(playerBankService).AsSingle();

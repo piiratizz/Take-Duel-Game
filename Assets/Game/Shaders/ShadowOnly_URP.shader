@@ -2,15 +2,21 @@ Shader "Custom/ShadowOnly_URP"
 {
     SubShader
     {
-        Tags { "RenderPipeline"="UniversalRenderPipeline"
-               "Queue"="Transparent"          // чтобы рисовался после обычной геометрии
-               "RenderType"="Transparent" }   // но без сортировки по альфе
+        Tags
+        {
+            "RenderPipeline"="UniversalRenderPipeline"
+            "Queue"="Transparent" // чтобы рисовался после обычной геометрии
+            "RenderType"="Transparent"
+        } // но без сортировки по альфе
 
         // ───────────────────────────────────────── ShadowCaster ──
         Pass
         {
             Name "ShadowCaster"
-            Tags { "LightMode" = "ShadowCaster" }
+            Tags
+            {
+                "LightMode" = "ShadowCaster"
+            }
 
             HLSLPROGRAM
             #pragma vertex vert
@@ -24,7 +30,7 @@ Shader "Custom/ShadowOnly_URP"
             struct Attributes
             {
                 float3 positionOS : POSITION;
-                float3 normalOS   : NORMAL;
+                float3 normalOS : NORMAL;
             };
 
             struct Varyings
@@ -33,7 +39,7 @@ Shader "Custom/ShadowOnly_URP"
             };
 
             // Вершины → клип-пространство
-            Varyings vert (Attributes IN)
+            Varyings vert(Attributes IN)
             {
                 Varyings OUT;
                 VertexPositionInputs pos = GetVertexPositionInputs(IN.positionOS);
@@ -42,7 +48,11 @@ Shader "Custom/ShadowOnly_URP"
             }
 
             // Фрагмент пустой: важно лишь присутствие pass’а
-            void frag() {}
+            float4 frag() : SV_Target
+            {
+                discard; // чтобы ничего не рисовал
+                return float4(0, 0, 0, 0); // возвращаем dummy
+            }
             ENDHLSL
         }
 
@@ -50,9 +60,12 @@ Shader "Custom/ShadowOnly_URP"
         Pass
         {
             Name "Invisible"
-            Tags { "LightMode"="UniversalForward" } // вызываться будет, но ничего не нарисует
-            ColorMask 0       // не писать в буфер цвета
-            ZWrite Off        // не вмешиваться в Z
+            Tags
+            {
+                "LightMode"="UniversalForward"
+            } // вызываться будет, но ничего не нарисует
+            ColorMask 0 // не писать в буфер цвета
+            ZWrite Off // не вмешиваться в Z
         }
     }
 

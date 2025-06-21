@@ -1,5 +1,6 @@
 using Mirror;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class GameplayInstaller : MonoInstaller
@@ -9,7 +10,7 @@ public class GameplayInstaller : MonoInstaller
     [SerializeField] private GameStateService _gameStateService;
     [SerializeField] private SpawnPointManager _spawnPointManager;
     [SerializeField] private PlayerStateService _playerStateService;
-    [SerializeField] private BalanceReward _rewardService;
+    [FormerlySerializedAs("_rewardService")] [SerializeField] private BalanceRewardService rewardServiceService;
     
     public override void InstallBindings()
     {
@@ -26,8 +27,8 @@ public class GameplayInstaller : MonoInstaller
         
         Container.Bind<PlayersSkinsLoaderService>().FromNew().AsSingle();
         
-        Container.Bind<RewardServiceBase>().FromInstance(_rewardService).AsSingle();
-        Container.Inject(_rewardService);
+        Container.Bind<RewardServiceBase>().FromInstance(rewardServiceService).AsSingle();
+        Container.Inject(rewardServiceService);
         
         Container.Bind<GameStateService>().FromInstance(_gameStateService).AsSingle().NonLazy();
         Container.Inject(_gameStateService);

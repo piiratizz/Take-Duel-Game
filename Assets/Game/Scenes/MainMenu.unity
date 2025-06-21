@@ -7934,7 +7934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a83d2f7ae04ab6f4f99b0d85377be998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializedBakingSet: {fileID: 11400000, guid: 948a73bf7317cba4bb35c59056ef8a60, type: 2}
+  serializedBakingSet: {fileID: 0}
   sceneGUID: 6c5aeb6217dca2649b1cb1ff2fe9e8ab
   obsoleteAsset: {fileID: 0}
   obsoleteCellSharedDataAsset: {fileID: 0}
@@ -12279,7 +12279,7 @@ MonoBehaviour:
   lowestSubdivLevelOverride: 0
   highestSubdivLevelOverride: 7
   overridesSubdivLevels: 0
-  mightNeedRebaking: 0
+  mightNeedRebaking: 1
   cachedTransform:
     e00: 1
     e01: 0
@@ -15562,7 +15562,6 @@ SceneRoots:
   - {fileID: 1452884305}
   - {fileID: 1340069357}
   - {fileID: 1663738511}
-  - {fileID: 1450629866}
   - {fileID: 634461695}
   - {fileID: 1365306478}
   - {fileID: 1687789531}
@@ -15572,3 +15571,4 @@ SceneRoots:
   - {fileID: 402323048}
   - {fileID: 1378998673}
   - {fileID: 1959323385}
+  - {fileID: 1450629866}

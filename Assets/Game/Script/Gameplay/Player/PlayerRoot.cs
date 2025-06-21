@@ -26,7 +26,6 @@ public class PlayerRoot : NetworkBehaviour
         _playerHealth.Initialize();
         _playerUIRoot.Initialize();
         _damagePerformer.Initialize();
-        _stateMachine.Initialize(States.Fight);
         
         AttachCameraToLocalPlayer();
         _playerWeaponInteractor.Initialize();
@@ -40,6 +39,8 @@ public class PlayerRoot : NetworkBehaviour
             _playerSkinChanger.SetHeadMesh();
         }
 
+        _stateMachine.Initialize(States.Wait);
+        
         _initialized = true;
     }
     
@@ -86,5 +87,11 @@ public class PlayerRoot : NetworkBehaviour
     public void ChangeSkin(string skinName)
     {
         _playerSkinChanger.SetSkin(skinName);
+    }
+
+    [ClientRpc]
+    public void RpcInitializePlayerSteamInfo(string nickname, Texture2D avatarInt)
+    {
+        _playerUIRoot.InitializePlayerSteamInfo(nickname, avatarInt);
     }
 }

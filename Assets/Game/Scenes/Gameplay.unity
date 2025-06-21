@@ -14476,6 +14476,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 199790557}
     - target: {fileID: 2397916418770680615, guid: 5201d575b6ac9fe43a554e8f7ba33af6, type: 3}
+      propertyPath: rewardServiceService
+      value: 
+      objectReference: {fileID: 82562325}
+    - target: {fileID: 2397916418770680615, guid: 5201d575b6ac9fe43a554e8f7ba33af6, type: 3}
       propertyPath: _serverPlayersService
       value: 
       objectReference: {fileID: 1347525581}
@@ -42289,7 +42293,7 @@ Transform:
   m_GameObject: {fileID: 1056186851277483}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.048, y: -0.19999999, z: -4.71}
+  m_LocalPosition: {x: -14.048, y: -0.364, z: -4.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

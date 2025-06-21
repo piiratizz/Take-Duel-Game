@@ -5,6 +5,7 @@ using Zenject;
 public class PlayerUIRoot : NetworkBehaviour
 {
     [SerializeField] private PlayerHealthUI _playerHealthUI;
+    [SerializeField] private PlayerSteamInfoView _playerSteamInfo;
     [SerializeField] private Canvas _canvas;
     
     public void Initialize()
@@ -22,5 +23,10 @@ public class PlayerUIRoot : NetworkBehaviour
     public void RpcUpdateHealth(float newHealth)
     {
         _playerHealthUI.UpdateHealth(newHealth);
+    }
+
+    public void InitializePlayerSteamInfo(string nickname, Texture2D avatarInt)
+    {
+        _playerSteamInfo.Initialize(nickname, avatarInt);
     }
 }

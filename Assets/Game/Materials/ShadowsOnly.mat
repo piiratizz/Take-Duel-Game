@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ShadowsOnly
-  m_Shader: {fileID: 4800000, guid: 63c88fbfb2a38ed4589479b7f693a550, type: 3}
+  m_Shader: {fileID: 4800000, guid: dd23acbb5802a454db4257ce843fe566, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []

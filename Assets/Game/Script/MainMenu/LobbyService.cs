@@ -38,9 +38,9 @@ public class LobbyService : NetworkBehaviour
         {
             return;
         }
-
+        
         string hostAddress = SteamMatchmaking.GetLobbyData(new CSteamID(param.m_ulSteamIDLobby), HostAddressKey);
-
+        
         _networkManager.networkAddress = hostAddress;
 
         await _sceneService.LoadGameplayAsync();

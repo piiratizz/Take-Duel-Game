@@ -15,6 +15,7 @@ public class CustomNetworkManager : NetworkManager
     [HideInInspector] public UnityEvent ClientDisconnectedEvent;
 
     [Inject] private PlayerDataStorageService _playerDataStorageService;
+    [Inject] private SteamManager _steamManager;
     
     private Dictionary<NetworkConnectionToClient, PlayerDataMessage> _playersData;
 
@@ -69,13 +70,15 @@ public class CustomNetworkManager : NetworkManager
         PlayerConnectedEvent.Invoke(conn);
     }
 
-    public override void OnClientConnect()
+    public override async void OnClientConnect()
     {
         base.OnClientConnect();
         var data = _playerDataStorageService.Data;
         var msg = new PlayerDataMessage()
         {
-            SkinName = data.SelectedSkin
+            SkinName = data.SelectedSkin,
+            Nickname = _steamManager.GetPlayerName(),
+            AvatarInt = await _steamManager.GetPlayerAvatarIntAsync()
         };
         NetworkClient.Send(msg);
     }
