@@ -22,6 +22,7 @@ public class PlayerInstaller : MonoInstaller
     [SerializeField] private PlayerStateMachine _playerStateMachine;
     [SerializeField] private PlayerRagdollController _playerRagdollController;
     [SerializeField] private PlayerSkinChanger _playerSkinChanger;
+    [SerializeField] private PlayerAudio _playerAudio;
     
     private DiContainer _container;
     
@@ -57,6 +58,7 @@ public class PlayerInstaller : MonoInstaller
         _container.Bind<PlayerStateMachine>().FromInstance(_playerStateMachine).AsSingle();
         _container.Bind<PlayerRagdollController>().FromInstance(_playerRagdollController).AsSingle();
         _container.Bind<PlayerSkinChanger>().FromInstance(_playerSkinChanger).AsSingle();
+        _container.Bind<PlayerAudio>().FromInstance(_playerAudio).AsSingle();
         
         Debug.Log("PLAYER INSTALLED");
     }

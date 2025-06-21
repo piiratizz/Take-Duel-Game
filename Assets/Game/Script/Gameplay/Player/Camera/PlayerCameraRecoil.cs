@@ -44,7 +44,6 @@ public class PlayerCameraRecoil : MonoBehaviour
                 endPoint,
                 config.SpeedModifier * Time.deltaTime);
             
-            Debug.Log($"{verticalEulerRotation} {_playerCameraMovement.VerticalRotation} {currentTime}");
             _playerCameraMovement.SetVerticalRotation(verticalEulerRotation);
 
             await UniTask.Yield();

@@ -5,7 +5,13 @@ public class PlayerAudio : NetworkBehaviour
 {
     [SerializeField] private AudioClip[] _stepsSounds;
     [SerializeField] private AudioSource _audioSource;
-
+    [SerializeField] private PlayerAnimatorEventsHandler _playerAnimatorEventsHandler;
+    
+    public void Initialize()
+    {
+        _playerAnimatorEventsHandler.StepEvent.AddListener(CmdPlayStepSound);
+    }
+    
     [ClientRpc]
     private void RpcPlayStepSound()
     {
@@ -13,7 +19,7 @@ public class PlayerAudio : NetworkBehaviour
     }
 
     [Command]
-    public void CmdPlayStepSound()
+    private void CmdPlayStepSound()
     {
         RpcPlayStepSound();
     }

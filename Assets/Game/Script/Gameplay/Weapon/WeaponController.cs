@@ -123,15 +123,6 @@ public class WeaponController : NetworkBehaviour
                 out var hit
             );
         
-        //DEBUG
-        _gizmosDebugSpherePosition = target;
-        _gizmosDebugRayOriginPosition = origin;
-        _gizmosDebugRayTargetPosition = target;
-        //
-        
-        Debug.Log(lagCompensationResult);
-        if(lagCompensationResult)
-            Debug.Log(hit.collider.gameObject.name);
         
         if(!lagCompensationResult) return;
 
@@ -174,6 +165,11 @@ public class WeaponController : NetworkBehaviour
         _slided = true;
     }
 
+    public void OnAttach()
+    {
+        _view.PlayAttachSound();
+    }
+    
     public void SubscribeUI()
     {
         if (!isLocalPlayer || !_initialized) return;
@@ -208,8 +204,7 @@ public class WeaponController : NetworkBehaviour
     {
         return _model.ClipAmmoCount > 0 && _elapsedTimeAfterShot >= 60f / _config.FireRate && _reloaded;
     }
-
-
+    
     private Vector3 _gizmosDebugSpherePosition;
     private Vector3 _gizmosDebugRayOriginPosition;
     private Vector3 _gizmosDebugRayTargetPosition;

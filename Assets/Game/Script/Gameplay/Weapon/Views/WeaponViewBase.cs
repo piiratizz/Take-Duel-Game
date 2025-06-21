@@ -9,16 +9,16 @@ public abstract class WeaponViewBase : NetworkBehaviour
     [SerializeField] private Animator _weaponAnimator;
     [SerializeField] private Transform _muzzle;
     [SerializeField] private WeaponRecoilConfig _weaponRecoilConfig;
-    [SerializeField] private AudioClip _shotSound;
     [SerializeField] private Transform _leftHandIKPosition;
     [SerializeField] private Transform _rightHandIKPosition;
     [SerializeField] private AnimatorOverrideController _weaponHolderOverrideController;
+    [SerializeField] private AudioSource _audioSource;
     
     [Inject] private PlayerCameraRecoil _cameraRecoil;
     [Inject] private PlayerAnimator _playerAnimator;
     
     private WeaponConfigBase _weaponConfigBase;
-    private AudioSource _audioSource;
+    
     private GameObject _playerImpactEffect;
     
     public AnimatorOverrideController AnimatorOverrideController => _weaponHolderOverrideController;
@@ -37,8 +37,6 @@ public abstract class WeaponViewBase : NetworkBehaviour
         {
             _playerImpactEffect = weaponConfigBase.PlayerHitEffect.gameObject;
         }
-        
-        _audioSource = GetComponent<AudioSource>();
     }
 
     public virtual void ShowMuzzleFlashEffect() { }
@@ -64,8 +62,18 @@ public abstract class WeaponViewBase : NetworkBehaviour
 
     public virtual void PlayShotSound()
     {
-        _audioSource.clip = _shotSound;
-        _audioSource.PlayOneShot(_shotSound);
+        if (_weaponConfigBase.ShotSound.Clip != null)
+        {
+            _audioSource.PlayOneShot(_weaponConfigBase.ShotSound.Clip, _weaponConfigBase.ShotSound.Volume);
+        }
+    }
+
+    public virtual void PlayAttachSound()
+    {
+        if (_weaponConfigBase.ShotSound.Clip != null)
+        {
+            _audioSource.PlayOneShot(_weaponConfigBase.AttachSound.Clip, _weaponConfigBase.AttachSound.Volume);
+        }
     }
     
     public virtual void SlideWeapon() { }

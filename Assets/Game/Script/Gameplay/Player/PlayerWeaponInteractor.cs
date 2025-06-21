@@ -147,6 +147,7 @@ public class PlayerWeaponInteractor : NetworkBehaviour
         _ikController.AttachHandsToWeapon(_weaponList[weaponIndex]);
         _playerAnimator.OverrideWeaponHolderAnimator(_weaponList[weaponIndex].AnimatorOverrideController);
         _activeWeaponIndex = weaponIndex;
+        _weaponControllers[_activeWeaponIndex].OnAttach();
     }
 
     public void BlockWeaponInteraction()

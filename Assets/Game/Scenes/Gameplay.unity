@@ -1866,7 +1866,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7877429910857214603, guid: 4889dd3a8bca2674ea5cb183d1dd17d0, type: 3}
       propertyPath: _waitUntilTwoPlayersLoaded
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -18,5 +18,11 @@ MonoBehaviour:
   MuzzleFlash: {fileID: 4914121807760042695, guid: c17c701ee531fd245b9f9c85700a3759, type: 3}
   PlayerHitEffect: {fileID: 19808544, guid: afbf34b8c15833f4381b789805df1ca6, type: 3}
   EnvironmentHitEffect: {fileID: 0}
+  ShotSound:
+    Clip: {fileID: 8300000, guid: a0d6df224fb07da4a9a518d4481ae122, type: 3}
+    Volume: 1
+  AttachSound:
+    Clip: {fileID: 8300000, guid: d2dbd25a697c3fb41aa3f4258426b569, type: 3}
+    Volume: 0.5
   PlayerDamage: 20
   EnvironmentDamage: 0

@@ -15,6 +15,7 @@ public class PlayerRoot : NetworkBehaviour
     [Inject] private PlayerCameraMovement _playerCameraMovement;
     [Inject] private PlayerStateMachine _stateMachine;
     [Inject] private PlayerSkinChanger _playerSkinChanger;
+    [Inject] private PlayerAudio _playerAudio;
 
     public bool Initialized => _initialized;
     private bool _initialized;
@@ -26,6 +27,7 @@ public class PlayerRoot : NetworkBehaviour
         _playerHealth.Initialize();
         _playerUIRoot.Initialize();
         _damagePerformer.Initialize();
+        _playerAudio.Initialize();
         
         AttachCameraToLocalPlayer();
         _playerWeaponInteractor.Initialize();
