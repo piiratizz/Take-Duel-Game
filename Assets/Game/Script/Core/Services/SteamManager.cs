@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Steamworks;
 
 public class SteamManager : MonoBehaviour
 {
+    private Callback<LobbyMatchList_t> _onLobbyListReceived;
+    private Callback<LobbyDataUpdate_t> _onLobbyDataUpdated;
+    private List<CSteamID> _foundLobbies = new();
+    private Action<LobbyData> _lobbyDataReceived;
     public static bool Initialized => _initialized;
     private static bool _initialized;
 
@@ -18,11 +23,14 @@ public class SteamManager : MonoBehaviour
                 return;
             }
             
+            _onLobbyListReceived = Callback<LobbyMatchList_t>.Create(OnLobbyListReceived);
+            _onLobbyDataUpdated = Callback<LobbyDataUpdate_t>.Create(OnLobbyDataUpdated);
+            
             Debug.Log($"Connected to steam profile: {SteamFriends.GetPersonaName()}");
             _initialized = true;
         }
     }
-
+    
     public string GetPlayerName()
     {
         return SteamFriends.GetPersonaName();
@@ -88,6 +96,40 @@ public class SteamManager : MonoBehaviour
         SteamAPI.RunCallbacks();
     }
 
+    public void RequestLobbiesList(Action<LobbyData> lobbyDataReceivedCallback)
+    {
+        _lobbyDataReceived = lobbyDataReceivedCallback;
+        SteamMatchmaking.AddRequestLobbyListResultCountFilter(1000);
+        SteamMatchmaking.RequestLobbyList();
+    }
+    
+    private void OnLobbyDataUpdated(LobbyDataUpdate_t param)
+    {
+        if (param.m_bSuccess != 1) return;
+
+        var lobbyID = (CSteamID)param.m_ulSteamIDLobby;
+        var roomName = SteamMatchmaking.GetLobbyData(lobbyID, "name");
+        
+        var data = new LobbyData()
+        {
+            LobbyId = lobbyID,
+            RoomName = roomName
+        };
+
+        _lobbyDataReceived(data);
+    }
+
+    private void OnLobbyListReceived(LobbyMatchList_t param)
+    {
+        _foundLobbies.Clear();
+        for (int i = 0; i < param.m_nLobbiesMatching; i++)
+        {
+            CSteamID lobbyId = SteamMatchmaking.GetLobbyByIndex(i);
+            _foundLobbies.Add(lobbyId);
+            SteamMatchmaking.RequestLobbyData(lobbyId); 
+        }
+    }
+    
     void OnApplicationQuit()
     {
         if (_initialized)

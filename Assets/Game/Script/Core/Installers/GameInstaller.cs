@@ -10,10 +10,7 @@ public class GameInstaller : MonoInstaller
 {
     [SerializeField] private LobbyService _lobbyService;
     [SerializeField] private CustomNetworkManager _networkManager;
-    [SerializeField] private bool _useSteamConnection;
-    
-    private KcpTransport _mirrorKcp;
-    private FizzySteamworks _steamKcp;
+
     private SteamManager _steamManager;
     
     private LoadingScreenService _loadingScreenService;
@@ -37,25 +34,10 @@ public class GameInstaller : MonoInstaller
         
         Container.Inject(networkManagerInstance);
         
-        _mirrorKcp = networkManagerInstance.GetComponent<KcpTransport>();
-        _steamKcp = networkManagerInstance.GetComponent<FizzySteamworks>();
-        
-        
         var playerBankService = new PlayerBankService();
         Container.Bind<PlayerBankService>().FromInstance(playerBankService).AsSingle();
         Container.Inject(playerBankService);
         playerBankService.Initialize();
-        
-        if (_useSteamConnection)
-        {
-            networkManagerInstance.transport = _steamKcp;
-            _mirrorKcp.enabled = false;
-        }
-        else
-        {
-            networkManagerInstance.transport = _mirrorKcp;
-            _steamKcp.enabled = false;
-        }
         
         _loadingScreenService = new LoadingScreenService();
         Container.Bind<LoadingScreenService>().FromInstance(_loadingScreenService).AsSingle();

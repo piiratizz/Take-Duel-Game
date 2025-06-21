@@ -35,7 +35,8 @@ public class WindowsManager : MonoBehaviour
     
     private void ShowPlay()
     {
-        ShowWindow(_menuUIRoot.PlayWindow);
+        ShowWindow(_menuUIRoot.LobbyListWindow);
+        //ShowWindow(_menuUIRoot.PlayWindow);
     }
     
     private void ShowShop()
@@ -53,6 +54,11 @@ public class WindowsManager : MonoBehaviour
         Application.Quit();
     }
 
+    public void ShowLobby()
+    {
+        ShowWindow(_menuUIRoot.LobbyCreationWindow);
+    }
+    
     private void ShowWindow(WindowBase window)
     {
         if (_currentWindow != null)

@@ -23,16 +23,18 @@ public class LobbyService : NetworkBehaviour
         _lobbyEnteredCallback = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
     }
 
-    public async void HostLobby()
+    public async void CreateLobby()
     {
-        await _sceneService.LoadGameplayAsync();
-        _networkManager.StartHost();
-        
+        //await StartHost();
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, _networkManager.maxConnections);
-        Debug.Log("Hosting lobby...");
     }
 
-    private async void OnLobbyEntered(LobbyEnter_t param)
+    public void JoinLobby(CSteamID lobbyId)
+    {
+        SteamMatchmaking.JoinLobby(lobbyId);
+    }
+
+    private void OnLobbyEntered(LobbyEnter_t param)
     {
         if (NetworkServer.active)
         {
@@ -43,8 +45,19 @@ public class LobbyService : NetworkBehaviour
         
         _networkManager.networkAddress = hostAddress;
 
+        //StartClient();
+    }
+
+    private async UniTask StartClient()
+    {
         await _sceneService.LoadGameplayAsync();
         _networkManager.StartClient();
+    }
+
+    private async UniTask StartHost()
+    {
+        await _sceneService.LoadGameplayAsync();
+        _networkManager.StartHost();
     }
 
     private void OnLobbyJoinRequested(GameLobbyJoinRequested_t param)

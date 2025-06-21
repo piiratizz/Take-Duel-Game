@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MainMenuUIRoot : MonoBehaviour
@@ -21,6 +22,8 @@ public class MainMenuUIRoot : MonoBehaviour
     public PlayWindow PlayWindow;
     public ShopWindow ShopWindow;
     public InventorySkinsWindow InventorySkinsWindow;
+    public LobbyListWindow LobbyListWindow;
+    public LobbyCreationWindow LobbyCreationWindow;
 
     public TMP_InputField PortInputField;
     public TMP_InputField IpInputField;
@@ -28,4 +31,6 @@ public class MainMenuUIRoot : MonoBehaviour
     public Button ConnectButton;
     public Button HostButton;
     public Button CreateLobbyButton;
+
+    public LobbyItemsManager lobbyItemsManager;
 }

@@ -80,6 +80,7 @@ public class CustomNetworkManager : NetworkManager
             Nickname = _steamManager.GetPlayerName(),
             AvatarInt = await _steamManager.GetPlayerAvatarIntAsync()
         };
+        
         NetworkClient.Send(msg);
     }
 

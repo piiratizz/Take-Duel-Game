@@ -12,13 +12,11 @@ public class PlayerAudio : NetworkBehaviour
         _playerAnimatorEventsHandler.StepEvent.AddListener(CmdPlayStepSound);
     }
     
-    [ClientRpc]
     private void RpcPlayStepSound()
     {
         _audioSource.PlayOneShot(_stepsSounds[Random.Range(0,_stepsSounds.Length)]);
     }
-
-    [Command]
+    
     private void CmdPlayStepSound()
     {
         RpcPlayStepSound();

@@ -11,6 +11,7 @@ public class MainMenuButtonsHandler : MonoBehaviour
     [Inject] private CustomNetworkManager _networkManager;
     [Inject] private SceneService _sceneService;
     [Inject] private LobbyService _lobbyService;
+    [Inject] private WindowsManager _windowsManager;
     
     private void Start()
     {
@@ -26,7 +27,8 @@ public class MainMenuButtonsHandler : MonoBehaviour
 
     private void CreateLobby()
     {
-        _lobbyService.HostLobby();
+        _lobbyService.CreateLobby();
+        _windowsManager.ShowLobby();
     }
 
 
@@ -65,5 +67,6 @@ public class MainMenuButtonsHandler : MonoBehaviour
         {
             kcp.port = ushort.Parse(_mainMenuUIRoot.PortInputField.text);
         }
+        Debug.Log($"{_networkManager.networkAddress} {kcp.port}");
     }
 }
