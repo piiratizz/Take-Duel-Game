@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Zenject;
 
 public class LobbyItemsManager : MonoBehaviour
@@ -8,10 +9,15 @@ public class LobbyItemsManager : MonoBehaviour
 
     [Inject] private SteamManager _steamManager;
     [Inject] private LobbyService _lobbyService;
-    
+
+    private void Start()
+    {
+        _steamManager.LobbyDataReceived.AddListener(Create);
+    }
+
     public void FindLobbies()
     {
-        _steamManager.RequestLobbiesList(Create);
+        _steamManager.RequestLobbiesList();
     }
     
     private void Create(LobbyData lobbyData)

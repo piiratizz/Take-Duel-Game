@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Steamworks;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class SteamManager : MonoBehaviour
 {
     private Callback<LobbyMatchList_t> _onLobbyListReceived;
     private Callback<LobbyDataUpdate_t> _onLobbyDataUpdated;
     private List<CSteamID> _foundLobbies = new();
-    private Action<LobbyData> _lobbyDataReceived;
+    public UnityEvent<LobbyData> LobbyDataReceived;
     public static bool Initialized => _initialized;
     private static bool _initialized;
 
@@ -25,7 +27,7 @@ public class SteamManager : MonoBehaviour
             
             _onLobbyListReceived = Callback<LobbyMatchList_t>.Create(OnLobbyListReceived);
             _onLobbyDataUpdated = Callback<LobbyDataUpdate_t>.Create(OnLobbyDataUpdated);
-            
+            LobbyDataReceived = new UnityEvent<LobbyData>();
             Debug.Log($"Connected to steam profile: {SteamFriends.GetPersonaName()}");
             _initialized = true;
         }
@@ -96,10 +98,9 @@ public class SteamManager : MonoBehaviour
         SteamAPI.RunCallbacks();
     }
 
-    public void RequestLobbiesList(Action<LobbyData> lobbyDataReceivedCallback)
+    public void RequestLobbiesList()
     {
-        _lobbyDataReceived = lobbyDataReceivedCallback;
-        SteamMatchmaking.AddRequestLobbyListResultCountFilter(1000);
+        SteamMatchmaking.AddRequestLobbyListResultCountFilter(5000);
         SteamMatchmaking.RequestLobbyList();
     }
     
@@ -116,7 +117,7 @@ public class SteamManager : MonoBehaviour
             RoomName = roomName
         };
 
-        _lobbyDataReceived(data);
+        LobbyDataReceived.Invoke(data);
     }
 
     private void OnLobbyListReceived(LobbyMatchList_t param)

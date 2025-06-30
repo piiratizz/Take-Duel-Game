@@ -2162,6 +2162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89eb0e586dd8446ba484480f1b1a2ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   _playerRoot: {fileID: 1414923868960213563}
   _playerUIRoot: {fileID: 5503345823136321441}
   _playerConfig: {fileID: 11400000, guid: aa7f1344a3d143e4dac591794fb3613c, type: 2}
@@ -2218,7 +2221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dffddfff3b1841bd86614569b0e48b54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
+  syncDirection: 1
   syncMode: 0
   syncInterval: 0
 --- !u!114 &8176652639700307497

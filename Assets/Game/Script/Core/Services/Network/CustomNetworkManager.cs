@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Zenject;
 using Mirror;
 using UnityEngine;
@@ -8,28 +9,27 @@ public class CustomNetworkManager : NetworkManager
 {
     [Header("CUSTOM SECTION")] 
     [SerializeField] private GameObject _playerPrefab;
-
-    [HideInInspector] public UnityEvent<NetworkConnectionToClient> PlayerConnectedEvent;
-    [HideInInspector] public UnityEvent<NetworkConnectionToClient> PlayerDisconnectedEvent;
-    [HideInInspector] public UnityEvent<NetworkConnectionToClient> PlayerSpawnedEvent;
+    [SerializeField] private GameObject _lobbyPlayerPrefab;
+    
     [HideInInspector] public UnityEvent ClientDisconnectedEvent;
 
     [Inject] private PlayerDataStorageService _playerDataStorageService;
     [Inject] private SteamManager _steamManager;
     
     private Dictionary<NetworkConnectionToClient, PlayerDataMessage> _playersData;
+    private List<NetworkConnectionToClient> _connectedPlayers;
 
     public PlayerDataMessage GetPlayerData(NetworkConnectionToClient playerConnection) =>
         _playersData[playerConnection];
+
+    public IReadOnlyList<NetworkConnectionToClient> ConnectedPlayer => _connectedPlayers;
     
     public override void Awake()
     {
         base.Awake();
-        PlayerConnectedEvent = new UnityEvent<NetworkConnectionToClient>();
-        PlayerDisconnectedEvent = new UnityEvent<NetworkConnectionToClient>();
-        PlayerSpawnedEvent = new UnityEvent<NetworkConnectionToClient>();
         ClientDisconnectedEvent = new UnityEvent();
         _playersData = new Dictionary<NetworkConnectionToClient, PlayerDataMessage>();
+        _connectedPlayers = new List<NetworkConnectionToClient>();
     }
 
     public override void OnStartServer()
@@ -40,26 +40,26 @@ public class CustomNetworkManager : NetworkManager
 
     private void OnReceivePlayerData(NetworkConnectionToClient conn, PlayerDataMessage message)
     {
+        Debug.Log($"Message received {message.Nickname}");
         _playersData.Add(conn, message);
     }
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
+        //base.OnServerAddPlayer(conn);
         GameObject player = Instantiate(
-            _playerPrefab,
+            _lobbyPlayerPrefab,
             Vector3.zero, 
             Quaternion.identity,
             null);
         
         NetworkServer.AddPlayerForConnection(conn, player);
-        PlayerSpawnedEvent.Invoke(conn);
         Debug.Log("PLAYER SPAWNED");
     }
-
+    
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         base.OnServerDisconnect(conn);
-        PlayerDisconnectedEvent.Invoke(conn);
         Debug.Log($"Player disconnected: {conn.connectionId}");
     }
     
@@ -67,7 +67,7 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnServerConnect(conn);
         Debug.Log($"Player connected: {conn.connectionId}");
-        PlayerConnectedEvent.Invoke(conn);
+        _connectedPlayers.Add(conn);
     }
 
     public override async void OnClientConnect()
@@ -89,4 +89,21 @@ public class CustomNetworkManager : NetworkManager
         base.OnClientDisconnect();
         ClientDisconnectedEvent.Invoke();
     }
+    
+    public override async void OnServerSceneChanged(string sceneName)
+    {
+        if (sceneName == Scenes.Gameplay)
+        {
+            foreach (var conn in NetworkServer.connections.Values)
+            {
+                await UniTask.WaitWhile(() => !conn.isReady);
+                var newPlayer = Instantiate(_playerPrefab);
+                var oldPlayer = conn.identity.gameObject;
+                //NetworkServer.Destroy(conn.identity.gameObject);
+                NetworkServer.ReplacePlayerForConnection(conn, newPlayer, ReplacePlayerOptions.KeepAuthority);
+                Destroy(oldPlayer, 0.1f);
+            }
+        }
+    }
+    
 }

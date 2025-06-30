@@ -4,7 +4,7 @@ using Zenject;
 
 public class WindowsManager : MonoBehaviour
 {
-    [Inject] private MainMenuUIRoot _menuUIRoot;
+    [SerializeField] private MainMenuUIRoot _menuUIRoot;
 
     private WindowBase _currentWindow;
     

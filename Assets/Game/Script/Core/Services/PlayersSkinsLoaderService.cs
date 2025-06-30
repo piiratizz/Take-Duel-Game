@@ -3,15 +3,15 @@ using Zenject;
 
 public class PlayersSkinsLoaderService
 {
-    [Inject] private ServerPlayersService _serverPlayersService;
+    [Inject] private PlayerLivesService _playerLivesService;
     [Inject] private CustomNetworkManager _customNetworkManager;
     
     public void SetSkins()
     {
-        foreach (var conn in _serverPlayersService.PlayersConnections)
+        foreach (var conn in _customNetworkManager.ConnectedPlayer)
         {
             var data = _customNetworkManager.GetPlayerData(conn);
-            Debug.Log(data.SkinName);
+            Debug.Log(conn.identity.GetComponent<PlayerRoot>());
             conn.identity.GetComponent<PlayerRoot>().ChangeSkin(data.SkinName);
         }
     }

@@ -32,5 +32,7 @@ public class MainMenuUIRoot : MonoBehaviour
     public Button HostButton;
     public Button CreateLobbyButton;
 
-    public LobbyItemsManager lobbyItemsManager;
+    public LobbyItemsManager LobbyItemsManager;
+    public LobbyCreator LobbyCreator;
+    public WindowsManager WindowsManager;
 }

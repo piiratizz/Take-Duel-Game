@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lobbyService: {fileID: 2615855578594940078, guid: f06e6123a0014a443ac81ea006eb5a65, type: 3}
+  _serverStateManager: {fileID: 8837857747386908056, guid: 5337dac5bcae7c5448460d3aae949c70, type: 3}
   _networkManager: {fileID: 6844112917200417580, guid: 3b56861710de578408288908fadca355, type: 3}
-  _useSteamConnection: 0

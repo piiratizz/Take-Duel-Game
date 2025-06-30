@@ -58,7 +58,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   offlineSceneLoadDelay: 0
-  transport: {fileID: 3720616823480843912}
+  transport: {fileID: 3446141367798599129}
   networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
@@ -70,6 +70,13 @@ MonoBehaviour:
   spawnPrefabs:
   - {fileID: 2638498498686751802, guid: c17c701ee531fd245b9f9c85700a3759, type: 3}
   - {fileID: 166404, guid: afbf34b8c15833f4381b789805df1ca6, type: 3}
+  - {fileID: 8500839457334284807, guid: f06e6123a0014a443ac81ea006eb5a65, type: 3}
+  - {fileID: 5253316696080883128, guid: 4889dd3a8bca2674ea5cb183d1dd17d0, type: 3}
+  - {fileID: 9025647396249102692, guid: 6648d4504cb10ad46a743d4d325fba70, type: 3}
+  - {fileID: 54553626981977000, guid: b999d578130aa6c40aceb5f2d0b6733e, type: 3}
+  - {fileID: 1766721270794635866, guid: 075a4570c31d0d94a9d81b5aadafd98b, type: 3}
+  - {fileID: 376319953469161535, guid: 5337dac5bcae7c5448460d3aae949c70, type: 3}
+  - {fileID: 174934887778269140, guid: 66bd7a18678cb1d4cb461a26a1df017f, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -86,6 +93,7 @@ MonoBehaviour:
   evaluationInterval: 3
   timeInterpolationGui: 0
   _playerPrefab: {fileID: 2062155258246752917, guid: 218cfa4668197a14993edc42d5b4697c, type: 3}
+  _lobbyPlayerPrefab: {fileID: 174934887778269140, guid: 66bd7a18678cb1d4cb461a26a1df017f, type: 3}
   PlayerConnectedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -119,7 +127,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7806914274181874862}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
   m_Name: 
@@ -182,7 +190,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7806914274181874862}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6e55fca1f4e4844593a3dd65a3ecb39, type: 3}
   m_Name: 
@@ -203,3 +211,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbfb51d8d2824b6daaec988d57913305, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LobbyDataReceived:
+    m_PersistentCalls:
+      m_Calls: []

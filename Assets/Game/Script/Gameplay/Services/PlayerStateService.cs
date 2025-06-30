@@ -4,7 +4,7 @@ using Zenject;
 
 public class PlayerStateService : NetworkBehaviour
 {
-    [Inject] private ServerPlayersService _serverPlayersService;
+    [Inject] private PlayerLivesService _playerLivesService;
     
     [Server]
     public void SetAllPlayersState(States state)
@@ -31,7 +31,7 @@ public class PlayerStateService : NetworkBehaviour
     [ClientRpc]
     private void RpcSetPlayerState(uint netId, States state)
     {
-        var player = _serverPlayersService.GetPlayerById(netId);
+        var player = _playerLivesService.GetPlayerById(netId);
         if (player != null)
         {
             player.GetComponent<PlayerRoot>()?.SetState(state);

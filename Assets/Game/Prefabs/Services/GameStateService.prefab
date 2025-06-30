@@ -48,7 +48,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _waitUntilTwoPlayersLoaded: 1
+  _waitUntilTwoPlayersLoaded: 0
   _timeToStartRound: 5
 --- !u!114 &-8986363858875201812
 MonoBehaviour:

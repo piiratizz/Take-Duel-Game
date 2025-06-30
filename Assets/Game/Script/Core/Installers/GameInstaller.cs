@@ -10,11 +10,12 @@ public class GameInstaller : MonoInstaller
 {
     [SerializeField] private LobbyService _lobbyService;
     [SerializeField] private CustomNetworkManager _networkManager;
-
+    
     private SteamManager _steamManager;
     
     private LoadingScreenService _loadingScreenService;
-    
+
+
     public override async void InstallBindings()
     {
         Debug.Log("GAME INSTALLER STARTED");
@@ -45,10 +46,10 @@ public class GameInstaller : MonoInstaller
         SceneService sceneService = new SceneService();
         Container.Bind<SceneService>().FromInstance(sceneService).AsSingle();
 
-        var lobbyServiceInstance = Container.InstantiatePrefabForComponent<LobbyService>(_lobbyService);
-        Container.Bind<LobbyService>().FromInstance(lobbyServiceInstance).AsSingle();
-
-        lobbyServiceInstance.Initialize();
+        var lobbyInstance = Container.InstantiatePrefabForComponent<LobbyService>(_lobbyService);
+        Container.Bind<LobbyService>().FromInstance(lobbyInstance).AsSingle();
+        lobbyInstance.Initialize();
+        
         ///
         
         await UniTask.Yield();

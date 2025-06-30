@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Mirror;
@@ -12,7 +13,7 @@ public class GameStateService : NetworkBehaviour
     [SerializeField] private float _timeToStartRound = 5;
 
     [Inject] private CustomNetworkManager _networkManager;
-    [Inject] private ServerPlayersService _serverPlayersService;
+    [Inject] private PlayerLivesService _playerLivesService;
     [Inject] private LoadingScreenService _loadingScreenService;
     [Inject] private GameplayUIRoot _gameplayUI;
     [Inject] private SpawnPointManager _spawnPointManager;
@@ -21,48 +22,94 @@ public class GameStateService : NetworkBehaviour
     [Inject] private PlayersSkinsLoaderService _playersSkinsLoaderService;
     [Inject] private RewardServiceBase _rewardService;
     [Inject] private SteamManager _steamManager;
+    [Inject] private NetworkServerStateManager _networkServerStateManager;
     
     private RoundTimerUI _roundTimer;
     private LivesCountUI _playerLivesCounter;
 
     public async void Initialize()
     {
-        await UniTask.Yield();
-        _networkManager.PlayerSpawnedEvent.AddListener(OnPlayerSpawned);
-        _networkManager.PlayerDisconnectedEvent.AddListener(OnPlayerDisconnected);
-        _networkManager.ClientDisconnectedEvent.AddListener(OnClientDisconnected);
-
         _roundTimer = _gameplayUI.RoundTimer;
         _playerLivesCounter = _gameplayUI.LivesCounter;
+
+        if(!NetworkServer.active) return;
+        InitializeServerSide();
+    }
+
+    [Server]
+    private async void InitializeServerSide()
+    {
+        await UniTask.WaitUntil(() =>
+        {
+            foreach (var conn in _networkManager.ConnectedPlayer)
+            {
+                if (!conn.isReady)
+                    return false;
+            }
+
+            return true;
+        });
+
+        await UniTask.WaitUntil(() =>
+        {
+            foreach (var status in _networkServerStateManager.PlayersStatus)
+            {
+                if (!status.Value)
+                {
+                    Debug.Log(status);
+                    return false;
+                }
+            }
+        
+            return true;
+        });
+        //await UniTask.WaitForSeconds(2);
+        OnPlayersReady();
     }
 
 
     [Server]
-    private async void OnPlayerSpawned(NetworkConnectionToClient conn)
+    private async void OnPlayersReady()
     {
-        RpcShowLoadingScreen();
-        await UniTask.Delay(500);
-
-        _playerStateService.SetAllPlayersState(States.Wait);
-
-        var lives = _serverPlayersService.LivesOfPlayer(conn);
-        TargetUpdateLivesCount(conn, lives);
-
-        if (_waitUntilTwoPlayersLoaded)
-        {
-            if (_serverPlayersService.PlayersConnections.Count != 2)
-            {
-                return;
-            }
-        }
-
-        SetPlayersSkins();
         SetPlayersSteamInfo();
+        SetPlayersSkins();
         TeleportPlayersToStart();
-        RpcHideLoadingScreen();
 
+        foreach (var conn in _networkManager.ConnectedPlayer)
+        {
+            var lives = _playerLivesService.LivesOfPlayer(conn);
+            TargetUpdateLivesCount(conn, lives);
+        }
+        
         await StartRoundCountdownAsync();
         _playerStateService.SetAllPlayersState(States.Fight);
+        
+        // var lives2 = _serverPlayersService.LivesOfPlayer(conn);
+        // //TargetUpdateLivesCount(conn, lives2);
+        //
+        // RpcShowLoadingScreen();
+        // await UniTask.Delay(500);
+        //
+        // _playerStateService.SetAllPlayersState(States.Wait);
+        //
+        // var lives = _serverPlayersService.LivesOfPlayer(conn);
+        // TargetUpdateLivesCount(conn, lives);
+        //
+        // if (_waitUntilTwoPlayersLoaded)
+        // {
+        //     if (_serverPlayersService.PlayersConnections.Count != 2)
+        //     {
+        //         return;
+        //     }
+        // }
+        //
+        // SetPlayersSkins();
+        // SetPlayersSteamInfo();
+        // TeleportPlayersToStart();
+        // RpcHideLoadingScreen();
+        //
+        // await StartRoundCountdownAsync();
+        // _playerStateService.SetAllPlayersState(States.Fight);
     }
 
     [Server]
@@ -88,13 +135,14 @@ public class GameStateService : NetworkBehaviour
     [Server]
     private void TeleportPlayersToStart()
     {
-        var players = _serverPlayersService.PlayersConnections;
+        var players = _playerLivesService.PlayersConnections;
         var positions = _spawnPointManager.StartPosition;
-
         for (int i = 0; i < players.Count; i++)
         {
+            Debug.Log(players[i].identity);
+            Debug.Log(players[i].identity.GetComponent<PlayerRoot>());
             var player = players[i].identity.GetComponent<PlayerRoot>();
-            player.StopMove();
+            Debug.Log(player);
             player.RpcTeleportTo(positions[i].transform.position);
             player.RpcRotate(positions[i].transform.rotation);
         }
@@ -106,21 +154,21 @@ public class GameStateService : NetworkBehaviour
         _playerStateService.SetAllPlayersState(States.Wait);
         TeleportPlayersToStart();
 
-        foreach (var p in _serverPlayersService.PlayersConnections)
+        foreach (var p in _playerLivesService.PlayersConnections)
         {
             var root = p.identity.GetComponent<PlayerRoot>();
             root.ResetHealthFromServer();
         }
 
         _playerStateService.SetPlayerState(player.netId, States.Dead);
-        _serverPlayersService.DecreaseLiveCount(conn);
+        _playerLivesService.DecreaseLiveCount(conn);
 
-        int remainingLives = _serverPlayersService.LivesOfPlayer(conn);
+        int remainingLives = _playerLivesService.LivesOfPlayer(conn);
         TargetUpdateLivesCount(conn, remainingLives);
 
         if (remainingLives <= 0)
         {
-            var winPlayer = _serverPlayersService.PlayersConnections.First(c => c != conn);
+            var winPlayer = _playerLivesService.PlayersConnections.First(c => c != conn);
             Debug.Log($"{winPlayer.identity.netId} WIN the game");
             _rewardService.RewardPlayer(winPlayer);
         }
@@ -157,7 +205,7 @@ public class GameStateService : NetworkBehaviour
     [Server]
     private void SetPlayersSteamInfo()
     {
-        foreach (var p in _serverPlayersService.PlayersConnections)
+        foreach (var p in _playerLivesService.PlayersConnections)
         {
             var data = _networkManager.GetPlayerData(p);
             var root = p.identity.GetComponent<PlayerRoot>();

@@ -1,5 +1,7 @@
-﻿using Mirror;
+﻿using Cysharp.Threading.Tasks;
+using Mirror;
 using UnityEngine;
+using UnityEngine.Events;
 using Zenject;
 
 public class PlayerRoot : NetworkBehaviour
@@ -17,10 +19,12 @@ public class PlayerRoot : NetworkBehaviour
     [Inject] private PlayerSkinChanger _playerSkinChanger;
     [Inject] private PlayerAudio _playerAudio;
 
+    [Inject] private NetworkServerStateManager _networkServerStateManager;
+    
     public bool Initialized => _initialized;
     private bool _initialized;
     
-    private void Start()
+    public void Initialize()
     {
         _playerCameraMovement.Initialize();
         _playerMovement.Initialize();
@@ -43,7 +47,23 @@ public class PlayerRoot : NetworkBehaviour
 
         _stateMachine.Initialize(States.Wait);
         
+        if (isLocalPlayer)
+        {
+            Debug.Log(authority);
+            CmdMarkPlayerAsReady();
+        }
+        
+        Debug.Log("PLAYER INITIALIZED");
+        
         _initialized = true;
+    }
+
+    [Command]
+    private void CmdMarkPlayerAsReady()
+    {
+        Debug.Log(_networkServerStateManager);
+        Debug.Log(connectionToClient);
+        FindFirstObjectByType<NetworkServerStateManager>().AddReadyPlayer(connectionToClient);
     }
     
     private void AttachCameraToLocalPlayer()
@@ -60,12 +80,7 @@ public class PlayerRoot : NetworkBehaviour
     {
         _stateMachine.SetState(state);
     }
-
-    public void StopMove()
-    {
-        _playerMovement.StopPlayer();
-    }
-
+    
     [ClientRpc]
     public void RpcTeleportTo(Vector3 position)
     {
@@ -88,6 +103,7 @@ public class PlayerRoot : NetworkBehaviour
     [ClientRpc]
     public void ChangeSkin(string skinName)
     {
+        Debug.Log($"{_playerMovement} {_playerSkinChanger} {Initialized} {isServer} {netId}");
         _playerSkinChanger.SetSkin(skinName);
     }
 

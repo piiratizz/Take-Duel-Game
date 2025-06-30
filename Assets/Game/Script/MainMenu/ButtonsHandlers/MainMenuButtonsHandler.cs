@@ -7,11 +7,12 @@ using Zenject;
 
 public class MainMenuButtonsHandler : MonoBehaviour
 {
+    [Inject] private LobbyService _lobbyService;
     [Inject] private MainMenuUIRoot _mainMenuUIRoot;
     [Inject] private CustomNetworkManager _networkManager;
     [Inject] private SceneService _sceneService;
-    [Inject] private LobbyService _lobbyService;
-    [Inject] private WindowsManager _windowsManager;
+    
+    private WindowsManager _windowsManager;
     
     private void Start()
     {
@@ -23,12 +24,13 @@ public class MainMenuButtonsHandler : MonoBehaviour
         
         _mainMenuUIRoot.CreateLobbyButton.onClick = new Button.ButtonClickedEvent();
         _mainMenuUIRoot.CreateLobbyButton.onClick.AddListener(CreateLobby);
+
+        _windowsManager = _mainMenuUIRoot.WindowsManager;
     }
 
     private void CreateLobby()
     {
-        _lobbyService.CreateLobby();
-        _windowsManager.ShowLobby();
+        _mainMenuUIRoot.LobbyCreator.Create();
     }
 
 

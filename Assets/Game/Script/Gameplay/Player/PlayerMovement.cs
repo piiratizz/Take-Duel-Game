@@ -94,11 +94,6 @@ public class PlayerMovement : NetworkBehaviour
         _blocked = false;
     }
 
-    public void StopPlayer()
-    {
-        _velocity = Vector3.zero;
-    }
-
     private void OnDestroy()
     {
         if(!isLocalPlayer) return;

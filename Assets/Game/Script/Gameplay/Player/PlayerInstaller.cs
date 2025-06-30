@@ -1,8 +1,9 @@
-﻿using Mirror;
+﻿using Cysharp.Threading.Tasks;
+using Mirror;
 using UnityEngine;
 using Zenject;
 
-public class PlayerInstaller : MonoInstaller
+public class PlayerInstaller : NetworkBehaviour
 {
     [SerializeField] private PlayerRoot _playerRoot;
     [SerializeField] private PlayerUIRoot _playerUIRoot;
@@ -24,21 +25,27 @@ public class PlayerInstaller : MonoInstaller
     [SerializeField] private PlayerSkinChanger _playerSkinChanger;
     [SerializeField] private PlayerAudio _playerAudio;
     
+    
     private DiContainer _container;
     
     private bool _installed = false;
     
-    public void Awake()
+    public override async void OnStartClient()
     {
         if(_installed) return;
         _installed = true;
         
+        var networkServerStateManager = FindFirstObjectByType<NetworkServerStateManager>();
+        await UniTask.WaitWhile(() => networkServerStateManager.IsReady == false);
+
+        
         _container = new DiContainer(ContainerHolder.Instance);
         InstallBindings();
         InjectAll();
+        _playerRoot.Initialize();
     }
     
-    public override void InstallBindings()
+    private void InstallBindings()
     {
         _container.Bind<PlayerRoot>().FromInstance(_playerRoot).AsSingle();
         _container.Bind<PlayerUIRoot>().FromInstance(_playerUIRoot).AsSingle();
