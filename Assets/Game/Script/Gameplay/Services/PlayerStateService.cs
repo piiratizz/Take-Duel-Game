@@ -1,11 +1,13 @@
-﻿using Mirror;
+﻿using System;
+using Mirror;
 using UnityEngine;
 using Zenject;
+using Object = UnityEngine.Object;
 
 public class PlayerStateService : NetworkBehaviour
 {
     [Inject] private PlayerLivesService _playerLivesService;
-    
+
     [Server]
     public void SetAllPlayersState(States state)
     {

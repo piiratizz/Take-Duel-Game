@@ -10,8 +10,6 @@ using Zenject;
 public class LobbyService : NetworkBehaviour
 {
     [Inject] private CustomNetworkManager _networkManager;
-    [Inject] private SceneService _sceneService;
-    [Inject] private SteamManager _steamManager;
 
     private Callback<LobbyCreated_t> _lobbyCreatedCallback;
     private Callback<GameLobbyJoinRequested_t> _lobbyJoinRequestedCallback;
@@ -160,8 +158,6 @@ public class LobbyService : NetworkBehaviour
     [Server]
     public void StartGame()
     {
-        //await _sceneService.LoadGameplayAsync();
-        //_networkManager.Spawner.CmdRequestSpawnPlayer();
         _networkManager.ServerChangeScene(Scenes.Gameplay);
     }
 }

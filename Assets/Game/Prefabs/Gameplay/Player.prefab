@@ -1415,9 +1415,9 @@ MonoBehaviour:
   syncScale: 0
   onlySyncOnChange: 1
   compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
+  interpolatePosition: 0
+  interpolateRotation: 0
+  interpolateScale: 0
   coordinateSpace: 0
   timelineOffset: 1
   showGizmos: 0
@@ -7671,9 +7671,9 @@ MonoBehaviour:
   syncScale: 0
   onlySyncOnChange: 1
   compressRotation: 1
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 1
+  interpolatePosition: 0
+  interpolateRotation: 0
+  interpolateScale: 0
   coordinateSpace: 0
   timelineOffset: 1
   showGizmos: 0
@@ -11784,6 +11784,22 @@ PrefabInstance:
     - target: {fileID: -8576151062411700733, guid: 789edcb633f765c43b0a23f24e7de8f2, type: 3}
       propertyPath: _assetId
       value: 1697454099
+      objectReference: {fileID: 0}
+    - target: {fileID: 784519892715818678, guid: 789edcb633f765c43b0a23f24e7de8f2, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 784519892715818678, guid: 789edcb633f765c43b0a23f24e7de8f2, type: 3}
+      propertyPath: interpolateScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 784519892715818678, guid: 789edcb633f765c43b0a23f24e7de8f2, type: 3}
+      propertyPath: interpolatePosition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 784519892715818678, guid: 789edcb633f765c43b0a23f24e7de8f2, type: 3}
+      propertyPath: interpolateRotation
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1601969794952952259, guid: 789edcb633f765c43b0a23f24e7de8f2, type: 3}
       propertyPath: m_Enabled

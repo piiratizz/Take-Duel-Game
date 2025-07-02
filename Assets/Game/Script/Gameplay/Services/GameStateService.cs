@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Mirror;
-using NaughtyAttributes;
 using UnityEngine;
 using Zenject;
 
@@ -27,7 +24,7 @@ public class GameStateService : NetworkBehaviour
     private RoundTimerUI _roundTimer;
     private LivesCountUI _playerLivesCounter;
 
-    public async void Initialize()
+    public void Initialize()
     {
         _roundTimer = _gameplayUI.RoundTimer;
         _playerLivesCounter = _gameplayUI.LivesCounter;
@@ -39,6 +36,20 @@ public class GameStateService : NetworkBehaviour
     [Server]
     private async void InitializeServerSide()
     {
+        Debug.Log("CHECK IS READY");
+        await IsConnectionsReady();
+        Debug.Log("CONNECTIONS IS READY");
+        await IsPlayersReady();
+        Debug.Log("STARTING DUEL");
+        InitializePlayersView();
+        Debug.Log("INITIALIZED PLAYERS VIEWS");
+        InitializePlayersHealths();
+        Debug.Log("INITIALIZED PLAYERS HEALTHS");
+        StartDuel();
+    }
+
+    private async UniTask<bool> IsConnectionsReady()
+    {
         await UniTask.WaitUntil(() =>
         {
             foreach (var conn in _networkManager.ConnectedPlayer)
@@ -49,7 +60,11 @@ public class GameStateService : NetworkBehaviour
 
             return true;
         });
-
+        return false;
+    }
+    
+    private async UniTask<bool> IsPlayersReady()
+    {
         await UniTask.WaitUntil(() =>
         {
             foreach (var status in _networkServerStateManager.PlayersStatus)
@@ -63,55 +78,36 @@ public class GameStateService : NetworkBehaviour
         
             return true;
         });
-        //await UniTask.WaitForSeconds(2);
-        OnPlayersReady();
+        
+        return false;
     }
 
+    [Server]
+    private async void StartDuel()
+    {
+        TeleportPlayersToStart();
+        
+        await StartRoundCountdownAsync();
+        _playerStateService.SetAllPlayersState(States.Fight);
+    }
 
     [Server]
-    private async void OnPlayersReady()
+    private void InitializePlayersView()
     {
         SetPlayersSteamInfo();
         SetPlayersSkins();
-        TeleportPlayersToStart();
+    }
 
+    [Server]
+    private void InitializePlayersHealths()
+    {
         foreach (var conn in _networkManager.ConnectedPlayer)
         {
             var lives = _playerLivesService.LivesOfPlayer(conn);
             TargetUpdateLivesCount(conn, lives);
         }
-        
-        await StartRoundCountdownAsync();
-        _playerStateService.SetAllPlayersState(States.Fight);
-        
-        // var lives2 = _serverPlayersService.LivesOfPlayer(conn);
-        // //TargetUpdateLivesCount(conn, lives2);
-        //
-        // RpcShowLoadingScreen();
-        // await UniTask.Delay(500);
-        //
-        // _playerStateService.SetAllPlayersState(States.Wait);
-        //
-        // var lives = _serverPlayersService.LivesOfPlayer(conn);
-        // TargetUpdateLivesCount(conn, lives);
-        //
-        // if (_waitUntilTwoPlayersLoaded)
-        // {
-        //     if (_serverPlayersService.PlayersConnections.Count != 2)
-        //     {
-        //         return;
-        //     }
-        // }
-        //
-        // SetPlayersSkins();
-        // SetPlayersSteamInfo();
-        // TeleportPlayersToStart();
-        // RpcHideLoadingScreen();
-        //
-        // await StartRoundCountdownAsync();
-        // _playerStateService.SetAllPlayersState(States.Fight);
     }
-
+    
     [Server]
     private async void OnPlayerDisconnected(NetworkConnectionToClient conn)
     {

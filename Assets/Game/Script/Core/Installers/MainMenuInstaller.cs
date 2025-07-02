@@ -5,7 +5,6 @@ using Zenject;
 
 public class MainMenuInstaller : MonoInstaller
 {
-    [SerializeField] private LobbyService _lobbyService;
     [SerializeField] private ShopService _shopService;
     [SerializeField] private InventorySkinsService _inventorySkinsService;
     [SerializeField] private MainMenuUIRoot _mainMenuUI;

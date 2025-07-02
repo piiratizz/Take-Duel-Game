@@ -61,8 +61,6 @@ public class PlayerRoot : NetworkBehaviour
     [Command]
     private void CmdMarkPlayerAsReady()
     {
-        Debug.Log(_networkServerStateManager);
-        Debug.Log(connectionToClient);
         FindFirstObjectByType<NetworkServerStateManager>().AddReadyPlayer(connectionToClient);
     }
     

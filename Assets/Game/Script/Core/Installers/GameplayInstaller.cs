@@ -13,7 +13,6 @@ public class GameplayInstaller : MonoInstaller
     [SerializeField] private SpawnPointManager _spawnPointManager;
     [SerializeField] private PlayerStateService _playerStateService;
     [SerializeField] private NetworkServerStateManager _serverStateManager;
-    [Inject] private CustomNetworkManager _customNetworkManager;
     [FormerlySerializedAs("_rewardService")] [SerializeField] private BalanceRewardService rewardServiceService;
     
     public override async void InstallBindings()

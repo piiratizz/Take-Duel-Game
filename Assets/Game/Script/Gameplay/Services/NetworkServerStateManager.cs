@@ -30,8 +30,6 @@ public class NetworkServerStateManager : NetworkBehaviour
     [Server]
     public void AddReadyPlayer(NetworkConnectionToClient conn)
     {
-        Debug.Log(_playerReadyStatus);
-        Debug.Log(_playerReadyStatus[conn]);
         _playerReadyStatus[conn] = true;
     }
 }
