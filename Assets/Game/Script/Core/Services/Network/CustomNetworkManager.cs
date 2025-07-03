@@ -78,7 +78,6 @@ public class CustomNetworkManager : NetworkManager
         {
             SkinName = data.SelectedSkin,
             Nickname = _steamManager.GetPlayerName(),
-            AvatarInt = await _steamManager.GetPlayerAvatarIntAsync()
         };
         
         NetworkClient.Send(msg);

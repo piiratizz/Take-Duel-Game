@@ -25,8 +25,8 @@ public class PlayerUIRoot : NetworkBehaviour
         _playerHealthUI.UpdateHealth(newHealth);
     }
 
-    public void InitializePlayerSteamInfo(string nickname, Texture2D avatarInt)
+    public void InitializePlayerSteamInfo(string nickname)
     {
-        _playerSteamInfo.Initialize(nickname, avatarInt);
+        _playerSteamInfo.Initialize(nickname);
     }
 }

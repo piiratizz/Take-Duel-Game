@@ -12,7 +12,6 @@ public class PlayerDamagePerformer : NetworkBehaviour, IDamageable
     [Inject] private GameplayUIRoot _gameplayUI;
     [Inject] private PlayerStateMachine _playerStateMachine;
     
-    
     [Inject] private GameStateService _gameStateService;
     
     public void Initialize()
@@ -28,6 +27,7 @@ public class PlayerDamagePerformer : NetworkBehaviour, IDamageable
         ShowEffectOnTargetPlayer(ctx.Target.connectionToClient);
         _playerHealth.TakeDamage(ctx.BulletDamage);
         _playerUIRoot.RpcUpdateHealth(_playerHealth.Value);
+        _gameplayUI.HealthBar.Set(_playerHealth.Value);
     }
 
     [TargetRpc]

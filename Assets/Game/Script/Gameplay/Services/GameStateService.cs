@@ -205,7 +205,7 @@ public class GameStateService : NetworkBehaviour
         {
             var data = _networkManager.GetPlayerData(p);
             var root = p.identity.GetComponent<PlayerRoot>();
-            root.RpcInitializePlayerSteamInfo(data.Nickname, _steamManager.ConvertAvatarIntToTexture(data.AvatarInt));
+            root.RpcInitializePlayerSteamInfo(data.Nickname);
         }
     }
 }

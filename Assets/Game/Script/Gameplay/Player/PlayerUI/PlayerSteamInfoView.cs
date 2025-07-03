@@ -6,12 +6,10 @@ using Zenject;
 
 public class PlayerSteamInfoView : MonoBehaviour
 {
-    [SerializeField] private RawImage _avatar;
     [SerializeField] private TextMeshProUGUI _nickname;
     
-    public void Initialize(string nickname, Texture2D avatar)
+    public void Initialize(string nickname)
     {
-        _avatar.texture = avatar;
         _nickname.text = nickname;
     }
 }

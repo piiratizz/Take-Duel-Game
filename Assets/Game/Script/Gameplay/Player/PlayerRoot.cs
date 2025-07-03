@@ -18,7 +18,8 @@ public class PlayerRoot : NetworkBehaviour
     [Inject] private PlayerStateMachine _stateMachine;
     [Inject] private PlayerSkinChanger _playerSkinChanger;
     [Inject] private PlayerAudio _playerAudio;
-
+    [Inject] private GameplayUIRoot _gameplayUI;
+    
     [Inject] private NetworkServerStateManager _networkServerStateManager;
     
     public bool Initialized => _initialized;
@@ -96,6 +97,7 @@ public class PlayerRoot : NetworkBehaviour
     {
         _playerHealth.Reset();
         _playerUIRoot.RpcUpdateHealth(_playerHealth.Value);
+        _gameplayUI.HealthBar.Set(_playerHealth.Value);
     }
 
     [ClientRpc]
@@ -106,8 +108,8 @@ public class PlayerRoot : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcInitializePlayerSteamInfo(string nickname, Texture2D avatarInt)
+    public void RpcInitializePlayerSteamInfo(string nickname)
     {
-        _playerUIRoot.InitializePlayerSteamInfo(nickname, avatarInt);
+        _playerUIRoot.InitializePlayerSteamInfo(nickname);
     }
 }
