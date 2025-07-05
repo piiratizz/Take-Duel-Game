@@ -18,7 +18,6 @@ public class GameStateService : NetworkBehaviour
     [Inject] private PlayerStateService _playerStateService;
     [Inject] private PlayersSkinsLoaderService _playersSkinsLoaderService;
     [Inject] private RewardServiceBase _rewardService;
-    [Inject] private SteamManager _steamManager;
     [Inject] private NetworkServerStateManager _networkServerStateManager;
     
     private RoundTimerUI _roundTimer;
@@ -29,6 +28,13 @@ public class GameStateService : NetworkBehaviour
         _roundTimer = _gameplayUI.RoundTimer;
         _playerLivesCounter = _gameplayUI.LivesCounter;
 
+        _networkManager.ClientDisconnectedEvent.AddListener(OnClientDisconnected);
+        
+        if (isServer)
+        {
+            _networkManager.ClientDisconnectedEvent.AddListener(OnPlayerDisconnected);
+        }
+        
         if(!NetworkServer.active) return;
         InitializeServerSide();
     }
@@ -36,15 +42,10 @@ public class GameStateService : NetworkBehaviour
     [Server]
     private async void InitializeServerSide()
     {
-        Debug.Log("CHECK IS READY");
         await IsConnectionsReady();
-        Debug.Log("CONNECTIONS IS READY");
         await IsPlayersReady();
-        Debug.Log("STARTING DUEL");
         InitializePlayersView();
-        Debug.Log("INITIALIZED PLAYERS VIEWS");
         InitializePlayersHealths();
-        Debug.Log("INITIALIZED PLAYERS HEALTHS");
         StartDuel();
     }
 
@@ -109,16 +110,16 @@ public class GameStateService : NetworkBehaviour
     }
     
     [Server]
-    private async void OnPlayerDisconnected(NetworkConnectionToClient conn)
+    private void OnPlayerDisconnected()
     {
         if (!_waitUntilTwoPlayersLoaded) return;
         
-        await UniTask.Delay(100);
         _networkManager.StopHost();
     }
     
     private async void OnClientDisconnected()
     {
+        _networkManager.StopClient();
         await _sceneService.LoadMainMenuAsync();
     }
 

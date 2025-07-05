@@ -70,7 +70,7 @@ public class CustomNetworkManager : NetworkManager
         _connectedPlayers.Add(conn);
     }
 
-    public override async void OnClientConnect()
+    public override void OnClientConnect()
     {
         base.OnClientConnect();
         var data = _playerDataStorageService.Data;

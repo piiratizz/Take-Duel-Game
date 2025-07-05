@@ -1,5 +1,4 @@
-﻿using System;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 
 [RequireComponent(typeof(NetworkIdentity), typeof(Rigidbody))]
@@ -28,11 +27,11 @@ public class DestroyableEntity : NetworkBehaviour, IDestroyable
 
     public void PerformHit(HitContext ctx)
     {
-        DestroyObject(ctx);
+        RpcDestroyObject(ctx);
     }
     
     [ClientRpc]
-    private void DestroyObject(HitContext ctx)
+    private void RpcDestroyObject(HitContext ctx)
     {
         defaultObject.SetActive(false);
         celledObject.SetActive(true);
