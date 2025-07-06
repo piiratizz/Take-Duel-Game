@@ -7,7 +7,7 @@
 ## 🎮 Gameplay Features
 
 - ⚔️ **Competitive aim-based combat** inspired by classic CS aim maps  
-- 🛒 **In-game shop** with purchasable weapon skins  
+- 🛒 **In-game shop** with purchasable skins  
 - 🎨 **Cosmetic system** with weapon skins  
 - 💾 **Local data saving** *(planned to be replaced with server-side saving in future updates)*
 
