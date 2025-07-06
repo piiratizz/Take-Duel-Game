@@ -1,4 +1,4 @@
-# 🤠 WildWest Aim Game
+# 🤠 Take Duel Game
 
 **WildWest Aim Game** is a multiplayer shooter set in the **Wild West**, featuring fast-paced, CS:GO-style aim training gameplay. The focus is on precise shooting mechanics, quick reflexes, and competitive action in a stylized western setting.
 
